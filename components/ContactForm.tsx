@@ -4,6 +4,7 @@ export default function ContactForm()
         <form action="" className="mt-6 space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <input
+              
                   type="text"
                   name="name"
                   placeholder="Your name"

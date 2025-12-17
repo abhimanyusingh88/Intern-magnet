@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Mail, MapPin, Phone, ChevronDown } from "lucide-react"
 import ContactForm from "./ContactForm"
+import BackGroundGlow from "./BackGroundGlow"
 
 const faqs = [
   {
@@ -28,10 +29,7 @@ export default function Contact() {
 
   return (
     <main className="relative overflow-hidden bg-zinc-950">
-      {/* background glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 blur-3xl" />
-      </div>
+      <BackGroundGlow/>
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:py-20">
         {/* Header */}

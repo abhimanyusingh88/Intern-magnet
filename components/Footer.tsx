@@ -3,16 +3,21 @@
 import Link from "next/link"
 import { Github, Linkedin, Twitter, Mail, MapPin } from "lucide-react"
 
+const socials = [
+  { icon: Github, href: "https://github.com/abhimanyusingh88" },
+  { icon: Linkedin, href: "https://linkedin.com/in/abhimanyusingh88" },
+  { icon: Twitter, href: "https://twitter.com/yourusername" },
+  { icon: Mail, href: "mailto:singabhimanyu9794@gmail.com" },
+]
+
 export default function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-zinc-950 isolation isolate">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
 
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6">
-        {/* mobile: 2-col dense | desktop: 4-col same as before */}
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 md:grid-cols-4 md:gap-14">
 
-          {/* Brand (full width on mobile) */}
           <div className="space-y-5 text-center sm:col-span-2 md:col-span-1 md:text-left">
             <div className="inline-block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-2xl font-semibold text-transparent">
               InternMagnet
@@ -22,7 +27,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Company */}
           <div className="rounded-xl border border-white/10 bg-zinc-900/40 p-5 backdrop-blur-md md:border-0 md:bg-transparent md:p-0">
             <h4 className="mb-4 text-center text-sm font-semibold text-zinc-200 md:text-left">
               Company
@@ -34,7 +38,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Support */}
           <div className="rounded-xl border border-white/10 bg-zinc-900/40 p-5 backdrop-blur-md md:border-0 md:bg-transparent md:p-0">
             <h4 className="mb-4 text-center text-sm font-semibold text-zinc-200 md:text-left">
               Support
@@ -46,7 +49,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Connect (full width on mobile) */}
           <div className="rounded-xl border border-white/10 bg-zinc-900/40 p-5 backdrop-blur-md sm:col-span-2 md:col-span-1 md:border-0 md:bg-transparent md:p-0">
             <h4 className="mb-4 text-center text-sm font-semibold text-zinc-200 md:text-left">
               Connect
@@ -58,14 +60,19 @@ export default function Footer() {
             </div>
 
             <div className="flex justify-center gap-4 md:justify-start">
-              {[Github, Linkedin, Twitter, Mail].map((Icon, i) => (
+              {socials.map(({ icon: Icon, href }, i) => (
                 <Link
                   key={i}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group relative rounded-full p-2.5 transition hover:bg-white/5"
                 >
                   <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500/30 to-pink-500/30 opacity-0 blur-md transition group-hover:opacity-100" />
-                  <Icon size={20} className="relative text-zinc-400 transition group-hover:text-white group-hover:scale-110" />
+                  <Icon
+                    size={20}
+                    className="relative text-zinc-400 transition group-hover:text-white group-hover:scale-110"
+                  />
                 </Link>
               ))}
             </div>
@@ -73,7 +80,6 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center gap-3 border-t border-white/10 pt-6 text-center text-xs text-zinc-500 sm:flex-row sm:justify-between sm:text-sm">
           <span>© {new Date().getFullYear()} InternMagnet. All rights reserved.</span>
           <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">

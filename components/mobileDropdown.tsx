@@ -1,9 +1,12 @@
 import { CreditCard, Settings, ShieldQuestion, User } from "lucide-react";
 import Link from "next/link";
 import LogOutButton from "./LogOutButton";
+import { useSession } from "next-auth/react";
 
 export default function MobileDropdown({classApply}: {classApply: string})
 {
+    const { data: session } = useSession()
+    const isLoggedIn = !!session?.user
     return (
         <div className="flex flex-col gap-2 text-sm text-zinc-300">
     <Link
@@ -37,9 +40,9 @@ export default function MobileDropdown({classApply}: {classApply: string})
       <span>User FAQs</span>
     </Link>
 
-    <form className="contents">
-      <LogOutButton classApply={classApply} />
-    </form>
+   
+      <LogOutButton classApply={classApply} isLoggedIn={isLoggedIn}/>
+    
     
   </div>
     )

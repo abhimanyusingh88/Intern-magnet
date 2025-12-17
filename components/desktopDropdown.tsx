@@ -1,8 +1,12 @@
 import { ChevronDown, CreditCard, Settings, ShieldQuestion, User } from "lucide-react";
 import Link from "next/link";
 import LogOutButton from "./LogOutButton";
+import { useSession } from "next-auth/react";
+
 type DesktopDropdownProps = { classApply: string; className?: string }
 export default  function DesktopDropdown({ classApply, className = "" }: DesktopDropdownProps){
+    const { data: session } = useSession()
+    const isLoggedIn = !!session?.user
     return(
         <div className="relative group">
       <Link href="/profile" className={`flex items-center gap-1 ${className}`}>
@@ -18,9 +22,9 @@ export default  function DesktopDropdown({ classApply, className = "" }: Desktop
       <Link href="/faqs" className="flex items-center gap-6 rounded-lg px-3 py-2 hover:bg-white/10"><ShieldQuestion size={16} className="shrink-0" /><span>User FAQs</span></Link>
 
           <div className="my-1 h-px bg-white/10" />
-          <form>
-          <LogOutButton classApply={classApply}/>
-          </form>
+          
+          <LogOutButton classApply={classApply} isLoggedIn={isLoggedIn}/>
+          
 
         </div>
       </div>
