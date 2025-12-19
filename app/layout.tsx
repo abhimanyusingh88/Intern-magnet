@@ -28,19 +28,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>)
 
-  // const session= await auth
- {
+// const session= await auth
+{
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider>
-          <NavBar/>
-        <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
-        {children}
-        </main>
-        <Footer/>
+          <NavBar />
+          <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+            {children}
+          </main>
+          <Footer />
         </SessionProvider>
       </body>
     </html>

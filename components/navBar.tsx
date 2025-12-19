@@ -1,34 +1,18 @@
-"use client"
-
-import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useSession } from "next-auth/react"
+import { auth } from "@/lib/auth"
 
 import ProfileDropdown from "./profileDropdown"
-
-import MobileMenu from "./mobileMenu"
-import { Bell, Menu, X } from "lucide-react"
 import NotificationBell from "./NotificationBell"
 import GoogleSignInBtn from "./SignInButton"
-import Image from "next/image"
+import NavLinks from "./NavLinks"
+import MobileNavigation from "./MobileNavigation"
 
-
-export default function NavBar() {
-  const pathname = usePathname()
-  const [open, setOpen] = useState(false)
-  const { data: session } = useSession()
+export default async function NavBar() {
+  const session = await auth()
   const isLoggedIn = !!session?.user
-  const image = session?.user?.image
-  const name = session?.user?.name
-
-
-  const linkClass = (path: string) =>
-    `will-change-transform transform-gpu ${
-      pathname === path
-        ? "text-zinc-100 scale-110"
-        : "text-zinc-400 hover:text-zinc-100 hover:scale-105"
-    } transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]`
+  // In a server component, we don't have a loading state for the session check itself 
+  // (the component suspends or awaits). So we pass false.
+  const isLoading = false
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-zinc-900/40 backdrop-blur-xl">
@@ -49,55 +33,23 @@ export default function NavBar() {
             </span>
           </Link>
 
-
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-6 text-sm">
-            <Link href="/dashboard" className={linkClass("/dashboard")}>Dashboard</Link>
-            <Link href="/applications" className={linkClass("/applications")}>Applications</Link>
-            <Link href="/add" className={linkClass("/add")}>Post Internship</Link>
-            <Link href="/calendar" className={linkClass("/calendar")}>Calendar</Link>
-          </div>
+          {/* Desktop Links - Extracted to Client Component */}
+          <NavLinks />
         </div>
 
         {/* RIGHT (Desktop) */}
         <div className="flex items-center gap-6 cursor-pointer text-zinc-300">
           <NotificationBell />
-          <GoogleSignInBtn isLoggedIn={isLoggedIn} />
-
-          {/* User Profile Section */}
-          {isLoggedIn && image && (
-            <div className="flex items-center gap-2">
-              <Image
-                src={image}
-                alt="profile pic"
-                width={32}
-                height={32}
-                className="w-8 h-8 rounded-full object-cover"
-              />
-              <span className="hidden md:inline text-zinc-200 text-sm font-medium">
-                {name}
-              </span>
-            </div>
-          )}
-
+          <GoogleSignInBtn isLoggedIn={isLoggedIn} isLoading={isLoading} />
 
           <div className="hidden md:block">
-            <ProfileDropdown className={linkClass("/profile")} />
+            <ProfileDropdown session={session} className="will-change-transform transform-gpu text-zinc-400 hover:text-zinc-100 hover:scale-105 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" />
           </div>
         </div>
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden rounded-lg border border-white/10 p-2 text-zinc-200"
-        >
-          {open ? <X className="cursor-pointer" size={18} /> : <Menu className="cursor-pointer" size={18} />}
-        </button>
-      </div>
 
-      {/* MOBILE MENU */}
-      {open && (
-        <MobileMenu setOpen={setOpen} />
-      )}
+        {/* Mobile Navigation (Button + Menu) - Extracted to Client Component */}
+        <MobileNavigation session={session} />
+      </div>
     </nav>
   )
 }

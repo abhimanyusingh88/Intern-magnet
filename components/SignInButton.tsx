@@ -1,23 +1,24 @@
+"use client"
 // import { signInWithGoogle } from "@/app/auth/actions"
 // import { use } from "react"
 
 import { useSearchParams } from "next/navigation";
 import { signInAction } from "@/lib/actions";
 
-export default function SignInButton({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function SignInButton({ isLoggedIn, isLoading }: { isLoggedIn: boolean; isLoading: boolean }) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  
-  if (isLoggedIn) return null;
-  
+
+  if (isLoggedIn || isLoading) return null;
+
   // If callbackUrl exists (user tried to access protected page), use it
   // Otherwise use "/" (user clicked sign in button directly)
   const redirectUrl = callbackUrl || "/";
-  
+
   return (
-    
+
     <form action={() => signInAction(redirectUrl)} >
-      
+
       <button
         type="submit"
         className="group  relative flex items-center justify-center gap-2
@@ -58,7 +59,7 @@ export default function SignInButton({ isLoggedIn }: { isLoggedIn: boolean }) {
 
         {/* Text */}
         <span className="relative whitespace-nowrap">
-         
+
           <span className="hidden sm:inline">Sign in with Google</span>
         </span>
       </button>
