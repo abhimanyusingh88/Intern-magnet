@@ -1,22 +1,31 @@
-import { ChevronDown, CreditCard, Settings, ShieldQuestion, User } from "lucide-react";
+"use client"
+
+import { ChevronDown, CreditCard, Settings, ShieldQuestion, User, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import LogOutButton from "./LogOutButton";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-// import { auth } from "@/lib/auth";
+import { usePathname } from "next/navigation";
+import { useProfile } from "./ProfileContext";
 
 type DesktopDropdownProps = { classApply: string; className?: string, session?: any }
+
 export default function DesktopDropdown({ classApply, className = "", session }: DesktopDropdownProps) {
-  // const user = await auth();
-  // console.log(user)
   const { data: Usersession } = useSession()
-  console.log(session);
+  const { completionPercentage, getProgressColor } = useProfile()
+  const pathname = usePathname()
+  const isProfilePage = pathname === "/profile"
+
   const isLoggedIn = !!Usersession?.user
   const img = session?.user?.image
+
   return (
     <div className="relative group">
-      <Link href="/profile" className={`flex items-center gap-1 ${className}`}>
+      <Link href="/profile" className={`flex items-center gap-2 ${className}`}>
         Profile
+        {!isProfilePage && completionPercentage < 100 && (
+          <TriangleAlert className="h-4 w-4 text-orange-500 animate-pulse ml-0.5" />
+        )}
         <ChevronDown className="h-4 w-4 text-zinc-400 transition-transform group-hover:rotate-180" />
       </Link>
 

@@ -22,7 +22,7 @@ export default async function NavBar() {
         <div className="flex items-center gap-6">
           {/* Logo */}
           <Link href="/" className="group flex items-center gap-2 select-none">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-400 text-xs font-bold text-zinc-900 shadow-md">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-linear-to-br from-indigo-500 to-cyan-400 text-xs font-bold text-zinc-900 shadow-md">
               im
             </div>
             <span className="text-[15px] font-semibold tracking-tight">

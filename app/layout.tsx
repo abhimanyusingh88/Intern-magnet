@@ -4,8 +4,8 @@ import "./globals.css";
 import NavBar from "@/components/navBar";
 import Footer from "@/components/Footer";
 import { SessionProvider } from "@/components/SessionProvider";
-// import NavBarServer from "@/components/NavBarServer";
-
+import { ProfileProvider } from "@/components/ProfileContext";
+import { auth } from "@/lib/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,25 +22,30 @@ export const metadata: Metadata = {
   description: "A platform to help students find internships and companies find talent.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>)
+}>) {
+  const session = await auth();
+  const initialProfileData = {
+    name: session?.user?.name || "",
+    email: session?.user?.email || "",
+  };
 
-// const session= await auth
-{
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider>
-          <NavBar />
-          <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
-            {children}
-          </main>
-          <Footer />
+          <ProfileProvider initialData={initialProfileData}>
+            <NavBar />
+            <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+              {children}
+            </main>
+            <Footer />
+          </ProfileProvider>
         </SessionProvider>
       </body>
     </html>

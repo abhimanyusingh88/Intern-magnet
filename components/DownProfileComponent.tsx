@@ -1,19 +1,27 @@
 "use client"
 
 import { Plus } from "lucide-react"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import LanguageRow from "./LanguageRow"
 import Card from "./ProfileCard"
 import EducationBlock from "./EducationBlockProfile"
 import { sections } from "./SectionDataFileds"
 import Field from "./FieldProfileForm"
 import { Divider, TwoCol } from "./DividersProfile"
+import { useProfile } from "./ProfileContext"
 
 export default function DownProfileComponent() {
     // Initial baseline data
     const [initialData, setInitialData] = useState<Record<string, string>>({})
     // Live form data
     const [formData, setFormData] = useState<Record<string, string>>({})
+
+    const { setFields } = useProfile()
+
+    // Sync formData to global context
+    useEffect(() => {
+        setFields(formData)
+    }, [formData, setFields])
 
     const prefRef = useRef<HTMLInputElement>(null)
     const eduRef = useRef<HTMLInputElement>(null)
@@ -113,7 +121,7 @@ export default function DownProfileComponent() {
                                 onChange={handleInputChange}
                                 label="Highest Qualification"
                                 degree="degree"
-                                college="college"
+                                college="college_edu"
                                 duration="education_duration"
                             />
                             <Divider />

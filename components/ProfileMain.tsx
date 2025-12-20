@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Check, Pencil } from "lucide-react"
 import Image from "next/image"
-
-import EditableRow from "./EditableRows"
-import SideEditable from "./SideEditable"
+import { useProfile } from "./ProfileContext"
+import ProfileAdditionalDetails from "./ProfileAdditional"
+import MainDetails from "./MainDetails"
 
 export default function ProfileMain({ session }: { session: any }) {
+    const { setFields, completionPercentage: globalCompletionPercentage, getProgressColor } = useProfile()
     const [open, setOpen] = useState<string | null>(null)
 
     // The data that has been "saved" (initially from session)
@@ -29,6 +30,16 @@ export default function ProfileMain({ session }: { session: any }) {
 
     // Derived dirty state: only true if form differs from last saved state
     const isDirty = JSON.stringify(profileData) !== JSON.stringify(savedData)
+
+    // Sync initial/saved data to global context
+    useEffect(() => {
+        setFields(savedData)
+    }, [savedData, setFields])
+
+    // Update global context as user types for real-time progress
+    useEffect(() => {
+        setFields(profileData)
+    }, [profileData, setFields])
 
     const handleInput = (e: React.FormEvent<HTMLFormElement>) => {
         const target = e.target as HTMLInputElement;
@@ -62,103 +73,73 @@ export default function ProfileMain({ session }: { session: any }) {
 
                 {/* TOP SECTION: PROFILE IMAGE AND PRIMARY INFO */}
                 <div className="flex flex-col sm:flex-row items-start gap-6">
-                    {/* Profile Image */}
-                    <div className="shrink-0 h-24 w-24 rounded-full border border-white/10 bg-zinc-950 p-1 mx-auto sm:mx-0">
-                        <Image
-                            src={sessionImage || "/avatar-placeholder.png"}
-                            width={96}
-                            height={96}
-                            className="h-full w-full rounded-full object-cover"
-                            alt="profile"
-                        />
-                    </div>
-
-                    <div className="flex-1 w-full space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <EditableRow
-                                label="College"
-                                name="college"
-                                value={savedData.college}
-                                open={open === "college"}
-                                onOpen={() => setOpen("college")}
-                                onClose={() => setOpen(null)}
-                                placeholder="Add college name"
+                    {/* Profile Image with Progress Ring */}
+                    <div className="relative shrink-0 h-28 w-28 group/avatar">
+                        {/* Progress Ring SVG */}
+                        <svg className="absolute -inset-2 h-32 w-32 -rotate-90 transform" viewBox="0 0 128 128">
+                            {/* Background Circle */}
+                            <circle
+                                cx="64"
+                                cy="64"
+                                r="58"
+                                fill="transparent"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                                className="text-white/5"
                             />
-                            <EditableRow
-                                label="Course"
-                                name="course"
-                                value={savedData.course}
-                                open={open === "course"}
-                                onOpen={() => setOpen("course")}
-                                onClose={() => setOpen(null)}
-                                placeholder="Add course name"
+                            {/* Progress Circle */}
+                            <circle
+                                cx="64"
+                                cy="64"
+                                r="58"
+                                fill="transparent"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                                strokeDasharray={364.4}
+                                strokeDashoffset={364.4 - (364.4 * globalCompletionPercentage) / 100}
+                                className={`${getProgressColor(globalCompletionPercentage)} transition-all duration-1000 ease-out`}
+                                strokeLinecap="round"
+                            />
+                        </svg>
+
+                        <div className="relative h-full w-full rounded-full border border-white/10 bg-zinc-950 p-1 transition-transform group-hover/avatar:scale-95 duration-500">
+                            <Image
+                                src={sessionImage || "/avatar-placeholder.png"}
+                                width={112}
+                                height={112}
+                                className="h-full w-full rounded-full object-cover"
+                                alt="profile"
                             />
                         </div>
 
-                        <div className="h-px bg-white/5 w-full my-2" />
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <EditableRow
-                                label="Name"
-                                name="name"
-                                value={savedData.name}
-                                open={open === "name"}
-                                onOpen={() => setOpen("name")}
-                                onClose={() => setOpen(null)}
-                                placeholder="Add your name"
-                            />
-                            <EditableRow
-                                label="Email"
-                                name="email"
-                                value={savedData.email}
-                                open={open === "email"}
-                                onOpen={() => setOpen("email")}
-                                onClose={() => setOpen(null)}
-                                placeholder="Add email"
-                            />
-                            <EditableRow
-                                label="Phone"
-                                name="phone"
-                                value={savedData.phone}
-                                open={open === "phone"}
-                                onOpen={() => setOpen("phone")}
-                                onClose={() => setOpen(null)}
-                                placeholder="Add phone"
-                            />
+                        {/* Percentage Badge */}
+                        <div className="absolute -bottom-1 -right-1 bg-zinc-900 border border-white/10 px-2 py-0.5 rounded-full shadow-xl">
+                            <span className={`text-[10px] font-bold ${getProgressColor(globalCompletionPercentage)}`}>{globalCompletionPercentage}%</span>
                         </div>
                     </div>
+
+                    {/* The main section on profile */}
+                    <MainDetails open={open} setOpen={setOpen} savedData={savedData} />
+
                 </div>
+
+                {/* Call to Action Text */}
+                {globalCompletionPercentage < 100 && (
+                    <div className="mt-4 p-3 rounded-xl bg-indigo-500/5 border border-indigo-500/10 flex items-center justify-between group/cta">
+                        <div className="flex items-center gap-3">
+                            <div className={`h-2 w-2 rounded-full animate-pulse ${getProgressColor(globalCompletionPercentage).replace('text-', 'bg-')}`} />
+                            <p className="text-sm font-medium text-zinc-300">
+                                Complete your profile to get <span className="text-indigo-400">better opportunities</span>
+                            </p>
+                        </div>
+                        <div className="text-xs text-zinc-500 group-hover/cta:text-indigo-400 transition-colors">
+                            {100 - globalCompletionPercentage}% more to go
+                        </div>
+                    </div>
+                )}
 
                 {/* BOTTOM SECTION: ADDITIONAL DETAILS */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 rounded-xl border border-white/5 bg-zinc-950/30">
-                    <SideEditable
-                        label="Address"
-                        name="address"
-                        value={savedData.address}
-                        open={open === "address"}
-                        onOpen={() => setOpen("address")}
-                        onClose={() => setOpen(null)}
-                        placeholder="Add address"
-                    />
-                    <SideEditable
-                        label="Date of birth"
-                        name="dob"
-                        value={savedData.dob}
-                        open={open === "dob"}
-                        onOpen={() => setOpen("dob")}
-                        onClose={() => setOpen(null)}
-                        placeholder="Add Birthday"
-                    />
-                    <SideEditable
-                        label="Gender"
-                        name="gender"
-                        value={savedData.gender}
-                        open={open === "gender"}
-                        onOpen={() => setOpen("gender")}
-                        onClose={() => setOpen(null)}
-                        placeholder="Add gender"
-                    />
-                </div>
+                <ProfileAdditionalDetails open={open} setOpen={setOpen} savedData={savedData} />
 
                 {/* Hidden persistent inputs for all non-open fields so they are included in formData */}
                 {Object.entries(profileData).map(([key, val]) => (
@@ -181,10 +162,3 @@ export default function ProfileMain({ session }: { session: any }) {
         </section>
     )
 }
-
-
-
-
-
-
-
