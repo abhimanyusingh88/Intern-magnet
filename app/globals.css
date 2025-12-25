@@ -1,15 +1,234 @@
 @import "tailwindcss";
 
 @keyframes bell {
-  0% { transform: rotate(0deg); }
-  20% { transform: rotate(12deg); }
-  40% { transform: rotate(-12deg); }
-  60% { transform: rotate(8deg); }
-  80% { transform: rotate(-8deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  20% {
+    transform: rotate(12deg);
+  }
+
+  40% {
+    transform: rotate(-12deg);
+  }
+
+  60% {
+    transform: rotate(8deg);
+  }
+
+  80% {
+    transform: rotate(-8deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .bell-hover:hover {
   animation: bell 0.5s ease-in-out;
   transform-origin: top;
+}
+
+/* Custom styling for RSuite DatePicker */
+.rs-picker-default .rs-picker-toggle.rs-btn,
+.rs-picker-subtle .rs-picker-toggle.rs-btn,
+.custom-datepicker-trigger .rs-picker-toggle.rs-btn {
+  background-color: transparent !important;
+  border-bottom: 2px solid rgba(99, 102, 241, 0.4) !important;
+  border-radius: 0 !important;
+  padding: 8px 0 !important;
+  box-shadow: none !important;
+  color: white !important;
+}
+
+.rs-picker-default .rs-picker-toggle.rs-btn:hover,
+.rs-picker-subtle .rs-picker-toggle.rs-btn:hover,
+.custom-datepicker-trigger .rs-picker-toggle.rs-btn:hover {
+  border-bottom-color: rgba(99, 102, 241, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.rs-picker-toggle-placeholder,
+.rs-picker-toggle-value,
+.custom-datepicker-trigger .rs-picker-toggle-placeholder,
+.custom-datepicker-trigger .rs-picker-toggle-value {
+  font-size: 0.875rem !important;
+  color: #d4d4d8 !important;
+  /* zinc-300 */
+}
+
+/* Ensure the calendar popup also matches our dark theme */
+.rs-picker-menu,
+.rs-picker-column-menu,
+.rs-calendar {
+  background-color: #09090b !important;
+  /* zinc-950 */
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
+  color: white !important;
+  z-index: 9999 !important;
+}
+
+.rs-calendar-table-cell-content {
+  color: #d4d4d8 !important;
+}
+
+.rs-calendar-table-header-row {
+  color: #71717a !important;
+  /* zinc-400 */
+}
+
+/* Year Range Picker Styling */
+.year-picker-select {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(99, 102, 241, 0.4);
+  border-radius: 0;
+  padding: 8px 0;
+  color: #d4d4d8;
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.year-picker-select:hover {
+  border-bottom-color: rgba(99, 102, 241, 0.8);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.year-picker-select:focus {
+  border-bottom-color: #6366f1;
+}
+
+.year-picker-select option {
+  background-color: #09090b;
+  color: white;
+}
+
+/* Responsiveness for DatePicker */
+@media (max-width: 640px) {
+  .rs-picker-menu {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 300px !important;
+    max-width: 90vw !important;
+    margin: 0 !important;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7) !important;
+    /* Visual backdrop */
+    animation: slideUp 0.3s ease-out !important;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, -40%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+/* Fix for rsuite scroll lock if any */
+.rs-picker-menu-container {
+  z-index: 10000 !important;
+}
+
+/* for the down form  */
+.input-profile {
+
+  width: 100%;
+  background-color: transparent;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  color: white;
+  outline: none;
+  transition: all 0.2s;
+}
+
+select.input-profile {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.4)' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+select.input-profile option {
+  background-color: #0a0a0f;
+  /* deep zinc-like black */
+  color: #a1a1aa;
+  /* zinc-400 */
+  padding: 6px 10px;
+}
+
+.input-profile:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+select.input-profile:hover {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.8)' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* 
+/* Subtle indicator for filled fields */
+/* .input-profile:not(:placeholder-shown) {
+  border-color: rgba(99, 102, 241, 0.3);
+  background-color: rgba(255, 255, 255, 0.03);
+} */
+
+.filled {
+  border-color: rgba(99, 102, 241, 0.3);
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 0.75rem;
+  padding: 6px;
+
+}
+
+.filledWIthBorder {
+  /* border: 1px solid rgba(99, 102, 241, 0.3); */
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 6px;
+  border-radius: 0.75rem;
+
+
+}
+
+.input-profile:focus {
+  border-color: #6366f1;
+  background-color: rgba(99, 102, 241, 0.05);
+
+}
+
+.input-profile:-webkit-autofill,
+.input-profile:-webkit-autofill:hover,
+.input-profile:-webkit-autofill:focus,
+.input-profile:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0 1000px #09090b inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.select-no-arrow {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+}
+
+select.input-profile.select-no-arrow,
+select.input-profile.select-no-arrow:hover {
+  background-image: none;
+  padding-right: 0.75rem;
 }

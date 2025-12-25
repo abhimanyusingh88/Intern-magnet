@@ -14,7 +14,7 @@ export default function Card({
     children: React.ReactNode
 }) {
     return (
-        <div id={id} className="rounded-2xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl shadow-xl flex flex-col">
+        <div id={id} className="rounded-2xl border  border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl shadow-xl flex flex-col">
             <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-400">{title}</h2>
                 {action ? (
@@ -27,11 +27,7 @@ export default function Card({
                         {action}
                     </button>
                 ) : (
-                    <Pencil
-                        size={14}
-                        onClick={onAction}
-                        className="text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer"
-                    />
+                    ""
                 )}
             </div>
             <div className="flex-1">{children}</div>

@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model users {
+  id                        BigInt    @id @default(autoincrement())
+  created_at                DateTime  @default(now()) @db.Timestamptz(6)
+  name                      String?
+  email                     String?
+  phone                     String?
+  college                   String?
+  course                    String?
+  address                   String?
+  dob                       String?
+  gender                    String?
+  preferred_job_type        String?
+  availability              String?
+  preferred_location        String?
+  degree                    String?
+  college_edu               String?
+  education_duration_start  String?
+  education_duration_end    String?
+  class_xii                 String?
+  class_xii_board           String?
+  class_xii_details_start   String?
+  class_xii_details_end     String?
+  class_x                   String?
+  class_x_board             String?
+  class_x_details_start     String?
+  class_x_details_end       String?
+  skills                    String?
+  language_1_name           String?
+  language_1_proficiency    String?
+  language_2_name           String?
+  language_2_proficiency    String?
+  internship_company        String?
+  internship_duration_start String?
+  internship_duration_end   String?
+  projects                  String?
+  profile_summary           String?
+  certifications            String?
+  awards                    String?
+  clubs                     String?
+  exam_name                 String?
+  exam_rank                 String?
+  resume_path               String?
+  updated_at                DateTime? @db.Timestamptz(6)
+}

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useState, useCallback, useMemo } from "react"
+import React, { createContext, useContext, useState, useCallback, useMemo, useEffect } from "react"
 
 interface ProfileContextType {
     profileFields: Record<string, any>;
@@ -24,6 +24,10 @@ const TRACKED_FIELDS = [
 
 export function ProfileProvider({ children, initialData = {} }: { children: React.ReactNode, initialData?: Record<string, any> }) {
     const [profileFields, setProfileFields] = useState<Record<string, any>>(initialData)
+
+    useEffect(() => {
+        setProfileFields(initialData);
+    }, [initialData]);
 
     const setField = useCallback((name: string, value: any) => {
         setProfileFields(prev => ({ ...prev, [name]: value }))

@@ -1,17 +1,16 @@
-import { Briefcase, GraduationCap, TrendingUp, Users, Rocket } from "lucide-react"
+import { Briefcase, GraduationCap, TrendingUp, Users, Rocket, PersonStanding } from "lucide-react"
 import BackGroundGlow from "./BackGroundGlow"
-export default function About()
-{
-    return (
-        <main className="relative overflow-hidden bg-zinc-950">
+export default function About() {
+  return (
+    <main className="relative overflow-hidden bg-zinc-950">
       {/* background glow */}
-      <BackGroundGlow/>
+      <BackGroundGlow />
 
       <div className="relative mx-auto max-w-6xl px-5 py-16 sm:py-20">
 
         {/* Hero */}
         <section className="mb-20 text-center">
-          <h1 className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+          <h1 className="bg-gradient-to-r p-2 from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
             About InternMagnet
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-sm leading-relaxed text-zinc-400 sm:text-base">
@@ -24,7 +23,7 @@ export default function About()
 
         {/* Mission & Vision */}
         <section className="mb-20 grid gap-8 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl sm:p-8">
+          <div className="rounded-2xl border hover:scale-105 transition-all duration-300 border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl sm:p-8">
             <h2 className="text-xl font-semibold text-zinc-100">Our Mission</h2>
             <p className="mt-4 text-sm text-zinc-400">
               Our mission is to empower students with early career opportunities
@@ -34,7 +33,7 @@ export default function About()
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl sm:p-8">
+          <div className="rounded-2xl border hover:scale-105 transition-all duration-300 border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl sm:p-8">
             <h2 className="text-xl font-semibold text-zinc-100">Our Vision</h2>
             <p className="mt-4 text-sm text-zinc-400">
               We envision a future where every student has equal access to
@@ -77,12 +76,17 @@ export default function About()
                 title: "Growth-Focused Platform",
                 desc: "Built to evolve with students — from first internship to career growth."
               },
+              {
+                icon: <PersonStanding size={22} />,
+                title: "Personalized assistance",
+                desc: "Get personalized guidance and support to navigate the job market and make informed career decisions."
+              }
             ].map((item, i) => (
               <div
                 key={i}
-                className="group rounded-2xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl transition hover:border-white/20"
+                className="group rounded-2xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl transition hover:border-white/20 hover:scale-105"
               >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500/20 to-pink-500/20 text-indigo-300">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-r from-indigo-500/20 to-pink-500/20 text-indigo-300">
                   {item.icon}
                 </div>
                 <h3 className="text-base font-semibold text-zinc-100">
@@ -121,5 +125,5 @@ export default function About()
 
       </div>
     </main>
-    )
+  )
 }

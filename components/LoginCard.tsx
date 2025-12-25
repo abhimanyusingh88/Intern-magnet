@@ -28,7 +28,7 @@ export default function LoginCard({
                 >
                     <button
                         type="submit"
-                        className="group relative flex w-full items-center justify-center gap-3 rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm font-medium text-zinc-100 transition
+                        className="group cursor-pointer relative flex w-full items-center justify-center gap-3 rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm font-medium text-zinc-100 transition
                        hover:border-white/20 hover:bg-zinc-900/80
                        active:scale-[0.97]"
                     >

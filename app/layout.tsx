@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "rsuite/dist/rsuite-no-reset.min.css";
 import NavBar from "@/components/navBar";
 import Footer from "@/components/Footer";
 import { SessionProvider } from "@/components/SessionProvider";
 import { ProfileProvider } from "@/components/ProfileContext";
 import { auth } from "@/lib/auth";
+import { CustomProvider } from "rsuite";
+import Providers from "./providers";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+// import HexagonBackground from "@/components/Hexagon";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,25 +33,56 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  const initialProfileData = {
-    name: session?.user?.name || "",
-    email: session?.user?.email || "",
-  };
+
+  let initialProfileData = {};
+
+  if (session?.user?.email) {
+    try {
+      const { prisma } = await import("@/lib/prisma");
+      const user = await prisma.users.findFirst({
+        where: { email: session.user.email },
+      });
+
+      if (user) {
+        // Convert BigInt and Dates to strings/plains for client components
+        initialProfileData = JSON.parse(JSON.stringify(user, (key, value) =>
+          typeof value === 'bigint' ? value.toString() : value
+        ));
+      } else {
+        // Fallback if DB record doesn't exist yet but session does
+        initialProfileData = {
+          name: session.user.name || "",
+          email: session.user.email || "",
+        };
+      }
+    } catch (error) {
+      console.error("Failed to fetch user in layout:", error);
+      // Fallback to basic session data
+      initialProfileData = {
+        name: session?.user?.name || "",
+        email: session?.user?.email || "",
+      };
+    }
+  }
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <SessionProvider>
-          <ProfileProvider initialData={initialProfileData}>
-            <NavBar />
-            <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
-              {children}
-            </main>
-            <Footer />
-          </ProfileProvider>
-        </SessionProvider>
+      > <Providers>
+          <SessionProvider>
+            <ProfileProvider initialData={initialProfileData}>
+              <CustomProvider theme="dark">
+                <NavBar />
+                <ReactQueryDevtools initialIsOpen={false} />
+                <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+                  {children}
+                </main>
+                <Footer />
+              </CustomProvider>
+            </ProfileProvider>
+          </SessionProvider>
+        </Providers>
       </body>
     </html>
   );

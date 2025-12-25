@@ -34,7 +34,7 @@ export default function Contact() {
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:py-20">
         {/* Header */}
         <div className="mb-16 text-center">
-          <h1 className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+          <h1 className="bg-linear-to-r from-indigo-600 via-purple-400 to-pink-400 bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
             Contact Us
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-zinc-400">
