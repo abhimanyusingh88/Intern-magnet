@@ -41,5 +41,6 @@ export function getInitialDownProfileData(userData: UserProfileData | null | any
 
         exam_name: userData?.exam_name || "",
         exam_rank: userData?.exam_rank || "",
+        resume_path: userData?.resume_path || "",
     };
 }

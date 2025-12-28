@@ -12,7 +12,7 @@ type DesktopDropdownProps = { classApply: string; className?: string, session?: 
 
 export default function DesktopDropdown({ classApply, className = "", session }: DesktopDropdownProps) {
   const { data: Usersession } = useSession()
-  const { completionPercentage, getProgressColor } = useProfile()
+  const { completionPercentage } = useProfile()
   const pathname = usePathname()
   const isProfilePage = pathname === "/profile"
 
@@ -23,8 +23,8 @@ export default function DesktopDropdown({ classApply, className = "", session }:
     <div className="relative group">
       <Link href="/profile" className={`flex items-center gap-2 ${className}`}>
         Profile
-        {!isProfilePage && completionPercentage < 100 && (
-          <TriangleAlert className="h-4 w-4 text-orange-500 animate-pulse ml-0.5" />
+        {isLoggedIn && !isProfilePage && completionPercentage < 100 && (
+          <TriangleAlert className="h-6 w-6 text-orange-500" />
         )}
         <ChevronDown className="h-4 w-4 text-zinc-400 transition-transform group-hover:rotate-180" />
       </Link>

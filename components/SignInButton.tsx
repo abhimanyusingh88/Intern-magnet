@@ -21,7 +21,7 @@ export default function SignInButton({ isLoggedIn, isLoading }: { isLoggedIn: bo
 
       <button
         type="submit"
-        className="group  relative flex items-center justify-center gap-2
+        className="group hover:scale-115  relative flex items-center justify-center gap-2
                    rounded-lg border border-white/10
                    bg-zinc-900/70
                    px-3 py-2

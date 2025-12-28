@@ -15,11 +15,11 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined)
 const TRACKED_FIELDS = [
     "college", "course", "name", "email", "phone", "address", "dob", "gender",
     "preferred_job_type", "availability", "preferred_location", "degree",
-    "college_edu", "education_duration", "class_xii", "class_xii_board", "class_xii_details",
-    "class_x", "class_x_board", "class_x_details", "skills",
+    "college_edu", "education_duration_start", "education_duration_end", "class_xii", "class_xii_board", "class_xii_details_start", "class_xii_details_end",
+    "class_x", "class_x_board", "class_x_details_start", "class_x_details_end", "skills",
     "language_1_name", "language_1_proficiency", "language_2_name", "language_2_proficiency",
-    "internship_company", "internship_duration", "projects", "profile_summary",
-    "certifications", "awards", "clubs", "exam_name", "exam_rank", "resume"
+    "internship_company", "internship_duration_start", "internship_duration_end", "projects", "profile_summary",
+    "certifications", "awards", "clubs", "exam_name", "exam_rank", "resume_path"
 ];
 
 export function ProfileProvider({ children, initialData = {} }: { children: React.ReactNode, initialData?: Record<string, any> }) {

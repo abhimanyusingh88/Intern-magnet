@@ -24,8 +24,8 @@ export default function MobileDropdown({ classApply, session, setOpen }: { class
             <Image className="rounded-full h-12 w-12 ml-[8px]" src={img || "/avatar-placeholder.png"} alt="profile" width={40} height={40} /> <span className="hover:text-white p-2 hover:rounded-lg hover:bg-white/5">{session?.user?.name}</span>
           </div>
         }
-        {!isProfilePage && completionPercentage < 100 && (
-          <TriangleAlert className="h-4 w-4 text-orange-500 animate-pulse mr-2" />
+        {isLoggedIn && !isProfilePage && completionPercentage < 100 && (
+          <TriangleAlert className="h-6 w-6 text-orange-500 " />
         )}
       </Link>
       <Link

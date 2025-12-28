@@ -3,75 +3,82 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 
-export async function updateProfile(formData: FormData): Promise<void> {
+export async function updateProfile(formData: FormData): Promise<string | undefined> {
     const session = await auth();
-
-    if (!session?.user?.email) {
-        throw new Error("Unauthorized");
-    }
-
-    if (!formData) {
-        throw new Error("Missing form data");
-    }
+    if (!session?.user?.email) throw new Error("Unauthorized");
+    if (!formData) throw new Error("Missing form data");
 
     try {
-        // 1. Fetch current user data to compare against
-        const currentUser = await prisma.users.findFirst({
+        const user = await prisma.users.findFirst({
             where: { email: session.user.email },
         });
 
-        if (!currentUser) {
-            return;
-        }
+        if (!user) return;
+        const resumeFile = formData.get("resume_file") as File || null;
 
-        const data = Object.fromEntries(formData.entries());
+        const entries = Object.fromEntries(formData.entries());
+        const { email: _ignored, resume_path, resume_file, ...formFields } = entries;
 
-        // Remove 'email' from the potential update payload
-        const { email: _email, ...formFields } = data;
+        const updateData: Record<string, any> = {};
 
-        const updatePayload: Record<string, any> = {};
-        let hasChanges = false;
+        for (const key in formFields) {
+            if (!(key in user)) continue;
 
-        // 2. Compare incoming form data with current DB data
-        // We only add fields to updatePayload if they match a key in the form AND are different
-        for (const [key, value] of Object.entries(formFields)) {
-            // Skip if the key doesn't exist on the user object (safety check, though schema usually matches)
-            if (!(key in currentUser)) continue;
+            const dbValue = (user as any)[key];
+            const formValue = String(formFields[key]);
 
-            const currentValue = (currentUser as any)[key];
-            const newValue = value as string;
+            const dbString =
+                dbValue === null || dbValue === undefined ? "" : String(dbValue);
 
-            // Simple string comparison. 
-            // Treat null/undefined in DB as empty string for comparison if form sends empty string
-            const dbValStr = currentValue === null || currentValue === undefined ? "" : String(currentValue);
-            const formValStr = String(newValue);
-
-            if (dbValStr !== formValStr) {
-                updatePayload[key] = newValue;
-                hasChanges = true;
+            if (dbString !== formValue) {
+                updateData[key] = formValue;
             }
         }
 
-        console.log(`[Profile Update] User: ${session.user.email}`);
-        if (hasChanges) {
-            console.log("-> Updating fields:", Object.keys(updatePayload));
+        const hasTextChanges = Object.keys(updateData).length > 0;
+        const hasResume = !!resumeFile;
 
-            // Always update 'updated_at' if we are making changes
-            updatePayload.updated_at = new Date();
-
-            await prisma.users.update({
-                where: { id: currentUser.id },
-                data: updatePayload,
-            });
-
-            revalidatePath("/profile");
-        } else {
+        if (!hasTextChanges && !hasResume) {
             console.log("-> No changes detected. Skipping DB update.");
+            return;
         }
 
-    } catch (error) {
-        console.error("Error updating profile:", error);
-        throw new Error("Data validation failed")
+        updateData.updated_at = new Date();
+
+        if (resumeFile) {
+            console.log("-> Attempting to upload resume:", resumeFile.name, "Size:", resumeFile.size);
+            const newPath = `${user.id}/resume_path-${Date.now()}-${resumeFile.name}`;
+
+            const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+                .from("resumes")
+                .upload(newPath, resumeFile, {
+                    contentType: resumeFile.type,
+                    upsert: true,
+                });
+
+            if (uploadError) {
+                console.error("-> Supabase upload error:", uploadError);
+                throw new Error("Failed to upload info to storage");
+            }
+
+            console.log("-> Upload successful, data:", uploadData);
+            updateData.resume_path = newPath;
+        }
+
+        await prisma.users.update({
+            where: { id: user.id },
+            data: updateData,
+        });
+
+        console.log("-> Updating fields:", Object.keys(updateData));
+        revalidatePath("/profile");
+
+        return updateData.resume_path;
+
+    } catch (err: any) {
+        console.error("Error updating profile:", err);
+        throw new Error(err.message || "Data validation failed");
     }
 }

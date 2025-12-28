@@ -61,7 +61,7 @@ export default function MobileMenu({
           className="flex items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/5 hover:text-white active:scale-[0.98]"
         >
           <PlusCircle size={16} />
-          <span>Post Internship</span>
+          <span>Recruiter Panel</span>
         </Link>
 
         <Link

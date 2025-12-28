@@ -28,7 +28,7 @@ export default function SideNav() {
                         key={item.name}
                         type="button"
                         onClick={() => scrollToSection(item.id)}
-                        className="w-full cursor-pointer text-left px-4 py-2.5 text-sm font-medium text-zinc-400 rounded-lg hover:text-white hover:bg-white/5 transition-all"
+                        className="w-full hover:scale-105 cursor-pointer text-left px-4 py-2.5 text-sm font-medium text-zinc-400 rounded-lg hover:text-white hover:bg-white/5 transition-all duration-150 ease-in-out"
                     >
                         {item.name}
                     </button>

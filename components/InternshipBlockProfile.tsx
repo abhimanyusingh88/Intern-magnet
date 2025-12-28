@@ -1,28 +1,26 @@
+"use client"
+
 import YearRangePicker from "./YearRangePicker"
 import EditableComplexField from "./EditableComplexField"
 import { useState, useEffect } from "react"
 import { updateProfile } from "@/app/actions/profile"
 
-export default function EducationBlock({ value, onChange, label, degree, college, duration }: any) {
+export default function InternshipBlock({ value, onChange, label, company, duration }: any) {
     const [tempData, setTempData] = useState<any>({});
 
-    // Sync temp data when modal opens (handled conceptually by recreating state or effect)
-    // Actually, EditableComplexField doesn't expose "onOpen" directly to reset state easily unless we lift it.
-    // A simple way is to sync from `value` whenever `value` changes.
     useEffect(() => {
         setTempData({
-            [degree]: value?.[degree] || "",
-            [college]: value?.[college] || "",
+            [company]: value?.[company] || "",
             [`${duration}_start`]: value?.[`${duration}_start`] || "",
             [`${duration}_end`]: value?.[`${duration}_end`] || "",
         })
-    }, [value, degree, college, duration]);
+    }, [value, company, duration]);
 
     const handleChange = (name: string, val: string) => {
         setTempData((prev: any) => ({ ...prev, [name]: val }));
     }
 
-    const hasValue = !!value?.[degree] || !!value?.[college];
+    const hasValue = !!value?.[company];
 
     return (
         <EditableComplexField
@@ -33,13 +31,13 @@ export default function EducationBlock({ value, onChange, label, degree, college
                     {hasValue ? (
                         <>
                             <div className="font-medium text-zinc-200 text-base leading-snug wrap-break-word pr-8">
-                                {value?.[degree]}
+                                {value?.[company]}
                             </div>
 
                             <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm text-zinc-400/80">
-                                <span>{value?.[college]}</span>
+                                <span>Internship</span>
                                 {(value?.[`${duration}_start`] && value?.[`${duration}_end`]) && (
-                                    <span className="text-xs font-medium text-indigo-400 bg-indigo-400/5 px-2 py-0.5 rounded border border-indigo-400">
+                                    <span className="text-xs font-medium text-indigo-400 bg-indigo-400/5 px-2 py-0.5 rounded border border-indigo-400/30">
                                         {value?.[`${duration}_start`]} - {value?.[`${duration}_end`]}
                                     </span>
                                 )}
@@ -53,23 +51,13 @@ export default function EducationBlock({ value, onChange, label, degree, college
             renderEdit={() => (
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <label className="text-xs font-medium text-zinc-400">Degree / Class</label>
+                        <label className="text-xs font-medium text-zinc-400">Company Name</label>
                         <input
-                            name={degree}
-                            value={tempData[degree] || ""}
-                            onChange={(e) => handleChange(degree, e.target.value)}
+                            name={company}
+                            value={tempData[company] || ""}
+                            onChange={(e) => handleChange(company, e.target.value)}
                             className="input-profile w-full filled"
-                            placeholder="e.g. B.Tech, Class XII"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label className="text-xs font-medium text-zinc-400">College / Board</label>
-                        <input
-                            name={college}
-                            value={tempData[college] || ""}
-                            onChange={(e) => handleChange(college, e.target.value)}
-                            className="input-profile w-full filled"
-                            placeholder="e.g. IIT Delhi, CBSE"
+                            placeholder="e.g. Google, Microsoft"
                         />
                     </div>
                     <div className="space-y-2">
@@ -87,9 +75,6 @@ export default function EducationBlock({ value, onChange, label, degree, college
                 const formData = new FormData();
                 Object.entries(tempData).forEach(([k, v]) => formData.append(k, v as string));
                 await updateProfile(formData);
-                // Also update the parent state purely for immediate UI reflection if needed, 
-                // but the parent usually re-fetches or we need to call onChange to update parent local state.
-                // We'll call onChange for each field to update DownProfileComponent's local state.
                 Object.entries(tempData).forEach(([k, v]) => onChange(k, v));
             }}
         />

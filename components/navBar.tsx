@@ -27,7 +27,7 @@ export default async function NavBar() {
             </div>
             <span className="text-[15px] font-semibold tracking-tight">
               <span className="text-zinc-200">intern</span>
-              <span className="bg-gradient-to-r from-indigo-400 to-cyan-300 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-indigo-400 to-cyan-300 bg-clip-text text-transparent">
                 -Magnet
               </span>
             </span>
