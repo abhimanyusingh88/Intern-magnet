@@ -9,7 +9,7 @@ import {
   PlusCircle,
   Sparkles,
 } from "lucide-react"
-import ProfileDropdown from "./profileDropdown"
+import ProfileDropdown from "./Profile-elements/profileDropdown"
 
 export default function MobileMenu({
   open,

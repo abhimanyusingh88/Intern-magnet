@@ -1,6 +1,6 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
 import DownProfileComponent from "@/components/DownProfileComponent";
-import ProfileMain from "@/components/ProfileMain";
+import ProfileMain from "@/components/Profile-elements/ProfileMain";
 import { SpinnerBig } from "@/components/SpinnerBig";
 import { auth } from "@/lib/auth";
 import { Suspense } from "react";

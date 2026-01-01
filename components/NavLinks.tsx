@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import RecruiterPannerNavDropdown from "./Recruiter-hiring/RecruiterPannerNavDropdown"
 
 export default function NavLinks() {
     const pathname = usePathname()
@@ -21,46 +22,16 @@ export default function NavLinks() {
                     href="/add"
                     className={linkClass("/add")}
                 >
-                    Recruiter Pannel
+                    Recruiter Panel
+                    <span
+                        className="absolute -top-3 -right-5 bg-amber-500 px-0.5 py-0.5 text-zinc-900 text-[11px]  font-bold  rounded-full z-20 transform"
+                    >
+                        Free
+                    </span>
                 </Link>
 
                 {/* Hover dropdown */}
-                <div
-                    className="
-      pointer-events-none
-      absolute left-1/2 top-full mt-4
-      -translate-x-1/2
-      w-72
-      rounded-xl
-      border border-white/10
-      bg-zinc-950
-      backdrop-blur-xl
-      px-5 py-4
-      text-sm text-zinc-200
-      shadow-2xl
-
-      opacity-0
-      translate-y-2
-      scale-95
-      transition-all duration-300 ease-out
-
-      group-hover:opacity-100
-      group-hover:translate-y-0
-      group-hover:scale-100
-    "
-                >
-                    <p className="font-medium text-white">
-                        Become a recruiter 🚀
-                    </p>
-
-                    <p className="mt-2 text-zinc-400 leading-relaxed">
-                        Hire the best talent from across the country and build your dream team
-                        faster with curated internship applicants.
-                    </p>
-
-                    {/* glow */}
-                    <div className="absolute inset-0 -z-10 rounded-xl bg-indigo-500/10 blur-xl" />
-                </div>
+                <RecruiterPannerNavDropdown />
             </div>
 
             <Link href="/calendar" className={linkClass("/calendar")}>Calendar</Link>

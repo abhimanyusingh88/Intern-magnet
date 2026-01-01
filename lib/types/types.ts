@@ -42,3 +42,68 @@ export interface UserProfileData {
     // ... any other fields from schema if needed
     [key: string]: any;
 }
+
+export type QuestionType = "yes_no" | "text";
+
+export type Row = {
+    question: string;
+    type: QuestionType;
+};
+
+export type SelectElementProps = {
+    row: Row;
+    rows: Row[];
+    setRows: (rows: Row[]) => void;
+    i: number;
+};
+export type FormData = {
+    company_name: string;
+    job_title: string;
+    work_experience_min: string;
+    work_experience_max: string;
+    salary_per_month_from: string;
+    salary_per_month_to: string;
+    additional_benefits: string;
+    primary_skills: string;
+    employment_type: string;
+    location: string;
+    screening_questions: { question: string; type: "yes_no" | "text" }[];
+    job_description: string;
+    application_deadline: string;
+    number_of_applications: string;
+    educational_requirements: string;
+    communication_preferences: string;
+    key_responsibilities: string;
+    good_to_have: string;
+    what_we_offer: string;
+};
+
+export interface ScreeningQuestion {
+    id?: string;
+    question: string;
+    type: string;
+}
+
+export interface JobDetail {
+    id: string;
+    job_title: string;
+    company_name: string;
+    location: string;
+    employment_type: string;
+    job_description: string;
+    educational_requirements: string;
+    primary_skills: string;
+    work_experience_min: string;
+    work_experience_max: string;
+    salary_per_month_from: string;
+    salary_per_month_to: string;
+    application_deadline: string;
+    created_at: string;
+    number_of_applications: string;
+    additional_benefits?: string;
+    key_responsibilities?: string;
+    good_to_have?: string;
+    what_we_offer?: string;
+    screening_questions: ScreeningQuestion[];
+}
+

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Card from "../ProfileCard";
+import Card from "../Profile-elements/ProfileCard";
 import { Download, Plus } from "lucide-react";
 import { getResumeDownloadUrl } from "@/app/actions/resume";
 

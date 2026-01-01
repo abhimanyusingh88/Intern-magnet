@@ -4,6 +4,11 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  overflow-y: scroll;
+}
+
+
 @keyframes bell {
   0% {
     transform: rotate(0deg);
@@ -36,6 +41,7 @@ html {
 }
 
 /* Custom styling for RSuite DatePicker */
+/*
 .rs-picker-default .rs-picker-toggle.rs-btn,
 .rs-picker-subtle .rs-picker-toggle.rs-btn,
 .custom-datepicker-trigger .rs-picker-toggle.rs-btn {
@@ -60,15 +66,15 @@ html {
 .custom-datepicker-trigger .rs-picker-toggle-value {
   font-size: 0.875rem !important;
   color: #d4d4d8 !important;
-  /* zinc-300 */
+  /* zinc-300 
 }
 
 /* Ensure the calendar popup also matches our dark theme */
-.rs-picker-menu,
+/* .rs-picker-menu,
 .rs-picker-column-menu,
 .rs-calendar {
   background-color: #09090b !important;
-  /* zinc-950 */
+  /* zinc-950 
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
   color: white !important;
@@ -81,8 +87,10 @@ html {
 
 .rs-calendar-table-header-row {
   color: #71717a !important;
-  /* zinc-400 */
-}
+  /* zinc-400 
+} 
+
+
 
 /* Year Range Picker Styling */
 .year-picker-select {
@@ -227,14 +235,21 @@ select.input-profile:hover {
 
 }
 
-.input-profile:-webkit-autofill,
-.input-profile:-webkit-autofill:hover,
-.input-profile:-webkit-autofill:focus,
-.input-profile:-webkit-autofill:active {
-  -webkit-text-fill-color: white !important;
-  -webkit-box-shadow: 0 0 0 1000px #09090b inset !important;
-  transition: background-color 5000s ease-in-out 0s;
+/* Remove browser autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: rgb(228 228 231);
+  /* zinc-200 */
+  -webkit-box-shadow: 0 0 0px 1000px rgb(9 9 11) inset;
+  /* zinc-950 */
+  box-shadow: 0 0 0px 1000px rgb(9 9 11) inset;
+  transition: background-color 9999s ease-in-out 0s;
 }
+
 
 .select-no-arrow {
   appearance: none;
@@ -247,4 +262,29 @@ select.input-profile.select-no-arrow,
 select.input-profile.select-no-arrow:hover {
   background-image: none;
   padding-right: 0.75rem;
+}
+
+/* Dark textarea scrollbar */
+.textarea-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.textarea-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.textarea-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(99, 102, 241, 0.5);
+  /* indigo */
+  border-radius: 9999px;
+}
+
+.textarea-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(99, 102, 241, 0.8);
+}
+
+/* Firefox */
+.textarea-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.6) transparent;
 }

@@ -1,0 +1,166 @@
+export const skills = [
+    // Programming Languages
+    "C",
+    "C++",
+    "Java",
+    "Python",
+    "JavaScript",
+    "TypeScript",
+    "Go",
+    "Rust",
+    "Kotlin",
+    "Swift",
+    "PHP",
+    "Ruby",
+    "R",
+    "Dart",
+
+    // Web Development – Frontend
+    "HTML",
+    "CSS",
+    "Tailwind CSS",
+    "Bootstrap",
+    "Sass",
+    "React",
+    "Next.js",
+    "Vue.js",
+    "Nuxt.js",
+    "Angular",
+    "Redux",
+    "Zustand",
+    "Framer Motion",
+    "Three.js",
+
+    // Web Development – Backend
+    "Node.js",
+    "Express.js",
+    "NestJS",
+    "Django",
+    "Flask",
+    "FastAPI",
+    "Spring Boot",
+    "Laravel",
+    "Ruby on Rails",
+    "ASP.NET",
+    "GraphQL",
+    "REST APIs",
+    "WebSockets",
+
+    // Databases
+    "MySQL",
+    "PostgreSQL",
+    "SQLite",
+    "MongoDB",
+    "Redis",
+    "Firebase",
+    "Supabase",
+    "DynamoDB",
+    "Cassandra",
+
+    // Mobile Development
+    "Android Development",
+    "iOS Development",
+    "React Native",
+    "Flutter",
+    "Expo",
+
+    // DevOps & Cloud
+    "Docker",
+    "Kubernetes",
+    "CI/CD",
+    "Git",
+    "GitHub",
+    "GitLab",
+    "AWS",
+    "Azure",
+    "Google Cloud",
+    "Vercel",
+    "Netlify",
+
+    // Data Science & Analytics
+    "Data Analysis",
+    "Data Visualization",
+    "Pandas",
+    "NumPy",
+    "Matplotlib",
+    "Seaborn",
+    "Power BI",
+    "Tableau",
+    "Excel",
+    "SQL Analytics",
+
+    // Machine Learning & AI
+    "Machine Learning",
+    "Deep Learning",
+    "TensorFlow",
+    "PyTorch",
+    "Scikit-learn",
+    "Natural Language Processing",
+    "Computer Vision",
+    "Generative AI",
+    "Prompt Engineering",
+
+    // Cybersecurity
+    "Cybersecurity Fundamentals",
+    "Network Security",
+    "Ethical Hacking",
+    "Penetration Testing",
+    "Cryptography",
+    "OWASP",
+
+    // UI / UX & Design
+    "UI Design",
+    "UX Design",
+    "Figma",
+    "Adobe XD",
+    "Wireframing",
+    "Prototyping",
+    "Design Systems",
+
+    // Testing & Quality
+    "Manual Testing",
+    "Automation Testing",
+    "Jest",
+    "Cypress",
+    "Playwright",
+    "Selenium",
+    "Unit Testing",
+
+    // Product & Business
+    "Product Management",
+    "Business Analysis",
+    "Market Research",
+    "Agile Methodology",
+    "Scrum",
+    "JIRA",
+    "Documentation",
+
+    // Soft Skills
+    "Problem Solving",
+    "Critical Thinking",
+    "Communication Skills",
+    "Team Collaboration",
+    "Time Management",
+    "Leadership",
+    "Adaptability",
+
+    // Other / Emerging
+    "Blockchain",
+    "Web3",
+    "Smart Contracts",
+    "Solidity",
+    "AR/VR",
+    "IoT",
+    "Game Development",
+    "Unity",
+    "Unreal Engine",
+
+    // Intern-friendly / Beginner Skills
+    "Basic Programming",
+    "DSA Fundamentals",
+    "Object-Oriented Programming",
+    "Version Control",
+    "Debugging",
+    "Code Review",
+    "Technical Writing"
+];

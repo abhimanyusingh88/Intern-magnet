@@ -1,7 +1,33 @@
-import RecruiterCard from "@/components/recruiterCard";
-import RecruiterHeaderImage from "@/components/RecruiterHeaderImage";
+import RecruiterCard from "@/components/Recruiter-hiring/recruiterCard";
+import RecruiterHeaderImage from "@/components/Recruiter-hiring/RecruiterHeaderImage";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
-export default function AddPage() {
+export default async function AddPage() {
+    const session = await auth();
+    const sessionName = session?.user?.name;
+
+    // Fetch user profile data from database
+    let userName = session?.user?.name || "Guest";
+
+    if (session?.user?.email) {
+        try {
+            const user = await prisma.user.findFirst({
+                where: {
+                    email: session.user.email,
+                },
+                select: {
+                    name: true,
+                },
+            });
+            if (user?.name) {
+                userName = user.name;
+            }
+        } catch (error) {
+            console.error("Error fetching user profile:", error);
+        }
+    }
+
     return (
         <main
             className="
@@ -12,6 +38,9 @@ export default function AddPage() {
         lg:px-36
       "
         >
+            <div className="w-full flex justify-center mb-4">
+                <p className=" text-[18px] sm:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">Hello {userName || sessionName}, Welcome to our hiring platform</p>
+            </div>
             {/* HERO / BANNER */}
             <RecruiterHeaderImage />
 

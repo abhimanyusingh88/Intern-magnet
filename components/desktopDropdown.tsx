@@ -6,7 +6,7 @@ import LogOutButton from "./LogOutButton";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useProfile } from "./ProfileContext";
+import { useProfile } from "./Profile-elements/ProfileContext";
 
 type DesktopDropdownProps = { classApply: string; className?: string, session?: any }
 

@@ -1,0 +1,40 @@
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { GetUser } from "@/lib/service";
+import { NextResponse } from "next/server";
+
+export async function GET() {
+    try {
+        const session = await auth();
+        if (!session?.user?.email) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+        }
+
+        const user = await GetUser(session.user.email);
+        if (!user) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+
+        const recruiterJobs = await prisma.recruiterHiring.findMany({
+            where: {
+                user_id_recruiter: user.id
+            },
+            include: {
+                screening_questions: true
+            }
+        });
+
+        // Convert BigInt to string for JSON serialization
+        const serializedJobs = JSON.parse(
+            JSON.stringify(recruiterJobs, (key, value) =>
+                typeof value === 'bigint' ? value.toString() : value
+            )
+        );
+        // console.log(serializedJobs);
+
+        return NextResponse.json(serializedJobs);
+    }
+    catch (err) {
+
+    }
+}

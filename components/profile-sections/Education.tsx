@@ -1,6 +1,6 @@
 "use client";
 
-import Card from "../ProfileCard";
+import Card from "../Profile-elements/ProfileCard";
 import EducationBlock from "../EducationBlockProfile";
 import { Divider } from "../DividersProfile";
 

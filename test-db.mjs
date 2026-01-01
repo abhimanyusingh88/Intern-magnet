@@ -4,7 +4,7 @@ const { PrismaClient } = pkg
 const prisma = new PrismaClient()
 
 async function main() {
-    const r = await prisma.users.create({
+    const r = await prisma.user.create({
         data: {
             email: "hello@prisma-test.com",
             name: "Prisma Test User",

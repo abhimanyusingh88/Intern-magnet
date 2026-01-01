@@ -82,7 +82,7 @@ export default function Footer() {
 
         <div className="mt-12 flex flex-col items-center gap-3 border-t border-white/10 pt-6 text-center text-xs text-zinc-500 sm:flex-row sm:justify-between sm:text-sm">
           <span>© {new Date().getFullYear()} InternMagnet. All rights reserved.</span>
-          <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
             Built for students, by students
           </span>
         </div>

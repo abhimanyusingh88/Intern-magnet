@@ -5,7 +5,7 @@ import "rsuite/dist/rsuite-no-reset.min.css";
 import NavBar from "@/components/navBar";
 import Footer from "@/components/Footer";
 import { SessionProvider } from "@/components/SessionProvider";
-import { ProfileProvider } from "@/components/ProfileContext";
+import { ProfileProvider } from "@/components/Profile-elements/ProfileContext";
 import { auth } from "@/lib/auth";
 import { CustomProvider } from "rsuite";
 import Providers from "./providers";
@@ -39,7 +39,7 @@ export default async function RootLayout({
   if (session?.user?.email) {
     try {
       const { prisma } = await import("@/lib/prisma");
-      const user = await prisma.users.findFirst({
+      const user = await prisma.user.findFirst({
         where: { email: session.user.email },
       });
 

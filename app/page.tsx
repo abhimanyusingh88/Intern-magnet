@@ -1,7 +1,8 @@
-import BackGroundGlow from "@/components/BackGroundGlow"
+import BackGroundGlow from "@/components/BackGroundGlow";
+import HeroSlider from "@/components/HomeImageSlider";
 import NormalButton from "@/components/normalButton";
+// import HeroSlider from "@/components/HeroSlider";
 import { Rocket } from "lucide-react";
-import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -32,89 +33,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA buttons */}
-      <div
-        className="
-          mt-10 flex flex-col items-center gap-4
-          sm:flex-row sm:justify-center
-        "
-      >
-        <NormalButton
-          link="/internships"
-          title="Get started"
-          variant="solid"
-        />
-
-        <NormalButton
-          link="/internships"
-          title="Browse internships"
-          variant="outline"
-        />
+      {/* CTA */}
+      <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        <NormalButton link="/internships" title="Get started" variant="solid" />
+        <NormalButton link="/internships" title="Browse internships" variant="outline" />
       </div>
 
-      {/* Remaining height */}
-      <section
-        className="
-    flex-1 w-full mt-10 relative rounded-xl overflow-hidden
-    transform-gpu
-    transition-transform duration-300 ease-out
-    hover:scale-[1.05]
-    active:scale-[0.97]
-  "
-      >
-        <Image
-          src="/Resume.png"
-          alt="Resume"
-          fill
-          className="object-cover"
-          priority
-        />
-
-        {/* Dark gradient overlay */}
-        <div
-          className="
-      absolute inset-0
-      bg-linear-to-t
-      from-black/80
-      via-black/60
-      to-black/40
-    "
-        />
-
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6">
-
-          <h2
-            className="
-        text-center font-semibold text-white
-        text-3xl
-        sm:text-4xl
-        md:text-5xl
-        lg:text-6xl
-        font-sans
-      "
-          >
-            Tired of internship hunts?
-          </h2>
-
-          <p
-            className="
-        mt-6 text-center text-zinc-100
-        max-w-xl
-        sm:max-w-2xl
-        text-lg
-        sm:text-base
-        md:text-xl
-        leading-relaxed
-        font-sans
-      "
-          >
-            We've got you covered! Stop searching. Start your career.
-          </p>
-
-        </div>
-      </section>
-
+      {/* SLIDER */}
+      <HeroSlider />
     </main>
   );
 }

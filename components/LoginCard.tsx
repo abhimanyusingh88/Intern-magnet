@@ -2,6 +2,7 @@
 
 import { signInAction } from "@/lib/actions"
 import BackGroundGlow from "./BackGroundGlow"
+import Image from "next/image"
 
 export default function LoginCard({
     callbackUrl,
@@ -17,26 +18,45 @@ export default function LoginCard({
 
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr]">
 
-                    {/* LEFT — Branding */}
-                    <div className="hidden md:flex flex-col justify-center p-12">
-                        <h2 className="text-4xl font-semibold text-white leading-tight">
-                            Build your
-                            <br />
-                            <span className="bg-linear-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
-                                professional identity
-                            </span>
-                        </h2>
+                    {/* LEFT — Branding with Background Image */}
+                    <div className="hidden md:flex relative flex-col justify-between p-12 overflow-hidden">
+                        {/* Background Image */}
+                        <Image
+                            src="/login.png"
+                            alt="background branding"
+                            fill
+                            priority
+                            className="object-cover opacity-90 saturate-150 brightness-110"
+                        />
+                        {/* Gradient Overlay for better text readability - slightly lighter at top to show colors */}
+                        <div className="absolute inset-0 bg-linear-to-b from-zinc-950/40 via-transparent to-zinc-950/90" />
 
-                        <p className="mt-6 text-sm text-zinc-400 max-w-sm">
-                            Create, manage, and showcase your profile in one
-                            place. Simple, fast, and beautifully designed.
-                        </p>
+                        {/* Top Content */}
+                        <div className="relative z-10">
+                            <h2 className="text-4xl font-semibold text-white leading-tight">
+                                Build your
+                                <br />
+                                <span className="bg-linear-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
+                                    professional identity
+                                </span>
+                            </h2>
+                        </div>
 
-                        <div className="mt-10 flex items-center gap-3 text-xs text-zinc-500">
-                            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
-                            Trusted by developers
-                            <span className="h-1.5 w-1.5 rounded-full bg-pink-400" />
-                            Secure & private
+                        {/* Bottom Content */}
+                        <div className="relative z-10">
+                            {/* <p className="text-sm text-zinc-200 max-w-sm font-medium drop-shadow-md">
+                                Create, manage, and showcase your profile in one
+                                place. Simple, fast, and beautifully designed.
+                            </p> */}
+
+                            <div className="mt-10 flex items-center gap-3 text-xs text-zinc-300 font-medium">
+                                <span className="h-1.5 w-1.5 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(244,114,182,0.8)]" />
+                                Create & manage
+                                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)]" />
+                                Trusted by developers
+                                <span className="h-1.5 w-1.5 rounded-full bg-pink-400 shadow-[0_0_8px_rgba(244,114,182,0.8)]" />
+                                Secure & private
+                            </div>
                         </div>
                     </div>
 

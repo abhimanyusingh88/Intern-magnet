@@ -11,7 +11,7 @@ export async function updateProfile(formData: FormData): Promise<string | undefi
     if (!formData) throw new Error("Missing form data");
 
     try {
-        const user = await prisma.users.findFirst({
+        const user = await prisma.user.findFirst({
             where: { email: session.user.email },
         });
 
@@ -67,7 +67,7 @@ export async function updateProfile(formData: FormData): Promise<string | undefi
             updateData.resume_path = newPath;
         }
 
-        await prisma.users.update({
+        await prisma.user.update({
             where: { id: user.id },
             data: updateData,
         });

@@ -1,5 +1,3 @@
-"use client"
-
 import BackGroundGlow from "@/components/BackGroundGlow"
 
 export default function TermsPage() {

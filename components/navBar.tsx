@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { auth } from "@/lib/auth"
 
-import ProfileDropdown from "./profileDropdown"
+import ProfileDropdown from "./Profile-elements/profileDropdown"
 import NotificationBell from "./NotificationBell"
 import GoogleSignInBtn from "./SignInButton"
 import NavLinks from "./NavLinks"

@@ -1,6 +1,6 @@
 "use client";
 
-import Card from "../ProfileCard";
+import Card from "../Profile-elements/ProfileCard";
 import InternshipBlock from "../InternshipBlockProfile";
 
 interface InternshipsProps {

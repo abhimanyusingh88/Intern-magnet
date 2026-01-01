@@ -9,7 +9,7 @@ export async function getResumeDownloadUrl() {
     const session = await auth();
     if (!session?.user?.email) throw new Error("Unauthorized");
 
-    const user = await prisma.users.findFirst({
+    const user = await prisma.user.findFirst({
         where: { email: session.user.email },
         select: { resume_path: true },
     });

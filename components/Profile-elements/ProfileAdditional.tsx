@@ -1,4 +1,4 @@
-import DisplayField from "./DisplayField";
+import DisplayField from "../DisplayField";
 
 export default function ProfileAdditionalDetails({ currentData }: { currentData: any }) {
     return (

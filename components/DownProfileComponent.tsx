@@ -6,7 +6,7 @@ import { SpinnerBig } from "./SpinnerBig"
 import { updateProfile } from "@/app/actions/profile"
 import { getInitialDownProfileData } from "@/lib/profile-helpers"
 import ProfileData from "@/lib/data/UserData"
-import { useProfile } from "./ProfileContext"
+import { useProfile } from "./Profile-elements/ProfileContext"
 
 // Section Components
 import CareerPreferences from "./profile-sections/CareerPreferences"
