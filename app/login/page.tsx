@@ -1,4 +1,4 @@
-import LoginCard from "@/components/LoginCard";
+import LoginCard from "@/components/utils/LoginCard";
 
 export default async function LoginPage({
   searchParams,

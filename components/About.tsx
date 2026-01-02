@@ -1,6 +1,56 @@
-import { Briefcase, GraduationCap, TrendingUp, Users, Rocket, PersonStanding } from "lucide-react"
+"use client"
 import BackGroundGlow from "./BackGroundGlow"
+import { motion, Variants } from "framer-motion"
+import { useState, useEffect } from "react"
+import { aboutdata } from "./aboutData"
+
 export default function About() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+
+  // Container variant for staggering children
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  // Improved spring-based variants
+  const itemVariants: Variants = {
+    hidden: (direction: string) => ({
+      opacity: 0,
+      x: isMobile ? 0 : direction === "left" ? -40 : direction === "right" ? 40 : 0,
+      y: isMobile ? 40 : direction === "bottom" ? 40 : 0,
+      scale: 0.96,
+    }),
+    visible: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 70,
+        damping: 18,
+        mass: 1
+      }
+    }
+  };
+
   return (
     <main className="relative overflow-hidden bg-zinc-950">
       {/* background glow */}
@@ -9,8 +59,14 @@ export default function About() {
       <div className="relative mx-auto max-w-6xl px-5 py-16 sm:py-20">
 
         {/* Hero */}
-        <section className="mb-20 text-center">
-          <h1 className="bg-gradient-to-r p-2 from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={itemVariants}
+          custom="bottom"
+          className="mb-20 text-center">
+          <h1 className="bg-linear-to-r p-2 from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
             About InternMagnet
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-sm leading-relaxed text-zinc-400 sm:text-base">
@@ -19,11 +75,19 @@ export default function About() {
             We help students discover internships, get career guidance,
             and stay updated with the evolving job market — all in one place.
           </p>
-        </section>
+        </motion.section>
 
         {/* Mission & Vision */}
-        <section className="mb-20 grid gap-8 md:grid-cols-2">
-          <div className="rounded-2xl border hover:scale-105 transition-all duration-300 border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl sm:p-8">
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
+          className="mb-20 grid gap-8 md:grid-cols-2">
+          <motion.div
+            variants={itemVariants}
+            custom="left"
+            className="rounded-2xl border hover:scale-[1.02] transition-all duration-500 border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl sm:p-8">
             <h2 className="text-xl font-semibold text-zinc-100">Our Mission</h2>
             <p className="mt-4 text-sm text-zinc-400">
               Our mission is to empower students with early career opportunities
@@ -31,60 +95,45 @@ export default function About() {
               We aim to remove confusion, reduce skill gaps, and help students
               make informed career decisions.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="rounded-2xl border hover:scale-105 transition-all duration-300 border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl sm:p-8">
+          <motion.div
+            variants={itemVariants}
+            custom="right"
+            className="rounded-2xl border hover:scale-[1.02] transition-all duration-500 border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl sm:p-8">
             <h2 className="text-xl font-semibold text-zinc-100">Our Vision</h2>
             <p className="mt-4 text-sm text-zinc-400">
               We envision a future where every student has equal access to
               meaningful internships, clear career guidance, and real-time
               insights into the job market — regardless of background.
             </p>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* What We Offer */}
         <section className="mb-20">
-          <h2 className="mb-10 text-center text-2xl font-semibold text-zinc-100">
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={itemVariants}
+            custom="bottom"
+            className="mb-10 text-center text-2xl font-semibold text-zinc-100">
             What We Offer
-          </h2>
+          </motion.h2>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                icon: <Briefcase size={22} />,
-                title: "Internship Discovery",
-                desc: "Browse verified internships across domains, companies, and skill levels — curated for students."
-              },
-              {
-                icon: <Users size={22} />,
-                title: "Post & Hire Talent",
-                desc: "Companies and startups can post internship opportunities and connect with motivated students."
-              },
-              {
-                icon: <GraduationCap size={22} />,
-                title: "Career Guidance",
-                desc: "Get structured guidance on skills, roles, learning paths, and career decisions."
-              },
-              {
-                icon: <TrendingUp size={22} />,
-                title: "Job Market Insights",
-                desc: "Stay updated with industry trends, in-demand skills, and hiring patterns."
-              },
-              {
-                icon: <Rocket size={22} />,
-                title: "Growth-Focused Platform",
-                desc: "Built to evolve with students — from first internship to career growth."
-              },
-              {
-                icon: <PersonStanding size={22} />,
-                title: "Personalized assistance",
-                desc: "Get personalized guidance and support to navigate the job market and make informed career decisions."
-              }
-            ].map((item, i) => (
-              <div
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={containerVariants}
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {aboutdata.map((item, i) => (
+              <motion.div
                 key={i}
-                className="group rounded-2xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl transition hover:border-white/20 hover:scale-105"
+                variants={itemVariants}
+                custom={i % 2 === 0 ? "left" : "right"}
+                className="group rounded-2xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:scale-[1.02] hover:bg-zinc-800/40"
               >
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-r from-indigo-500/20 to-pink-500/20 text-indigo-300">
                   {item.icon}
@@ -95,13 +144,19 @@ export default function About() {
                 <p className="mt-2 text-sm text-zinc-400">
                   {item.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </section>
 
         {/* Why InternMagnet */}
-        <section className="mb-20 rounded-2xl border border-white/10 bg-zinc-900/60 p-8 backdrop-blur-xl">
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={itemVariants}
+          custom="bottom"
+          className="mb-20 rounded-2xl border border-white/10 bg-zinc-900/60 p-8 backdrop-blur-xl">
           <h2 className="text-center text-2xl font-semibold text-zinc-100">
             Why InternMagnet?
           </h2>
@@ -110,10 +165,16 @@ export default function About() {
             designed to eliminate noise and provide students with practical,
             actionable opportunities — not just listings.
           </p>
-        </section>
+        </motion.section>
 
         {/* CTA */}
-        <section className="text-center">
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={itemVariants}
+          custom="bottom"
+          className="text-center">
           <h2 className="text-2xl font-semibold text-zinc-100">
             Building Careers, One Opportunity at a Time
           </h2>
@@ -121,7 +182,7 @@ export default function About() {
             Whether you’re a student exploring your future or a company looking
             for fresh talent, InternMagnet is built for you.
           </p>
-        </section>
+        </motion.section>
 
       </div>
     </main>

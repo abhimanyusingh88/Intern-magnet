@@ -1,3 +1,4 @@
+import BackGroundGlow from "@/components/BackGroundGlow";
 import PostedJobs from "@/components/postedJobPage/PostedJobs";
 
 export default function PostedJobsPage() {
@@ -7,7 +8,9 @@ export default function PostedJobsPage() {
         sm:px-10 sm:pt-28
         md:px-20 md:pt-20
         lg:px-36
+        flex-wrap gap-4
       ">
+    <BackGroundGlow />
     <PostedJobs />
   </main>
 }

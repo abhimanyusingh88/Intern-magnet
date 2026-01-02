@@ -6,7 +6,7 @@ import LogOutButton from "./LogOutButton";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useProfile } from "./Profile-elements/ProfileContext";
+import { useProfile } from "../Profile-elements/ProfileContext";
 
 export default function MobileDropdown({ classApply, session, setOpen }: { classApply: string, session?: any, setOpen?: (open: boolean) => void }) {
   const { data: Usersession } = useSession()

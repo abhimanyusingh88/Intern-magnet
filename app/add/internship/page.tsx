@@ -1,9 +1,12 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
-import NetBg from "@/components/netBg";
+import NetBg from "@/components/utils/netBg";
 import RecruiterForms from "@/components/Recruiter-hiring/recruiterForms";
+import { auth } from "@/lib/auth";
 import { Rocket } from "lucide-react";
 
-export default function InternshipPage() {
+export default async function InternshipPage() {
+    const session = await auth();
+    const user = session?.user?.name
     return (
         <main className="
       w-full bg-black
@@ -36,7 +39,7 @@ export default function InternshipPage() {
 
             </div>
             <div className="flex justify-center w-full mt-10 sm:mt-20 ">
-                <RecruiterForms />
+                <RecruiterForms user={user} />
             </div>
         </main>
     );

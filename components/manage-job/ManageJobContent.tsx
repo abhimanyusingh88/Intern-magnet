@@ -1,6 +1,6 @@
 "use client"
 import useManageJobData from "@/lib/data/manageJob";
-import { SpinnerBig } from "@/components/SpinnerBig";
+import { SpinnerBig } from "@/components/utils/SpinnerBig";
 import {
     Calendar,
     GraduationCap,
@@ -8,16 +8,16 @@ import {
     MessageSquare,
     Clock,
     Users,
-    Briefcase
+    Briefcase,
+    Edit
 } from "lucide-react";
 
-// Extracted Components
-import { BackgroundDecoration } from "@/components/manage-job/BackgroundDecoration";
 import { JobHeader } from "@/components/manage-job/JobHeader";
 import { ManagementBanner } from "@/components/manage-job/ManagementBanner";
 import { StatCard } from "@/components/manage-job/StatCard";
 import { Section } from "@/components/manage-job/Section";
 import { SidebarFinancials } from "@/components/manage-job/SidebarFinancials";
+import BackGroundGlow from "../BackGroundGlow";
 
 export default function ManageJobContent({ id }: { id: string }) {
     const { data: job, isLoading, isError, error } = useManageJobData(id);
@@ -33,14 +33,18 @@ export default function ManageJobContent({ id }: { id: string }) {
 
     return (
         <main className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30">
-            <BackgroundDecoration />
+            {/* <BackgroundDecoration /> */}
+            <BackGroundGlow />
 
             <div className="relative max-w-6xl mx-auto px-6 sm:px-10 pt-28 pb-20">
-                <div className="w-full font-sans flex justify-center sm:text-3xl sm:pb-4 text-center mb-8">
-                    <p className="bg-linear-to-r from-indigo-500 to-pink-500 text-transparent bg-clip-text font-bold">Your complete editing area, modify your posting here with ease</p>
+                <div className="w-full font-sans flex-col gap-2 flex justify-center sm:text-3xl sm:pb-4 text-center mb-8">
+                    <p className="bg-linear-to-r font-sans from-indigo-500 via-pink-400 to-indigo-300 text-transparent bg-clip-text font-sans font-bold">Your complete editing area, modify your posting here with ease</p>
+                    <p className="text-xs sm:text-lg font-thin font-sans text-zinc-400">MANAGE, REVIEW, EDIT</p>
                 </div>
+                <div className="w-full flex sm:justify-end justify-center"><span className="text-zinc-500 text-sm font-sans mr-2">Edit Your job</span><Edit className="h-6 w-6 text-indigo-400  cursor-pointer" /></div>
 
                 <JobHeader job={job} />
+
                 <ManagementBanner />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -50,7 +54,7 @@ export default function ManageJobContent({ id }: { id: string }) {
                             <StatCard icon={<Clock className="w-4 h-4" />} label="Posted" value={new Date(job.created_at).toLocaleDateString()} />
                             <StatCard icon={<Calendar className="w-4 h-4 text-red-400" />} label="Deadline" value={job.application_deadline} color="text-red-400" />
                             <StatCard icon={<Briefcase className="w-4 h-4 text-indigo-400" />} label="Experience" value={`${job.work_experience_min}–${job.work_experience_max} yrs`} />
-                            <StatCard icon={<Users className="w-4 h-4" />} label="Applicants" value={`${job.number_of_applications || 0} Registered`} />
+                            <StatCard icon={<Users className="w-4 h-4" />} label="Applicants" value={`${job.number_of_applications || 0} Posts`} />
                         </div>
 
                         <div className="space-y-6">

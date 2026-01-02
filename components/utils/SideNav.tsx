@@ -1,6 +1,6 @@
 "use client";
 
-import { sections } from "./SectionDataFileds";
+import { sections } from "../SectionDataFileds";
 
 export default function SideNav() {
     const scrollToSection = (id: string) => {

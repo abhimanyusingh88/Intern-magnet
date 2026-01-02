@@ -28,103 +28,62 @@ const slides = [
 ];
 
 export default function HeroSlider() {
-    const extendedSlides = [...slides, slides[0]];
-    const [index, setIndex] = useState(0);
-    const [transition, setTransition] = useState(true);
+    const total = slides.length;
 
-    // Auto slide → RIGHT only
+    // clone both ends
+    const extended = [slides[total - 1], ...slides, slides[0]];
+
+    const [index, setIndex] = useState(1);
+    const [animate, setAnimate] = useState(true);
+
+    // auto slide
     useEffect(() => {
-        const t = setInterval(() => {
-            setIndex((p) => p + 1);
+        const id = setInterval(() => {
+            setIndex((i) => i + 1);
         }, 4000);
-        return () => clearInterval(t);
+        return () => clearInterval(id);
     }, []);
 
-    // Snap back invisibly
+    // snap logic (THE FIX)
     useEffect(() => {
-        if (index === slides.length) {
-            const t = setTimeout(() => {
-                setTransition(false);
-                setIndex(0);
+        if (index === total + 1) {
+            setTimeout(() => {
+                setAnimate(false);
+                setIndex(1);
             }, 700);
-            return () => clearTimeout(t);
         }
-        setTransition(true);
-    }, [index]);
 
-    const next = () => setIndex((p) => p + 1);
-
-    const prev = () => {
         if (index === 0) {
-            setTransition(false);
-            setIndex(slides.length - 1);
-            requestAnimationFrame(() =>
-                requestAnimationFrame(() => setTransition(true))
-            );
-        } else {
-            setIndex((p) => p - 1);
+            setTimeout(() => {
+                setAnimate(false);
+                setIndex(total);
+            }, 700);
         }
-    };
+
+        setTimeout(() => setAnimate(true), 0);
+    }, [index, total]);
+
+    const next = () => setIndex((i) => i + 1);
+    const prev = () => setIndex((i) => i - 1);
 
     return (
-        <section
-            className="
-        flex-1 w-full mt-10 relative rounded-xl overflow-hidden
-        transform-gpu
-        transition-transform duration-300 ease-out
-        active:scale-[0.98]
-      "
-        >
-            {/* SLIDER */}
+        <section className="relative mt-10 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] w-full overflow-hidden rounded-2xl">
             <div
-                className={`absolute inset-0 flex ${transition ? "transition-transform duration-700 ease-in-out" : ""
+                className={`absolute inset-0 flex ${animate ? "transition-transform duration-700 ease-in-out" : ""
                     }`}
                 style={{ transform: `translateX(-${index * 100}%)` }}
             >
-                {extendedSlides.map((s, i) => (
-                    <div key={i} className="relative w-full h-full shrink-0">
-                        <Image
-                            src={s.image}
-                            alt={s.title}
-                            fill
-                            className="object-cover"
-                            priority={i === 0}
-                        />
+                {extended.map((s, i) => (
+                    <div key={i} className="relative h-full w-full shrink-0">
+                        <Image src={s.image} alt={s.title} fill className="object-cover" />
 
-                        {/* Overlay */}
-                        <div
-                            className="
-                absolute inset-0
-                bg-linear-to-t
-                from-black/80
-                via-black/60
-                to-black/40
-              "
-                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 to-black/40" />
 
-                        {/* Text */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6">
-                            <h2
-                                className="
-                  text-center font-semibold text-white
-                  text-3xl sm:text-4xl md:text-5xl lg:text-6xl
-                  font-sans
-                  transition-all duration-700
-                "
-                            >
+                        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white">
                                 {s.title}
                             </h2>
-
-                            <p
-                                className="
-                  mt-6 text-center text-zinc-100
-                  max-w-xl sm:max-w-2xl
-                  text-lg sm:text-base md:text-xl
-                  leading-relaxed
-                  font-sans
-                  transition-all duration-700
-                "
-                            >
+                            <p className="mt-6 max-w-2xl text-lg md:text-xl text-zinc-100">
                                 {s.description}
                             </p>
                         </div>
@@ -132,17 +91,16 @@ export default function HeroSlider() {
                 ))}
             </div>
 
-            {/* CHEVRONS */}
             <button
                 onClick={prev}
-                className="absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 z-20 bg-black/40 p-2 rounded-full text-white"
+                className="absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white"
             >
                 <ChevronLeft />
             </button>
 
             <button
                 onClick={next}
-                className="absolute right-4 cursor-pointer top-1/2 -translate-y-1/2 z-20 bg-black/40 p-2 rounded-full text-white"
+                className="absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white"
             >
                 <ChevronRight />
             </button>

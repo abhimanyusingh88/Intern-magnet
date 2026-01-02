@@ -1,8 +1,8 @@
 import Link from "next/link"
 import { auth } from "@/lib/auth"
 
-import ProfileDropdown from "./Profile-elements/profileDropdown"
-import NotificationBell from "./NotificationBell"
+import ProfileDropdown from "../Profile-elements/profileDropdown"
+import NotificationBell from "../NotificationBell"
 import GoogleSignInBtn from "./SignInButton"
 import NavLinks from "./NavLinks"
 import MobileNavigation from "./MobileNavigation"

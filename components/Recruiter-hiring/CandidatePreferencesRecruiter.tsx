@@ -1,19 +1,22 @@
 
-import FormInput from "../FormInput";
-import NormalButton from "../normalButton";
+import FormInput from "../utils/FormInput";
+import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";
 import Skills from "../profile-sections/Skills";
 import { skills } from "./Skills";
+import LoginRequiredPage from "../utils/LoginReminderPage";
 export default function CandidatePreferencesRecruiter({
     count,
     setCount,
     formData,
+    user,
     setFormData
 }: {
     count: number;
     setCount: React.Dispatch<React.SetStateAction<number>>;
     formData: FormData;
+    user: any
     setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }) {
     const updateField = (field: keyof FormData, value: string) => {
@@ -25,7 +28,13 @@ export default function CandidatePreferencesRecruiter({
         formData.employment_type.trim() !== "" &&
         formData.location.trim() !== "";
 
+
+    if (!user) {
+        return <LoginRequiredPage />
+    }
+
     return (
+
         <div className="flex flex-col pb-4 gap-4 w-full">
             <div className="flex flex-col gap-4 w-full">
 

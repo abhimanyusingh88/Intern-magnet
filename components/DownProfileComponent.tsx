@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import SideNav from "./SideNav"
-import { SpinnerBig } from "./SpinnerBig"
+import SideNav from "./utils/SideNav"
+import { SpinnerBig } from "./utils/SpinnerBig"
 import { updateProfile } from "@/app/actions/profile"
 import { getInitialDownProfileData } from "@/lib/profile-helpers"
 import ProfileData from "@/lib/data/UserData"

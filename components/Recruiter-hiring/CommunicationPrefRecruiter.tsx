@@ -1,6 +1,6 @@
 import Link from "next/link";
-import FormInput from "../FormInput";
-import NormalButton from "../normalButton";
+import FormInput from "../utils/FormInput";
+import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
 export default function CommunicationPrefRecruiter({
     count,

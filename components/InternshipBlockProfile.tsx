@@ -1,6 +1,6 @@
 "use client"
 
-import YearRangePicker from "./YearRangePicker"
+import YearRangePicker from "./utils/YearRangePicker"
 import EditableComplexField from "./EditableComplexField"
 import { useState, useEffect } from "react"
 import { updateProfile } from "@/app/actions/profile"

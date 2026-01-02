@@ -9,7 +9,8 @@ import {
   PlusCircle,
   Sparkles,
 } from "lucide-react"
-import ProfileDropdown from "./Profile-elements/profileDropdown"
+import ProfileDropdown from "../Profile-elements/profileDropdown"
+import { usePathname } from "next/navigation"
 
 export default function MobileMenu({
   open,
@@ -20,6 +21,8 @@ export default function MobileMenu({
   setOpen: (open: boolean) => void
   session: any
 }) {
+  const path = usePathname();
+  console.log(path);
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden"
@@ -62,6 +65,8 @@ export default function MobileMenu({
         >
           <PlusCircle size={16} />
           <span>Recruiter Panel</span>
+
+          <span className="text-xs font-semibold text-black bg-amber-300 rounded-2xl p-1">Free</span>
         </Link>
 
         <Link

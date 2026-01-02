@@ -1,9 +1,14 @@
+"use client"
 import Image from "next/image";
-import NormalButton from "../normalButton";
+import NormalButton from "../utils/normalButton";
+import { motion } from "framer-motion";
 
 export default function RecruiterHeaderImage() {
   return (
-    <section
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
       className="
               relative w-full h-[60vh]
               rounded-2xl overflow-hidden
@@ -59,7 +64,7 @@ export default function RecruiterHeaderImage() {
       >
         <h1
           className="
-                  text-white font-semibold
+                  text-white font-sans font-semibold
                   text-3xl
                   sm:text-4xl
                   md:text-5xl
@@ -75,6 +80,7 @@ export default function RecruiterHeaderImage() {
                   max-w-xl sm:max-w-2xl
                   text-base sm:text-lg md:text-xl
                   leading-relaxed
+                  font-sans
                 "
         >
           Post internships, discover skilled candidates, and build your team
@@ -95,6 +101,6 @@ export default function RecruiterHeaderImage() {
         </div>
 
       </div>
-    </section>
+    </motion.section>
   )
 }

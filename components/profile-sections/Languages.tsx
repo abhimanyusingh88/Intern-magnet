@@ -1,7 +1,7 @@
 "use client";
 
 import Card from "../Profile-elements/ProfileCard";
-import LanguageRow from "../LanguageRow";
+import LanguageRow from "../utils/LanguageRow";
 
 interface LanguagesProps {
     data: any;

@@ -1,7 +1,11 @@
-import { LocateIcon, MapPin, Trash2 } from "lucide-react"
+import useDeleteJob from "@/lib/data/deletingJob";
+import { ChevronRight, LocateIcon, MapPin, Trash2 } from "lucide-react"
 import Link from "next/link";
+import { startTransition } from "react";
 
-export default function PostedJobsCard({ job }: { job: any }) {
+export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob: any }) {
+    const { mutateAsync } = useDeleteJob();
+
     return (
         <main className="relative group">
             {/* <BackGroundGlow /> */}
@@ -9,7 +13,15 @@ export default function PostedJobsCard({ job }: { job: any }) {
             <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-linear-to-br from-zinc-900 via-zinc-900 to-zinc-950 p-6 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.9)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,1)] hover:border-white/20">
 
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-indigo-500/15 to-transparent" />
-                <div className="absolute right-1 top-1">
+                <div onClick={
+                    () => {
+                        startTransition(async () => {
+                            deleteJob(job.id);
+                            await mutateAsync(job.id);
+                        })
+
+                    }
+                } className="absolute right-1 top-1">
                     <Trash2 size={20} className="text-indigo-500 hover:text-indigo-400 cursor-pointer" />
                 </div>
 
@@ -29,11 +41,25 @@ export default function PostedJobsCard({ job }: { job: any }) {
                     <div><p className="text-zinc-500">Posted Vacancy</p><p className="text-white font-semibold">{job.number_of_applications} Post</p></div>
                 </div>
 
-                <div className="relative z-10 mt-4 flex items-center justify-between text-xs">
-                    <span className="text-zinc-500">Posted {new Date(job.created_at).toLocaleDateString()}</span>
-                    <span className="text-red-600 border border-red-600 p-1 rounded-lg">Deadline:  {job.application_deadline}</span>
-                    <Link href={`/postedjobs/manage/${job.id}`} className="font-medium border hover:scale-105 cursor-pointer border-indigo-400 rounded-full p-2 text-white/70 transition  group-hover:text-white">Manage job →</Link>
+                <div className="relative z-10 mt-4 text-xs">
+                    <span className="block text-zinc-500 mb-2">
+                        Posted {new Date(job.created_at).toLocaleDateString()}
+                    </span>
+
+                    <div className="flex items-center gap-2">
+                        <span className="inline-flex text-red-600 border border-red-600 px-2 py-1 rounded-lg text-[11px] sm:text-xs shrink-0">
+                            Deadline: {job.application_deadline}
+                        </span>
+
+                        <Link
+                            href={`/postedjobs/manage/${job.id}`}
+                            className="ml-auto font-medium border hover:scale-105 cursor-pointer border-indigo-400 rounded-full hover:bg-zinc-800 py-1 pr-1 pl-2 text-white/70 transition group-hover:text-white"
+                        >
+                            View <ChevronRight className="inline" size={16} />
+                        </Link>
+                    </div>
                 </div>
+
 
                 <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(500px_circle_at_50%_-20%,rgba(99,102,241,0.12),transparent_40%)]" />
             </div>

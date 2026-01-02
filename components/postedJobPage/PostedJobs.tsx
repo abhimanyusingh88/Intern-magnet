@@ -2,12 +2,32 @@
 
 import PostedJobsData from "@/lib/data/postedJobsData"
 import PostedJobsCard from "./postedJobsCard";
-import { SpinnerBig } from "../SpinnerBig";
-import BackGroundGlow from "../BackGroundGlow";
-import NormalButton from "../normalButton";
+import { SpinnerBig } from "../utils/SpinnerBig";
+import NormalButton from "../utils/normalButton";
+import { useOptimistic } from "react";
+import PostJobIndicator from "../utils/postJobIndicator";
 
 export default function PostedJobs() {
     const { data, isLoading, isError, error } = PostedJobsData();
+    const [optimisticJobs, deleteJob] = useOptimistic(data,
+        (state, id: number) =>
+            state.filter((j: any) => j.id !== id)
+
+    )
+
+    if (optimisticJobs?.length === 0) {
+        return <div>
+            <PostJobIndicator />
+            <div className="w-full flex justify-center p-4">
+                <NormalButton
+                    title="Post New Job"
+                    type="button"
+                    front={true}
+                    link="/add/internship"
+                />
+            </div>
+        </div >
+    }
 
     if (isLoading) return <SpinnerBig />
 
@@ -17,8 +37,8 @@ export default function PostedJobs() {
             {isError && <p className="text-red-500">Error: {error?.message}</p>}
             <div className="space-y-4">
 
-                {data && Array.isArray(data) && data.map((job: any) => (
-                    <PostedJobsCard key={job.id} job={job} />
+                {optimisticJobs && Array.isArray(optimisticJobs) && optimisticJobs.map((job: any) => (
+                    <PostedJobsCard deleteJob={deleteJob} key={job.id} job={job} />
                 ))}
                 <div className="w-full flex justify-end">
                     <NormalButton

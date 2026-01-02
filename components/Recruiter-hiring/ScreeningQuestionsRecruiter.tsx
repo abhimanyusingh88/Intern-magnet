@@ -3,7 +3,7 @@
 import { Plus, Trash2 } from "lucide-react";
 import { SelectElement } from "../SelectElement";
 import { Row } from "@/lib/types/types";
-import NormalButton from "../normalButton";
+import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
 
 export default function ScreeningQuestionsRecruiter({

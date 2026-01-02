@@ -1,8 +1,9 @@
 "use client"
 
 import { signInAction } from "@/lib/actions"
-import BackGroundGlow from "./BackGroundGlow"
+import BackGroundGlow from "../BackGroundGlow"
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 export default function LoginCard({
     callbackUrl,
@@ -11,7 +12,11 @@ export default function LoginCard({
 }) {
     return (
         <div className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
-            <div className="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/60 backdrop-blur-xl">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/60 backdrop-blur-xl">
 
                 {/* glow */}
                 <BackGroundGlow />
@@ -32,7 +37,7 @@ export default function LoginCard({
                         <div className="absolute inset-0 bg-linear-to-b from-zinc-950/40 via-transparent to-zinc-950/90" />
 
                         {/* Top Content */}
-                        <div className="relative z-10">
+                        <div className="relative  z-10">
                             <h2 className="text-4xl font-semibold text-white leading-tight">
                                 Build your
                                 <br />
@@ -136,7 +141,7 @@ export default function LoginCard({
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </div >
     )
 }

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import AllRecruitersForm from "./AllRecruitersForm"
 import ProgressLine from "./progressLine"
 
-export default function RecruiterForms() {
+export default function RecruiterForms({ user }: { user: any }) {
     const [count, setCount] = useState<number>(-1)
     const [isLoaded, setIsLoaded] = useState(false)
 
@@ -41,7 +41,7 @@ export default function RecruiterForms() {
 
             {/* Form — centered */}
             <div className="flex-1 w-full flex justify-center">
-                <AllRecruitersForm count={count} setCount={setCount} />
+                <AllRecruitersForm user={user} count={count} setCount={setCount} />
             </div>
         </div>
     )

@@ -14,13 +14,15 @@ export function JobHeader({ job }: { job: JobDetail }) {
     return (
         <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
-                <button
-                    onClick={() => router.back()}
-                    className="group cursor-pointer mb-6 flex items-center gap-2 text-sm text-zinc-500 hover:text-white transition"
-                >
-                    <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                    Back to Posted Jobs
-                </button>
+                <div className="w-full flex mt-2 justify-center sm:justify-start">
+                    <button
+                        onClick={() => router.back()}
+                        className="group cursor-pointer mb-6 flex items-center gap-2 text-sm text-zinc-500 hover:text-white transition"
+                    >
+                        <ArrowLeft className="w-4 h-4  transition-transform group-hover:-translate-x-1" />
+                        Back to Posted Jobs
+                    </button>
+                </div>
 
                 <div className="space-y-2">
                     <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
@@ -37,8 +39,8 @@ export function JobHeader({ job }: { job: JobDetail }) {
             </div>
 
             <div className="flex gap-3">
-                <button className="px-6 py-2.5 cursor-pointer rounded-full bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition active:scale-95">
-                    <Users className="w-5 h-5 text-black inline" /> <span>Applicants</span>
+                <button className="px-4 py-2.5 cursor-pointer rounded-full bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition active:scale-95">
+                    <Users className="w-5 h-5 text-black inline" /> <span className="text-zinc-700">Applicants</span>
                 </button>
             </div>
         </div>

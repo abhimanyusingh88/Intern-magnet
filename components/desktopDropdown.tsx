@@ -2,7 +2,7 @@
 
 import { ChevronDown, CreditCard, Settings, ShieldQuestion, User, TriangleAlert } from "lucide-react";
 import Link from "next/link";
-import LogOutButton from "./LogOutButton";
+import LogOutButton from "./utils/LogOutButton";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";

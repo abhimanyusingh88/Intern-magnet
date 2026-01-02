@@ -8,13 +8,13 @@ import { useQueryClient } from "@tanstack/react-query"
 import FieldEditModal from "../FieldEditModal"
 import ProfileAdditionalDetails from "./ProfileAdditional"
 import MainDetails from "../MainDetails"
-import ImageModal from "../ImageModal"
+import ImageModal from "../utils/ImageModal"
 import ProfileEditForm from "./ProfileEditForm"
 import ProfileIndicatorText from "./ProfileIndicatorText"
 
 import { updateProfile } from "@/app/actions/profile"
 import ProfileData from "@/lib/data/UserData"
-import { SpinnerBig } from "../SpinnerBig"
+import { SpinnerBig } from "../utils/SpinnerBig"
 
 export default function ProfileMain({ session }: { session: any }) {
     const { data: userData, isLoading } = ProfileData();

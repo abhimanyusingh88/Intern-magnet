@@ -6,7 +6,7 @@ import ChoiceForms from "./ChoiceForms";
 import { FormData } from "@/lib/types/types";
 import { recruiterHiring } from "@/app/actions/recruiterHiring";
 
-export default function AllRecruitersForm({ count, setCount }: { count: number, setCount: React.Dispatch<React.SetStateAction<number>> }) {
+export default function AllRecruitersForm({ count, setCount, user }: { count: number, setCount: React.Dispatch<React.SetStateAction<number>>, user: any }) {
     const initialFormData: FormData = {
         company_name: "",
         job_title: "",
@@ -100,7 +100,7 @@ export default function AllRecruitersForm({ count, setCount }: { count: number, 
         </p>
         <div>
             <form onSubmit={handleSubmit}>
-                <ChoiceForms count={count} saving={saving} setCount={setCount} formData={formData} setFormData={setFormData} />
+                <ChoiceForms count={count} user={user} saving={saving} setCount={setCount} formData={formData} setFormData={setFormData} />
             </form>
         </div>
     </div>;
