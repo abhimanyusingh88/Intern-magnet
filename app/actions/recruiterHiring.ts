@@ -41,6 +41,8 @@ export async function recruiterHiring(formData: FormData) {
                     key_responsibilities: formData.key_responsibilities,
                     good_to_have: formData.good_to_have,
                     what_we_offer: formData.what_we_offer,
+                    company_description: formData.company_description,
+                    website_link: formData.website_link,
                     user_id_recruiter: user.id,
                 },
             });

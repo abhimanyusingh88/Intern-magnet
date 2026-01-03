@@ -9,7 +9,8 @@ import {
     Clock,
     Users,
     Briefcase,
-    Edit
+    Edit,
+    Rocket
 } from "lucide-react";
 
 import { JobHeader } from "@/components/manage-job/JobHeader";
@@ -18,9 +19,13 @@ import { StatCard } from "@/components/manage-job/StatCard";
 import { Section } from "@/components/manage-job/Section";
 import { SidebarFinancials } from "@/components/manage-job/SidebarFinancials";
 import BackGroundGlow from "../BackGroundGlow";
+import EditForm from "./EditForm";
+import { useState } from "react";
+import BackButton from "../utils/BackButton";
 
 export default function ManageJobContent({ id }: { id: string }) {
     const { data: job, isLoading, isError, error } = useManageJobData(id);
+    const [open, setOpen] = useState<boolean>(false);
 
     if (isLoading) return <SpinnerBig />;
     if (isError) return <div className="p-10 text-red-500 text-center">Error: {(error as Error).message}</div>;
@@ -34,14 +39,18 @@ export default function ManageJobContent({ id }: { id: string }) {
     return (
         <main className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30">
             {/* <BackgroundDecoration /> */}
+            <BackButton />
             <BackGroundGlow />
+            {open && <EditForm job={job} setOpen={setOpen} />}
 
-            <div className="relative max-w-6xl mx-auto px-6 sm:px-10 pt-28 pb-20">
-                <div className="w-full font-sans flex-col gap-2 flex justify-center sm:text-3xl sm:pb-4 text-center mb-8">
-                    <p className="bg-linear-to-r font-sans from-indigo-500 via-pink-400 to-indigo-300 text-transparent bg-clip-text font-sans font-bold">Your complete editing area, modify your posting here with ease</p>
+            <div className="relative max-w-6xl mx-auto px-6 sm:px-10 pt-20 pb-20">
+                <div className="w-full font-sans flex-col gap-2 flex justify-center sm:text-3xl sm:pb-4 text-center mb-4">
+                    <div className="w-full justify-center flex gap-2"><p className="bg-linear-to-r font-sans from-indigo-500 to-pink-400 text-transparent bg-clip-text  font-bold">Your complete editing area, modify your posting here with ease</p>
+                        <Rocket className="text-indigo-500 h-8 w-8 sm:h-10 sm:w-10 animate-float" /></div>
+
                     <p className="text-xs sm:text-lg font-thin font-sans text-zinc-400">MANAGE, REVIEW, EDIT</p>
                 </div>
-                <div className="w-full flex sm:justify-end justify-center"><span className="text-zinc-500 text-sm font-sans mr-2">Edit Your job</span><Edit className="h-6 w-6 text-indigo-400  cursor-pointer" /></div>
+                <div className="w-full flex sm:justify-end justify-center"><span className="text-zinc-500 text-sm font-sans mr-2">Edit Your job</span><Edit onClick={() => setOpen((prev) => !prev)} className="h-6 w-6 text-indigo-400  cursor-pointer" /></div>
 
                 <JobHeader job={job} />
 
@@ -58,6 +67,9 @@ export default function ManageJobContent({ id }: { id: string }) {
                         </div>
 
                         <div className="space-y-6">
+                            <Section title="Company Description">
+                                <p className="text-zinc-300 leading-relaxed whitespace-pre-wrap">{job.company_description}</p>
+                            </Section>
                             <Section title="Job Description">
                                 <p className="text-zinc-300 leading-relaxed whitespace-pre-wrap">{job.job_description}</p>
                             </Section>
@@ -130,7 +142,7 @@ export default function ManageJobContent({ id }: { id: string }) {
                                                 </span>
                                                 <div className="space-y-1">
                                                     <p className="text-zinc-200">{q.question}</p>
-                                                    <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">{q.type} response</span>
+                                                    <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">{q.type.split("_").join(" / ")} response</span>
                                                 </div>
                                             </li>
                                         ))}

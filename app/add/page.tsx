@@ -41,8 +41,9 @@ export default async function AddPage() {
       "
         >
             <BackGroundGlow />
-            <div className="w-full flex justify-center mb-4">
+            <div className="w-full flex flex-col gap-2 items-center justify-center mb-4">
                 <p className=" text-[18px] sm:text-3xl font-bold bg-linear-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">Hello {userName || sessionName}, Welcome to our hiring platform</p>
+                <p className="text-xs sm:text-[14px] font-thin text-zinc-300">Make your hiring process easy and smooth</p>
             </div>
             {/* HERO / BANNER */}
             <RecruiterHeaderImage />

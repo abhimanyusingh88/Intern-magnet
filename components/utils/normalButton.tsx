@@ -75,7 +75,7 @@ export default function NormalButton({
 
     return (
         <button type={type} onClick={front ? handleClickFront : handleClickBack} className={classes} disabled={disabled}>
-            {saving ? <> <span>Creating...</span> <Loader2 className="h-4 w-4 animate-spin" /> </> : content}
+            {saving ? <> <span>{title === "Update Job" ? "Updating..." : "Creating..."}</span> <Loader2 className="h-4 w-4 animate-spin" /> </> : content}
         </button>
     );
 }

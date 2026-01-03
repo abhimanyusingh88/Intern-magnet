@@ -83,7 +83,7 @@ export default function HeroSlider() {
                             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white">
                                 {s.title}
                             </h2>
-                            <p className="mt-6 max-w-2xl text-lg md:text-xl text-zinc-100">
+                            <p className="mt-6 font-thin max-w-2xl text-lg md:text-xl text-zinc-100">
                                 {s.description}
                             </p>
                         </div>

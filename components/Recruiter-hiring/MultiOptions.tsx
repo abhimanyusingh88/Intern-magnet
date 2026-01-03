@@ -3,15 +3,7 @@
 import { Check } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-type MultiOptionsProps = {
-    label: string;
-    name: string;
-    required?: boolean;
-    placeholder?: string;
-    value: string;
-    onChange: (value: string) => void;
-    options: string[];
-};
+import { MultiOptionsProps } from "@/lib/types/types";
 
 export default function MultiOptions({
     label,
@@ -60,8 +52,8 @@ export default function MultiOptions({
             <div
                 onClick={() => setOpen(o => !o)}
                 className="min-h-[52px] w-full cursor-pointer p-2 flex flex-wrap gap-2 items-start
-transition-all duration-75 outline-none border border-indigo-400 rounded-2xl
-focus-within:border-r-pink-500 focus-within:border-l-pink-500"
+                    transition-all duration-75 outline-none border border-indigo-400 rounded-2xl
+                    not-[]:focus-within:border-r-pink-500 focus-within:border-l-pink-500"
 
             >
                 {selected.length === 0 && (

@@ -1,9 +1,10 @@
 
-import FormInput from "../utils/FormInput";
+import FormInput from "./FormInput";
 import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";
 import { AdditionalBenefits } from "./AdditionalBenefits";
+import FormTextArea from "../utils/FormTextArea";
 
 export default function JobDetailsRecruiter({
     count,
@@ -27,7 +28,9 @@ export default function JobDetailsRecruiter({
         formData.work_experience_max.trim() !== "" &&
         formData.salary_per_month_from.trim() !== "" &&
         formData.salary_per_month_to.trim() !== "" &&
-        formData.additional_benefits.trim() !== "";
+        formData.additional_benefits.trim() !== "" &&
+        formData.company_description.trim() !== "" &&
+        formData.website_link.trim() !== "";
 
     return (
         <div className="flex flex-col pb-4 gap-4 w-full">
@@ -40,6 +43,23 @@ export default function JobDetailsRecruiter({
                     required
                     value={formData.company_name}
                     onChange={(val) => updateField("company_name", val)}
+                />
+                <FormTextArea
+                    label="Company Description"
+                    name="company_description"
+                    placeholder="Company Description"
+                    required
+                    value={formData.company_description}
+                    onChange={(val) => updateField("company_description", val)}
+                />
+                <FormInput
+                    label="Website Link"
+                    hint="(eg. https://www.google.com, if not type NA)"
+                    name="website_link"
+                    placeholder="Website Link"
+                    required
+                    value={formData.website_link}
+                    onChange={(val) => updateField("website_link", val)}
                 />
 
                 <FormInput
@@ -106,15 +126,6 @@ export default function JobDetailsRecruiter({
                         />
                     </div>
                 </div>
-
-                {/* <FormInput
-                    label="Additional benefits"
-                    name="additional_benefits"
-                    placeholder="Add here"
-                    required
-                    value={formData.additional_benefits}
-                    onChange={(val) => updateField("additional_benefits", val)}
-                /> */}
                 <MultiOptions
                     label="Additional benefits"
                     name="additional_benefits"

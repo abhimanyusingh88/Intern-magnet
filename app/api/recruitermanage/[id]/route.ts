@@ -28,7 +28,7 @@ export async function GET(
                 screening_questions: true
             },
             orderBy: {
-                created_at: "desc", // 🔥 newest first
+                created_at: "desc",
             },
         });
 

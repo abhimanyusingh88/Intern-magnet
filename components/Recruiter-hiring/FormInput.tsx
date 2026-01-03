@@ -1,16 +1,7 @@
 "use client";
 
-type FormInputProps = {
-    label: string;
-    hint?: string;
-    name: string;
-    placeholder: string;
-    required?: boolean;
-    numeric?: boolean;
-    value?: string;
-    onChange?: (value: string) => void;
-};
-
+import { validateAndFormatDate } from "../utils/dateValidation";
+import { FormInputProps } from "@/lib/types/types";
 export default function FormInput({
     label,
     hint,
@@ -40,11 +31,20 @@ export default function FormInput({
                 onChange={
                     onChange
                         ? (e) => {
+                            let v = e.target.value;
+                            if (label === "Application Deadline") {
+                                const validatedValue = validateAndFormatDate(v, value);
+                                if (validatedValue !== null) {
+                                    onChange(validatedValue);
+                                }
+                                return;
+                            }
+
                             if (numeric) {
-                                const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                                const numericValue = v.replace(/[^0-9]/g, "");
                                 onChange(numericValue);
                             } else {
-                                onChange(e.target.value);
+                                onChange(v);
                             }
                         }
                         : numeric

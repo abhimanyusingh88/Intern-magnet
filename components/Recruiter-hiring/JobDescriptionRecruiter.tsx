@@ -1,7 +1,7 @@
 "use client";
 
 import FormTextArea from "../utils/FormTextArea";
-import FormInput from "../utils/FormInput";
+import FormInput from "./FormInput";
 import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
 import { educationalRequirements } from "./EducationalRequirements";
@@ -25,7 +25,7 @@ export default function JobDescriptionRecruiter({
 
     const isValid =
         formData.job_description.trim() !== "" &&
-        formData.application_deadline.trim() !== "" &&
+        formData.application_deadline.length === 10 &&
         formData.number_of_applications.trim() !== "" &&
         formData.educational_requirements.trim() !== "";
 
@@ -51,16 +51,6 @@ export default function JobDescriptionRecruiter({
                 value={formData.key_responsibilities}
                 onChange={(val) => updateField("key_responsibilities", val)}
             />
-            {/* <FormTextArea
-                label="Good to have"
-                name="good_to_have"
-                placeholder="Add here"
-                required
-                maxWords={1000}
-                hint="(max 4000 words)"
-                value={formData.good_to_have}
-                onChange={(val) => updateField("good_to_have", val)}
-            /> */}
             <MultiOptions
                 label="Good to have"
                 name="good_to_have"
@@ -84,7 +74,7 @@ export default function JobDescriptionRecruiter({
                 name="application_deadline"
                 placeholder="Application Deadline"
                 required
-                hint="(eg. 12/10/2025)"
+                hint="(Enter a valid date eg.12/10/2025)"
                 value={formData.application_deadline}
                 onChange={(val) => updateField("application_deadline", val)}
             />

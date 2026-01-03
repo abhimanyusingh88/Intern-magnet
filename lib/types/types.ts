@@ -76,6 +76,8 @@ export type FormData = {
     key_responsibilities: string;
     good_to_have: string;
     what_we_offer: string;
+    company_description: string;
+    website_link: string;
 };
 
 export interface ScreeningQuestion {
@@ -105,5 +107,26 @@ export interface JobDetail {
     good_to_have?: string;
     what_we_offer?: string;
     screening_questions: ScreeningQuestion[];
+    company_description?: string;
+    website_link?: string;
+    communication_preferences?: string;
 }
-
+export type FormInputProps = {
+    label: string;
+    hint?: string;
+    name?: string;
+    placeholder?: string;
+    required?: boolean;
+    numeric?: boolean;
+    value?: string;
+    onChange?: (value: string) => void;
+};
+export type MultiOptionsProps = {
+    label: string;
+    name: string;
+    required?: boolean;
+    placeholder?: string;
+    value: string;
+    onChange: (value: string) => void;
+    options: string[];
+};

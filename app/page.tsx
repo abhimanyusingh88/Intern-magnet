@@ -37,7 +37,7 @@ export default function HomePage() {
 
       </section>
       <div className="w-full flex justify-center">
-        <p className="text-zinc-300 text-xs sm:text-lg font-sans">Post and hunt at same place</p>
+        <p className="text-zinc-300 text-xs font-thin sm:text-lg font-sans">Post and hunt at same place</p>
       </div>
 
       {/* CTA */}

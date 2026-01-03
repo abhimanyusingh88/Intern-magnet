@@ -1,5 +1,5 @@
 
-import FormInput from "../utils/FormInput";
+import FormInput from "./FormInput";
 import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";

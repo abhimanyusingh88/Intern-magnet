@@ -2,18 +2,26 @@ import BackGroundGlow from "@/components/BackGroundGlow";
 import NetBg from "@/components/utils/netBg";
 import RecruiterForms from "@/components/Recruiter-hiring/recruiterForms";
 import { auth } from "@/lib/auth";
-import { Rocket } from "lucide-react";
+import { ArrowLeftCircle, Rocket } from "lucide-react";
+import { redirect } from "next/dist/server/api-utils";
+import BackButton from "@/components/utils/BackButton";
+// import { useRouter } from "next/navigation";
+// import { useRouter } from "next/router";
 
 export default async function InternshipPage() {
     const session = await auth();
     const user = session?.user?.name
+
+
     return (
         <main className="
       w-full bg-black
       flex flex-col
       px-6 sm:px-10 md:px-20 lg:px-36
+      relative
       pt-20 pb-10
     ">
+            <BackButton />
             <BackGroundGlow />
             <div className="relative flex flex-col items-center gap-3 text-center">
 
@@ -30,7 +38,7 @@ export default async function InternshipPage() {
                         Complete the details to proceed with the recruitment process
                     </h1>
 
-                    <Rocket size={28} className="text-indigo-400" />
+                    <Rocket className="text-indigo-400 animate-float h-8 w-8" />
                 </div>
 
                 <p className="text-sm text-white/60 max-w-xl">

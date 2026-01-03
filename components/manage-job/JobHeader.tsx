@@ -5,7 +5,8 @@ import {
     ArrowLeft,
     Briefcase,
     MapPin,
-    Users
+    Users,
+    Link
 } from "lucide-react";
 
 export function JobHeader({ job }: { job: JobDetail }) {
@@ -30,6 +31,20 @@ export function JobHeader({ job }: { job: JobDetail }) {
                     </h1>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-zinc-400 text-sm sm:text-base">
                         <span className="flex items-center gap-1.5"><Briefcase className="w-4 h-4" /> {job.company_name}</span>
+                        {job.website_link && (
+                            <a
+                                href={job.website_link.startsWith("http")
+                                    ? job.website_link
+                                    : `https://${job.website_link}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 text-indigo-400 hover:underline break-all"
+                            >
+                                <Link className="w-4 h-4" />
+                                {job.website_link}
+                            </a>
+                        )}
+
                         <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> {job.location}</span>
                         <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium">
                             {job.employment_type}

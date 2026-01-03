@@ -27,6 +27,8 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
         key_responsibilities: "",
         good_to_have: "",
         what_we_offer: "",
+        company_description: "",
+        website_link: ""
     };
 
     const [formData, setFormData] = useState<FormData>(initialFormData);

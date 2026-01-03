@@ -4,7 +4,7 @@ type FormTextAreaProps = {
     label: string;
     hint?: string;
     name: string;
-    placeholder: string;
+    placeholder?: string;
     required?: boolean;
     maxWords?: number;
     value: string;
@@ -41,7 +41,7 @@ export default function FormTextArea({
 
     return (
         <div className="flex flex-col gap-2">
-            <p className="font-sans font-semibold">
+            <p className="font-thin">
                 {label}
                 {hint && <span className="text-zinc-500"> {hint}</span>}
             </p>
