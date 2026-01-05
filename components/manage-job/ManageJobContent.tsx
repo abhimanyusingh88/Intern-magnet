@@ -21,6 +21,9 @@ import {
     Edit,
     Rocket
 } from "lucide-react";
+import { BulletList } from "../utils/BulletList";
+
+
 
 export default function ManageJobContent({ id }: { id: string }) {
     const { data: job, isLoading, isError, error } = useManageJobData(id);
@@ -49,7 +52,8 @@ export default function ManageJobContent({ id }: { id: string }) {
 
                     <p className="text-xs sm:text-lg font-thin font-sans text-zinc-400">MANAGE, REVIEW, EDIT</p>
                 </div>
-                <div className="w-full flex sm:justify-end justify-center"><span className="text-zinc-500 text-sm font-sans mr-2">Edit Your job</span><Edit onClick={() => setOpen((prev) => !prev)} className="h-6 w-6 text-indigo-400  cursor-pointer" /></div>
+                {/* edit button */}
+                <div className="w-full flex sm:justify-end justify-center"><span className="text-zinc-500 text-sm font-sans mr-2 hover:text-zinc-200">Edit Your job</span><Edit onClick={() => setOpen((prev) => !prev)} className="h-6 w-6 text-indigo-400 hover:text-indigo-300 transition-all duration-100 ease-in-out transform-gpu  cursor-pointer" /></div>
 
                 <JobHeader job={job} />
 
@@ -75,7 +79,7 @@ export default function ManageJobContent({ id }: { id: string }) {
 
                             {job.key_responsibilities && (
                                 <Section title="Key Responsibilities">
-                                    <p className="text-zinc-300 leading-relaxed whitespace-pre-wrap">{job.key_responsibilities}</p>
+                                    <BulletList text={job.key_responsibilities} />
                                 </Section>
                             )}
 
@@ -96,9 +100,30 @@ export default function ManageJobContent({ id }: { id: string }) {
 
                             {job.what_we_offer && (
                                 <Section title="What We Offer">
-                                    <p className="text-zinc-300 leading-relaxed whitespace-pre-wrap">{job.what_we_offer}</p>
+                                    <BulletList text={job.what_we_offer} />
                                 </Section>
                             )}
+                            {
+                                job.why_join && (
+                                    <Section title="Why Join Us">
+                                        <BulletList text={job.why_join} />
+                                    </Section>
+                                )
+                            }
+                            {
+                                job.required_qualifications && (
+                                    <Section title="Required Qualifications">
+                                        <BulletList text={job.required_qualifications} />
+                                    </Section>
+                                )
+                            }
+                            {
+                                job.preferred_qualifications && (
+                                    <Section title="Preferred Qualifications">
+                                        <BulletList text={job.preferred_qualifications} />
+                                    </Section>
+                                )
+                            }
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <Section title="Educational Requirements" icon={<GraduationCap className="w-5 h-5 text-indigo-400" />}>

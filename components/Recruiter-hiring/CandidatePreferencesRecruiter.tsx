@@ -5,6 +5,7 @@ import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";
 import { skills } from "./Skills";
 import LoginRequiredPage from "../utils/LoginReminderPage";
+import FormTextArea from "../utils/FormTextArea";
 export default function CandidatePreferencesRecruiter({
     count,
     setCount,
@@ -54,15 +55,30 @@ export default function CandidatePreferencesRecruiter({
                     value={formData.primary_skills}
                     onChange={(val) => updateField("primary_skills", val)}
                 />
-
-                {/* <FormInput
-                    label="Employment Type"
-                    name="employment_type"
-                    placeholder="(eg. Full-time, Part-time, Internship)"
+                <FormTextArea
+                    label="Why join us?"
+                    name="why_join"
+                    placeholder="Add here"
                     required
-                    value={formData.employment_type}
-                    onChange={(val) => updateField("employment_type", val)}
-                /> */}
+                    value={formData.why_join}
+                    onChange={(val) => updateField("why_join", val)}
+                />
+                <FormTextArea
+                    label="Required Qualifications"
+                    name="required_qualifications"
+                    placeholder="Add here"
+                    required
+                    value={formData.required_qualifications}
+                    onChange={(val) => updateField("required_qualifications", val)}
+                />
+                <FormTextArea
+                    label="Preferred Qualifications"
+                    name="preferred_qualifications"
+                    placeholder="Add here"
+                    required
+                    value={formData.preferred_qualifications}
+                    onChange={(val) => updateField("preferred_qualifications", val)}
+                />
                 <MultiOptions
                     label="Employment Type"
                     name="employment_type"

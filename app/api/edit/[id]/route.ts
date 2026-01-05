@@ -49,6 +49,9 @@ export async function PUT(
                 what_we_offer: body.what_we_offer,
                 company_description: body.company_description,
                 website_link: body.website_link,
+                why_join: body.why_join,
+                required_qualifications: body.required_qualifications,
+                preferred_qualifications: body.preferred_qualifications,
             },
         });
 

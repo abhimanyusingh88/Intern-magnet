@@ -31,7 +31,11 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
         what_we_offer: "",
         company_description: "",
         website_link: "",
-        company_logo: ""
+        company_logo: "",
+        why_join: "",
+        required_qualifications: "",
+        preferred_qualifications: ""
+
     };
 
     const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -43,7 +47,11 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
         const savedData = sessionStorage.getItem("recruiterFormData");
         if (savedData) {
             try {
-                setFormData(JSON.parse(savedData));
+                const parsedData = JSON.parse(savedData);
+                setFormData(prev => ({
+                    ...prev,
+                    ...parsedData
+                }));
             } catch (error) {
                 console.error("Error parsing saved form data:", error);
             }

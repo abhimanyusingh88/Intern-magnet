@@ -85,7 +85,7 @@ export default function PostJobIndicator() {
                         <motion.div
                             key={i}
                             whileHover={{ y: -5, backgroundColor: "rgba(39, 39, 42, 0.9)" }}
-                            className="flex-1 bg-zinc-800/40 border border-zinc-700/50 rounded-2xl p-4 flex flex-col items-center gap-2 blur-[1px] transition-colors"
+                            className="flex-1 bg-zinc-800/40 border border-zinc-700/50 rounded-2xl p-4 flex flex-col items-center gap-2 blur-[3.5px] transition-colors"
                         >
                             <span className="text-2xl">{stat.icon}</span>
                             <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">{stat.label}</span>

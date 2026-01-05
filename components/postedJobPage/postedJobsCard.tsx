@@ -10,7 +10,7 @@ export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob
         <main className="relative group">
             {/* <BackGroundGlow /> */}
 
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-linear-to-br from-zinc-900 via-zinc-900 to-zinc-950 p-6 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.9)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,1)] hover:border-white/20">
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-linear-to-br from-zinc-900 via-zinc-900 to-zinc-950 p-4 sm:p-6 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.9)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,1)] hover:border-white/20">
 
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-indigo-500/15 to-transparent" />
                 <div onClick={
@@ -46,16 +46,16 @@ export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob
                         Posted {new Date(job.created_at).toLocaleDateString()}
                     </span>
 
-                    <div className="flex items-center gap-2">
-                        <span className="inline-flex text-red-600 border border-red-600 px-2 py-1 rounded-lg text-[11px] sm:text-xs shrink-0">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        <span className="inline-flex text-red-600 border border-red-600 px-2 py-1 rounded-lg text-[10px] sm:text-xs shrink-0">
                             Deadline: {job.application_deadline}
                         </span>
 
                         <Link
                             href={`/postedjobs/manage/${job.id}`}
-                            className="ml-auto font-medium border hover:scale-105 cursor-pointer border-indigo-400 rounded-full hover:bg-zinc-800 py-1 pr-1 pl-2 text-white/70 transition group-hover:text-white"
+                            className="text-[10px] sm:text-xs font-medium border hover:scale-105 cursor-pointer border-indigo-400 rounded-full hover:bg-zinc-800 py-1.5 px-3 sm:px-4 text-white/70 transition group-hover:text-white inline-flex items-center gap-1"
                         >
-                            View <ChevronRight className="inline" size={16} />
+                            Manage Your Jobs <ChevronRight size={14} className="sm:w-4 sm:h-4" />
                         </Link>
                     </div>
                 </div>

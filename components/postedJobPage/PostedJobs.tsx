@@ -39,8 +39,8 @@ export default function PostedJobs() {
             <div className="space-y-4">
 
                 {optimisticJobs && Array.isArray(optimisticJobs) && optimisticJobs.map((job: any) => (
-                    <Suspense fallback={<SpinnerMini />}>
-                        <PostedJobsCard deleteJob={deleteJob} key={job.id} job={job} />
+                    <Suspense key={job.id} fallback={<SpinnerMini />}>
+                        <PostedJobsCard deleteJob={deleteJob} job={job} />
                     </Suspense>
                 ))}
                 <div className="w-full flex justify-center sm:justify-end">

@@ -13,6 +13,6 @@ export default function PostedJobsPage() {
       ">
     <BackGroundGlow />
     <BackButton />
-    <PostedJobs key={Date.now()} />
+    <PostedJobs />
   </main>
 }

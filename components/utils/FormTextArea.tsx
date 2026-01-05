@@ -7,7 +7,7 @@ type FormTextAreaProps = {
     placeholder?: string;
     required?: boolean;
     maxWords?: number;
-    value: string;
+    value?: string;
     onChange: (val: string) => void;
 };
 
@@ -51,7 +51,7 @@ export default function FormTextArea({
                 placeholder={placeholder}
                 required={required}
                 rows={5}
-                value={value}
+                value={safeValue}
                 onChange={(e) => handleChange(e.target.value)}
                 className="
                     p-3

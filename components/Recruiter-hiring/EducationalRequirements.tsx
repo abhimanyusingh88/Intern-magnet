@@ -9,7 +9,8 @@ export const educationalRequirements = [
     "PhD scholar",
     "Any graduate",
     "Any undergraduate",
-
+    "2026 passouts only",
+    "2025/2026/2027/2028 batch only",
     "Bachelor's in Computer Science",
     "Bachelor's in Information Technology",
     "Bachelor's in Software Engineering",

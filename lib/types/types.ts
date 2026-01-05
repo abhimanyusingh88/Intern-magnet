@@ -79,6 +79,9 @@ export type FormData = {
     company_description: string;
     website_link: string;
     company_logo?: string;
+    why_join?: string;
+    required_qualifications?: string;
+    preferred_qualifications?: string;
 };
 
 export interface ScreeningQuestion {
@@ -112,6 +115,10 @@ export interface JobDetail {
     website_link?: string;
     communication_preferences?: string;
     company_logo?: string;
+    why_join?: string;
+    required_qualifications?: string;
+    preferred_qualifications?: string;
+
 }
 export type FormInputProps = {
     label: string;

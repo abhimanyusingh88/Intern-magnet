@@ -36,7 +36,7 @@ export default function RecruiterForms({ user }: { user: any }) {
             "
         >
             {/* Progress line — shifted right on big screens */}
-            <div className="lg:ml-20 shrink-0">
+            <div className="lg:ml-20 shrink-0 lg:sticky lg:top-24 h-fit">
 
                 <ProgressLine count={count} />
             </div>

@@ -44,6 +44,9 @@ export async function recruiterHiring(formData: FormData) {
                     company_description: formData.company_description,
                     website_link: formData.website_link,
                     company_logo: formData.company_logo,
+                    why_join: formData.why_join,
+                    required_qualifications: formData.required_qualifications,
+                    preferred_qualifications: formData.preferred_qualifications,
                     user_id_recruiter: user.id,
                 },
             });

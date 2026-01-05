@@ -43,7 +43,10 @@ export default function EditForm({ job, setOpen }: editJOb) {
         good_to_have: job.good_to_have || "",
         what_we_offer: job.what_we_offer || "",
         company_description: job.company_description || "",
-        website_link: job.website_link || ""
+        website_link: job.website_link || "",
+        why_join: job.why_join || "",
+        required_qualifications: job.required_qualifications || "",
+        preferred_qualifications: job.preferred_qualifications || ""
     };
     const updateField = (field: keyof FormData, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -154,6 +157,24 @@ export default function EditForm({ job, setOpen }: editJOb) {
                         value={formData.primary_skills}
                         onChange={(val) => updateField("primary_skills", val)}
                     />
+                    <FormTextArea
+                        label="Why join us?"
+                        name="why_join"
+                        value={formData.why_join}
+                        onChange={(val) => updateField("why_join", val)}
+                    />
+                    <FormTextArea
+                        label="Required Qualifications"
+                        name="required_qualifications"
+                        value={formData.required_qualifications}
+                        onChange={(val) => updateField("required_qualifications", val)}
+                    />
+                    <FormTextArea
+                        label="Preferred Qualifications"
+                        name="preferred_qualifications"
+                        value={formData.preferred_qualifications}
+                        onChange={(val) => updateField("preferred_qualifications", val)}
+                    />
 
                     <FormInput
                         label="Employment Type"
@@ -232,7 +253,7 @@ export default function EditForm({ job, setOpen }: editJOb) {
                         value={formData.communication_preferences}
                         onChange={(val) => updateField("communication_preferences", val)}
                     />
-                    <div className="w-full flex justify-end">
+                    <div className="w-full flex  justify-end">
                         <NormalButton
                             title="Update Job"
                             type="submit"
