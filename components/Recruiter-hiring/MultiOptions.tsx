@@ -11,6 +11,8 @@ export default function MultiOptions({
     required = false,
     placeholder = "Select options",
     value,
+    hint,
+    single = false,
     onChange,
     options,
 }: MultiOptionsProps) {
@@ -25,7 +27,7 @@ export default function MultiOptions({
     const toggle = (opt: string) => {
         const next = selected.includes(opt)
             ? selected.filter(v => v !== opt)
-            : selected.length < 15 ? [...selected, opt] : selected;
+            : (single ? selected.length < 1 : selected.length < 15) ? [...selected, opt] : selected;
 
         onChange(next.join(","));
     };
@@ -46,7 +48,13 @@ export default function MultiOptions({
 
     return (
         <div className="flex flex-col gap-2 relative max-w-md" ref={ref}>
-            <p className="font-sans">{label}</p>
+
+            <div className="flex items-baseline gap-1">
+                <p className="font-sans leading-none">{label}</p>
+
+            </div>
+
+
 
             {/* Visible input area */}
             <div

@@ -8,6 +8,7 @@ import {
     Users,
     Link
 } from "lucide-react";
+import Image from "next/image";
 
 export function JobHeader({ job }: { job: JobDetail }) {
     const router = useRouter();
@@ -25,30 +26,45 @@ export function JobHeader({ job }: { job: JobDetail }) {
                     </button>
                 </div>
 
-                <div className="space-y-2">
-                    <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
-                        {job.job_title}
-                    </h1>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-zinc-400 text-sm sm:text-base">
-                        <span className="flex items-center gap-1.5"><Briefcase className="w-4 h-4" /> {job.company_name}</span>
-                        {job.website_link && (
-                            <a
-                                href={job.website_link.startsWith("http")
-                                    ? job.website_link
-                                    : `https://${job.website_link}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1.5 text-indigo-400 hover:underline break-all"
-                            >
-                                <Link className="w-4 h-4" />
-                                {job.website_link}
-                            </a>
-                        )}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6">
+                    {job.company_logo && (
+                        <div className="relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-3xl overflow-hidden border border-white/10 bg-zinc-900/40 backdrop-blur-xl shadow-2xl p-2.5 shadow-indigo-500/5">
+                            <Image
+                                src={job.company_logo}
+                                alt={`${job.company_name} logo`}
+                                fill
+                                unoptimized
+                                className="object-contain"
+                            />
+                        </div>
+                    )}
+                    <div className="space-y-2">
+                        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
+                            {job.job_title}
+                        </h1>
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-zinc-400 text-sm sm:text-base">
+                            <span className="flex items-center gap-1.5 font-medium text-zinc-300">
+                                <Briefcase className="w-4 h-4 text-indigo-400" /> {job.company_name}
+                            </span>
+                            {job.website_link && (
+                                <a
+                                    href={job.website_link.startsWith("http")
+                                        ? job.website_link
+                                        : `https://${job.website_link}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 transition-colors break-all"
+                                >
+                                    <Link className="w-4 h-4" />
+                                    {job.website_link}
+                                </a>
+                            )}
 
-                        <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> {job.location}</span>
-                        <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium">
-                            {job.employment_type}
-                        </span>
+                            <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-zinc-500" /> {job.location}</span>
+                            <span className="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+                                {job.employment_type}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

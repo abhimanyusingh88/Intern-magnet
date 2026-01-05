@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import ChoiceForms from "./ChoiceForms";
 import { FormData } from "@/lib/types/types";
 import { recruiterHiring } from "@/app/actions/recruiterHiring";
+import CompanyLogo from "./companyLogo";
+
 
 export default function AllRecruitersForm({ count, setCount, user }: { count: number, setCount: React.Dispatch<React.SetStateAction<number>>, user: any }) {
     const initialFormData: FormData = {
@@ -28,7 +30,8 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
         good_to_have: "",
         what_we_offer: "",
         company_description: "",
-        website_link: ""
+        website_link: "",
+        company_logo: ""
     };
 
     const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -77,9 +80,6 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
             // Reset state
             setFormData(initialFormData);
             setCount(-1);
-
-            alert("Job posted successfully!😀");
-
             // Navigate to posted jobs
             router.push("/postedjobs");
         } catch (error) {
@@ -100,6 +100,17 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
                 Company/Business
             </span>
         </p>
+
+        {/* Company Logo Upload */}
+        <div className="w-fit">
+            <CompanyLogo
+                currentLogo={formData.company_logo}
+                onUploadSuccess={(url: string) => setFormData(prev => ({ ...prev, company_logo: url }))}
+            />
+        </div>
+
+
+
         <div>
             <form onSubmit={handleSubmit}>
                 <ChoiceForms count={count} user={user} saving={saving} setCount={setCount} formData={formData} setFormData={setFormData} />
@@ -107,3 +118,4 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
         </div>
     </div>;
 }
+

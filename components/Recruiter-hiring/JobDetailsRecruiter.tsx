@@ -28,7 +28,6 @@ export default function JobDetailsRecruiter({
         formData.work_experience_max.trim() !== "" &&
         formData.salary_per_month_from.trim() !== "" &&
         formData.salary_per_month_to.trim() !== "" &&
-        formData.additional_benefits.trim() !== "" &&
         formData.company_description.trim() !== "" &&
         formData.website_link.trim() !== "";
 

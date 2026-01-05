@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import AllRecruitersForm from "./AllRecruitersForm"
 import ProgressLine from "./progressLine"
+import CompanyLogo from "./companyLogo"
 
 export default function RecruiterForms({ user }: { user: any }) {
     const [count, setCount] = useState<number>(-1)
@@ -36,6 +37,7 @@ export default function RecruiterForms({ user }: { user: any }) {
         >
             {/* Progress line — shifted right on big screens */}
             <div className="lg:ml-20 shrink-0">
+
                 <ProgressLine count={count} />
             </div>
 

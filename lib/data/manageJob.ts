@@ -12,7 +12,10 @@ export const getManageJobQueryOptions = (id: string, baseUrl?: string, cookieStr
         // On server, we need the full URL. On client, we use relative.
         const url = `${baseUrl || ""}/api/recruitermanage/${id}`;
 
-        const res = await fetch(url, { headers });
+        const res = await fetch(url, {
+            headers
+        });
+
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({}));
             throw new Error(errorData.error || `Failed to fetch job: ${res.status}`);

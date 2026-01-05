@@ -1,25 +1,24 @@
 "use client";
 
 import { FormData, JobDetail } from "@/lib/types/types";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
 import FormInput from "../Recruiter-hiring/FormInput";
 import MultiOptions from "../Recruiter-hiring/MultiOptions";
 import { AdditionalBenefits } from "../Recruiter-hiring/AdditionalBenefits";
 import FormTextArea from "../utils/FormTextArea";
 import { educationalRequirements } from "../Recruiter-hiring/EducationalRequirements";
 import { skills } from "../Recruiter-hiring/Skills";
-import { Cross, CrossIcon, X } from "lucide-react";
+import { X } from "lucide-react";
 import NormalButton from "../utils/normalButton";
-import { recruiterHiring } from "@/app/actions/recruiterHiring";
-import { EditRecruiterJob } from "@/app/actions/editRecruiterJob";
-import { useRouter } from "next/navigation";
+
 
 type editJOb = {
     job: JobDetail,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 export default function EditForm({ job, setOpen }: editJOb) {
-    const router = useRouter();
     const initialFormData: FormData = {
         company_name: job.company_name,
         job_title: job.job_title,
@@ -51,6 +50,8 @@ export default function EditForm({ job, setOpen }: editJOb) {
     };
     const [formData, setFormData] = useState<FormData>(initialFormData);
     const [saving, setSaving] = useState(false);
+    const queryClient = useQueryClient();
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -58,10 +59,25 @@ export default function EditForm({ job, setOpen }: editJOb) {
 
         try {
             setSaving(true);
-            // Call the server action manually with our state data
-            await EditRecruiterJob(formData, Number(job.id));
+            const res = await fetch(`/api/edit/${job.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.error);
+            }
             alert("Job updated successfully!😀");
+
+            // Invalidate queries to refresh data instantly without heavy router.refresh()
+            queryClient.invalidateQueries({ queryKey: ["manageJob", job.id] });
+            queryClient.invalidateQueries({ queryKey: ["postedJobs"] });
+
             setOpen(false);
+
         } catch (error) {
             console.error("Submission failed:", error);
             alert("Failed to submit job post. Please try again.");

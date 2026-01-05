@@ -43,6 +43,7 @@ export async function recruiterHiring(formData: FormData) {
                     what_we_offer: formData.what_we_offer,
                     company_description: formData.company_description,
                     website_link: formData.website_link,
+                    company_logo: formData.company_logo,
                     user_id_recruiter: user.id,
                 },
             });

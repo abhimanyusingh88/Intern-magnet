@@ -26,8 +26,7 @@ export default function JobDescriptionRecruiter({
     const isValid =
         formData.job_description.trim() !== "" &&
         formData.application_deadline.length === 10 &&
-        formData.number_of_applications.trim() !== "" &&
-        formData.educational_requirements.trim() !== "";
+        formData.number_of_applications.trim() !== ""
 
     return (
         <div className="flex flex-col gap-2">

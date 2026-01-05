@@ -20,7 +20,7 @@ export function SidebarFinancials({ job }: { job: JobDetail }) {
                     </div>
                 </div>
 
-                {benefits.length > 0 && (
+                {benefits.length > 0 ? (
                     <div className="pt-6 border-t border-white/5">
                         <h4 className="text-sm font-medium text-zinc-400 mb-3">Additional Benefits</h4>
                         <div className="flex flex-wrap gap-2">
@@ -31,7 +31,7 @@ export function SidebarFinancials({ job }: { job: JobDetail }) {
                             ))}
                         </div>
                     </div>
-                )}
+                ) : (<p className="text-zinc-400  italic ">Not Specified</p>)}
 
                 <div className="pt-6">
                     <button className="w-full cursor-pointer py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/20 active:scale-95">

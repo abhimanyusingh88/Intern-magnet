@@ -1,6 +1,15 @@
 "use client"
 import useManageJobData from "@/lib/data/manageJob";
 import { SpinnerBig } from "@/components/utils/SpinnerBig";
+import { JobHeader } from "@/components/manage-job/JobHeader";
+import { ManagementBanner } from "@/components/manage-job/ManagementBanner";
+import { StatCard } from "@/components/manage-job/StatCard";
+import { Section } from "@/components/manage-job/Section";
+import { SidebarFinancials } from "@/components/manage-job/SidebarFinancials";
+import BackGroundGlow from "../BackGroundGlow";
+import EditForm from "./EditForm";
+import { useState } from "react";
+import BackButton from "../utils/BackButton";
 import {
     Calendar,
     GraduationCap,
@@ -12,16 +21,6 @@ import {
     Edit,
     Rocket
 } from "lucide-react";
-
-import { JobHeader } from "@/components/manage-job/JobHeader";
-import { ManagementBanner } from "@/components/manage-job/ManagementBanner";
-import { StatCard } from "@/components/manage-job/StatCard";
-import { Section } from "@/components/manage-job/Section";
-import { SidebarFinancials } from "@/components/manage-job/SidebarFinancials";
-import BackGroundGlow from "../BackGroundGlow";
-import EditForm from "./EditForm";
-import { useState } from "react";
-import BackButton from "../utils/BackButton";
 
 export default function ManageJobContent({ id }: { id: string }) {
     const { data: job, isLoading, isError, error } = useManageJobData(id);
@@ -119,14 +118,14 @@ export default function ManageJobContent({ id }: { id: string }) {
                                     icon={<Sparkles className="w-5 h-5 text-pink-400" />}
                                 >
                                     <div className="flex flex-wrap gap-2">
-                                        {job.primary_skills.split(",").map((skill: string) => (
+                                        {job.primary_skills ? job.primary_skills.split(",").map((skill: string) => (
                                             <p
                                                 key={skill.trim()}
                                                 className="bg-zinc-800 px-3 py-1 rounded-xl text-xs"
                                             >
                                                 {skill.trim()}
                                             </p>
-                                        ))}
+                                        )) : <p className="text-zinc-400  italic ">Not Specified</p>}
                                     </div>
                                 </Section>
 

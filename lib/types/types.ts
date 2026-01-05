@@ -78,6 +78,7 @@ export type FormData = {
     what_we_offer: string;
     company_description: string;
     website_link: string;
+    company_logo?: string;
 };
 
 export interface ScreeningQuestion {
@@ -110,6 +111,7 @@ export interface JobDetail {
     company_description?: string;
     website_link?: string;
     communication_preferences?: string;
+    company_logo?: string;
 }
 export type FormInputProps = {
     label: string;
@@ -129,4 +131,6 @@ export type MultiOptionsProps = {
     value: string;
     onChange: (value: string) => void;
     options: string[];
+    single?: boolean;
+    hint?: string;
 };

@@ -1,5 +1,6 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
 import PostedJobs from "@/components/postedJobPage/PostedJobs";
+import BackButton from "@/components/utils/BackButton";
 
 export default function PostedJobsPage() {
   return <main className="
@@ -11,6 +12,7 @@ export default function PostedJobsPage() {
         flex-wrap gap-4
       ">
     <BackGroundGlow />
-    <PostedJobs />
+    <BackButton />
+    <PostedJobs key={Date.now()} />
   </main>
 }

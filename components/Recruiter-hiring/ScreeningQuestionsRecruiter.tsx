@@ -23,13 +23,14 @@ export default function ScreeningQuestionsRecruiter({
         setFormData(prev => ({ ...prev, screening_questions: newRows }));
     };
 
-    const isValid = rows.some(row => row.question.trim() !== "");
-
     return (
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-3 w-full">
             {/* Header */}
             <p className="font-sans font-semibold text-lg">
                 Screening questions
+            </p>
+            <p className="font-sans font-thin text-zinc-400">
+                Review carefully before submitting as you wont be able to edit screening questions after submission
             </p>
 
             {/* Rows */}
@@ -100,7 +101,7 @@ export default function ScreeningQuestionsRecruiter({
                     front={true}
                     count={count}
                     setCount={setCount}
-                    disabled={!isValid}
+
                 />
             </div>
 

@@ -81,6 +81,7 @@ model RecruiterHiring {
   what_we_offer             String?
   company_description       String?
   website_link              String?
+  company_logo              String?
   user                      User                @relation(fields: [user_id_recruiter], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
 

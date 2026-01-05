@@ -75,7 +75,7 @@ export default function HeroSlider() {
             >
                 {extended.map((s, i) => (
                     <div key={i} className="relative h-full w-full shrink-0">
-                        <Image src={s.image} alt={s.title} fill className="object-cover" />
+                        <Image src={s.image} loading="eager" alt={s.title} fill className="object-cover" />
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 to-black/40" />
 

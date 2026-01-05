@@ -4,8 +4,9 @@ import PostedJobsData from "@/lib/data/postedJobsData"
 import PostedJobsCard from "./postedJobsCard";
 import { SpinnerBig } from "../utils/SpinnerBig";
 import NormalButton from "../utils/normalButton";
-import { useOptimistic } from "react";
+import { Suspense, useOptimistic } from "react";
 import PostJobIndicator from "../utils/postJobIndicator";
+import { SpinnerMini } from "../utils/SpinnerMini";
 
 export default function PostedJobs() {
     const { data, isLoading, isError, error } = PostedJobsData();
@@ -38,9 +39,11 @@ export default function PostedJobs() {
             <div className="space-y-4">
 
                 {optimisticJobs && Array.isArray(optimisticJobs) && optimisticJobs.map((job: any) => (
-                    <PostedJobsCard deleteJob={deleteJob} key={job.id} job={job} />
+                    <Suspense fallback={<SpinnerMini />}>
+                        <PostedJobsCard deleteJob={deleteJob} key={job.id} job={job} />
+                    </Suspense>
                 ))}
-                <div className="w-full flex justify-end">
+                <div className="w-full flex justify-center sm:justify-end">
                     <NormalButton
                         title="Post New Job"
                         type="button"

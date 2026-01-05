@@ -3,7 +3,6 @@ import FormInput from "./FormInput";
 import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";
-import Skills from "../profile-sections/Skills";
 import { skills } from "./Skills";
 import LoginRequiredPage from "../utils/LoginReminderPage";
 export default function CandidatePreferencesRecruiter({
@@ -19,12 +18,23 @@ export default function CandidatePreferencesRecruiter({
     user: any
     setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }) {
+    const employmentTypes = [
+        "Full-time",
+        "Part-time",
+        "Internship",
+        "Contract",
+        "Freelance",
+        "Seasonal",
+        "Temporary",
+        "Apprenticeship",
+        "Co-op",
+        "Other"
+    ];
     const updateField = (field: keyof FormData, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
     const isValid =
-        formData.primary_skills.trim() !== "" &&
         formData.employment_type.trim() !== "" &&
         formData.location.trim() !== "";
 
@@ -37,15 +47,6 @@ export default function CandidatePreferencesRecruiter({
 
         <div className="flex flex-col pb-4 gap-4 w-full">
             <div className="flex flex-col gap-4 w-full">
-
-                {/* <FormInput
-                    label="Primary skills"
-                    name="primary_skills"
-                    placeholder="(eg. Python, Java, C++)"
-                    required
-                    value={formData.primary_skills}
-                    onChange={(val) => updateField("primary_skills", val)}
-                /> */}
                 <MultiOptions
                     label="Primary Skills"
                     name="primary_skills"
@@ -54,12 +55,22 @@ export default function CandidatePreferencesRecruiter({
                     onChange={(val) => updateField("primary_skills", val)}
                 />
 
-                <FormInput
+                {/* <FormInput
                     label="Employment Type"
                     name="employment_type"
                     placeholder="(eg. Full-time, Part-time, Internship)"
                     required
                     value={formData.employment_type}
+                    onChange={(val) => updateField("employment_type", val)}
+                /> */}
+                <MultiOptions
+                    label="Employment Type"
+                    name="employment_type"
+                    hint="Select only one option"
+                    options={employmentTypes}
+                    value={formData.employment_type}
+                    required={true}
+                    single={true}
                     onChange={(val) => updateField("employment_type", val)}
                 />
 
