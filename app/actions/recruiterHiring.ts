@@ -9,7 +9,6 @@ export async function recruiterHiring(formData: FormData) {
     if (!session?.user?.email) {
         throw new Error("Unauthorized: You must be logged in to post a job.");
     }
-
     try {
         // Find the user ID from the email
         const user = await prisma.user.findUnique({
@@ -19,37 +18,75 @@ export async function recruiterHiring(formData: FormData) {
             throw new Error("User not found.");
         }
 
-        // Create the recruiter hiring record and its screening questions in a transaction
+        // Create or update the recruiter hiring record and its screening questions in a transaction
         const result = await prisma.$transaction(async (tx) => {
-            const hiringRecord = await tx.recruiterHiring.create({
-                data: {
-                    company_name: formData.company_name,
-                    job_title: formData.job_title,
-                    work_experience_min: BigInt(formData.work_experience_min || 0),
-                    work_experience_max: BigInt(formData.work_experience_max || 0),
-                    salary_per_month_from: BigInt(formData.salary_per_month_from || 0),
-                    salary_per_month_to: BigInt(formData.salary_per_month_to || 0),
-                    additional_benefits: formData.additional_benefits,
-                    primary_skills: formData.primary_skills,
-                    employment_type: formData.employment_type,
-                    location: formData.location,
-                    job_description: formData.job_description,
-                    application_deadline: formData.application_deadline,
-                    number_of_applications: BigInt(formData.number_of_applications || 0),
-                    educational_requirements: formData.educational_requirements,
-                    communication_preferences: formData.communication_preferences,
-                    key_responsibilities: formData.key_responsibilities,
-                    good_to_have: formData.good_to_have,
-                    what_we_offer: formData.what_we_offer,
-                    company_description: formData.company_description,
-                    website_link: formData.website_link,
-                    company_logo: formData.company_logo,
-                    why_join: formData.why_join,
-                    required_qualifications: formData.required_qualifications,
-                    preferred_qualifications: formData.preferred_qualifications,
-                    user_id_recruiter: user.id,
-                },
-            });
+            let hiringRecord;
+            const commonData = {
+                company_name: formData.company_name,
+                job_title: formData.job_title,
+                work_experience_min: BigInt(formData.work_experience_min || 0),
+                work_experience_max: BigInt(formData.work_experience_max || 0),
+                salary_per_month_from: BigInt(formData.salary_per_month_from || 0),
+                salary_per_month_to: BigInt(formData.salary_per_month_to || 0),
+                additional_benefits: formData.additional_benefits,
+                primary_skills: formData.primary_skills,
+                employment_type: formData.employment_type,
+                location: formData.location,
+                job_description: formData.job_description,
+                application_deadline: formData.application_deadline,
+                number_of_applications: BigInt(formData.number_of_applications || 0),
+                educational_requirements: formData.educational_requirements,
+                communication_preferences: formData.communication_preferences,
+                key_responsibilities: formData.key_responsibilities,
+                good_to_have: formData.good_to_have,
+                what_we_offer: formData.what_we_offer,
+                company_description: formData.company_description,
+                website_link: formData.website_link,
+                company_logo: formData.company_logo,
+                why_join: formData.why_join,
+                required_qualifications: formData.required_qualifications,
+                preferred_qualifications: formData.preferred_qualifications,
+                user_id_recruiter: user.id,
+                draft: formData.draft ?? false,
+            };
+
+            // Check if we should update an existing record
+            let shouldUpdate = false;
+            if (formData.id && formData.id.trim() !== "") {
+                try {
+                    const idBigInt = BigInt(formData.id);
+                    // Verify the record exists AND belongs to this user
+                    const existing = await tx.recruiterHiring.findFirst({
+                        where: {
+                            id: idBigInt,
+                            user_id_recruiter: user.id
+                        }
+                    });
+                    if (existing) {
+                        shouldUpdate = true;
+                    }
+                } catch (e) {
+                    throw new Error("Not able to perform this action currently");
+                }
+            }
+
+            if (shouldUpdate && formData.id) {
+                // Update existing record
+                hiringRecord = await tx.recruiterHiring.update({
+                    where: { id: BigInt(formData.id) },
+                    data: commonData,
+                });
+
+                // Clear existing screening questions
+                await tx.screeningQuestion.deleteMany({
+                    where: { recruiter_id: hiringRecord.id },
+                });
+            } else {
+                // Create new record
+                hiringRecord = await tx.recruiterHiring.create({
+                    data: commonData,
+                });
+            }
 
             // Create screening questions if they exist
             if (formData.screening_questions && formData.screening_questions.length > 0) {
@@ -71,7 +108,7 @@ export async function recruiterHiring(formData: FormData) {
             return hiringRecord;
         });
 
-        console.log("Job post created successfully with ID:", result.id.toString());
+        console.log(`Job post ${formData.id ? 'updated' : 'created'} successfully with ID:`, result.id.toString());
         return { success: true, id: result.id.toString() };
     } catch (error) {
         console.error("Error in recruiterHiring action:", error);

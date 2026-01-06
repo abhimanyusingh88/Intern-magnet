@@ -62,7 +62,7 @@ export default function CompanyLogo({ onUploadSuccess, currentLogo }: CompanyLog
             </div>
 
             <div className="flex flex-col justify-center gap-1">
-                <p className="text-sm font-semibold text-zinc-100 font-sans">Company Logo</p>
+                <p className="text-sm font-semibold text-zinc-100 font-sans">Company Logo</p> <span className="text-zinc-400 text-xs">(Optional)</span>
 
                 {uploading ? (
                     <p className="text-xs text-indigo-400 animate-pulse font-medium">Uploading your brand...</p>

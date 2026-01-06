@@ -19,7 +19,7 @@ export default function NotFound() {
 
         </p>
 
-        <h1 className="mb-3 p-2 bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-4xl font-bold text-transparent">
+        <h1 className="mb-3 p-2 bg-linear-to-r from-indigo-400 to-pink-400 bg-clip-text text-4xl font-bold text-transparent">
           Page not found
         </h1>
 

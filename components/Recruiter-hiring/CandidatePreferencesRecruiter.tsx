@@ -4,19 +4,16 @@ import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";
 import { skills } from "./Skills";
-import LoginRequiredPage from "../utils/LoginReminderPage";
 import FormTextArea from "../utils/FormTextArea";
 export default function CandidatePreferencesRecruiter({
     count,
     setCount,
     formData,
-    user,
     setFormData
 }: {
     count: number;
     setCount: React.Dispatch<React.SetStateAction<number>>;
     formData: FormData;
-    user: any
     setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }) {
     const employmentTypes = [
@@ -40,9 +37,7 @@ export default function CandidatePreferencesRecruiter({
         formData.location.trim() !== "";
 
 
-    if (!user) {
-        return <LoginRequiredPage />
-    }
+
 
     return (
 

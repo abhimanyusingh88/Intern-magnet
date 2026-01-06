@@ -35,7 +35,7 @@ export default function NormalButton({
     }
     const classes = clsx(
         "group inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200",
-        "px-4 py-2 text-sm",
+        "px-4 py-2 text-sm min-w-[130px] sm:min-w-[150px] md:min-w-[170px] lg:min-w-[190px]",
         "sm:px-5 sm:py-2.5 sm:text-sm",
         "md:px-6 md:py-3 md:text-base",
         !disabled && "hover:scale-[1.05] active:scale-[0.97]",
@@ -44,7 +44,7 @@ export default function NormalButton({
         "bg-indigo-500 text-amber-50 hover:bg-indigo-600",
         variant === "outline" &&
         !disabled &&
-        "border border-indigo-500 text-indigo-400 hover:bg-indigo-500/10",
+        "border-2 border-indigo-500 text-indigo-400 hover:bg-indigo-500/10",
         disabled &&
         "opacity-50 cursor-not-allowed bg-indigo-500/50 text-amber-50/50"
     );

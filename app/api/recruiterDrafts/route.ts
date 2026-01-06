@@ -18,7 +18,7 @@ export async function GET() {
         const recruiterJobs = await prisma.recruiterHiring.findMany({
             where: {
                 user_id_recruiter: user.id,
-                draft: false
+                draft: true
             },
             include: {
                 screening_questions: true

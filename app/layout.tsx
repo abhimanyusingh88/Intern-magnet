@@ -10,7 +10,8 @@ import { auth } from "@/lib/auth";
 import { CustomProvider } from "rsuite";
 import Providers from "./providers";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-// import HexagonBackground from "@/components/Hexagon";
+import SessionStorageCleaner from "@/components/utils/SessionStorageCleaner"
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -83,7 +84,9 @@ export default async function RootLayout({
             </ProfileProvider>
           </SessionProvider>
         </Providers>
+        <SessionStorageCleaner />
       </body>
+
     </html>
   );
 }

@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { Lock } from "lucide-react";
 import BackGroundGlow from "../BackGroundGlow";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function LoginRequiredPage() {
+    const pathName = usePathname();
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             {/* Blur overlay */}
@@ -32,18 +34,19 @@ export default function LoginRequiredPage() {
                     </h1>
 
                     <p className="mt-3 text-sm sm:text-base text-center text-white/70 leading-relaxed">
-                        To post a job and manage your listings, please log in to your recruiter account.
-                        This helps us keep job postings secure and relevant.
+                        You must be a logged in user to access this page.
+                        <br />
+                        If you do not have an account, you can create one
                     </p>
 
                     <div className="mt-8">
                         <Link
-                            href="/login"
+                            href={`/login?callbackUrl=${pathName}`}
                             className="
                                 flex items-center justify-center
                                 h-11 rounded-xl text-sm font-medium
                                 bg-white text-black
-                                hover:bg-white/90 transition
+                                hover:bg-white/90 transition hover:scale-x-105
                             "
                         >
                             Login to Continue

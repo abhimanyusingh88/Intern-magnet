@@ -1,8 +1,14 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
 import PostedJobs from "@/components/postedJobPage/PostedJobs";
 import BackButton from "@/components/utils/BackButton";
+import LoginRequiredPage from "@/components/utils/LoginReminderPage";
+import { auth } from "@/lib/auth";
 
-export default function PostedJobsPage() {
+export default async function PostedJobsPage() {
+  const session = await auth();
+  if (!session) {
+    return <LoginRequiredPage />
+  }
   return <main className="
         relative min-h-screen flex flex-col overflow-hidden
         px-6 pt-24 pb-12

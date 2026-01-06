@@ -82,6 +82,8 @@ export type FormData = {
     why_join?: string;
     required_qualifications?: string;
     preferred_qualifications?: string;
+    draft?: boolean;
+    id?: string;
 };
 
 export interface ScreeningQuestion {

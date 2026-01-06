@@ -10,7 +10,7 @@ export default function RecruiterHeaderImage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       className="
-              relative w-full h-[60vh]
+              relative w-full h-[50vh] min-h-[350px] sm:h-[60vh]
               rounded-2xl overflow-hidden
               transform-gpu
               transition-transform duration-300 ease-out
@@ -22,17 +22,17 @@ export default function RecruiterHeaderImage() {
         alt="Recruiter hiring talent"
         fill
         priority
-        className="object-cover"
+        className="object-cover object-center"
       />
 
       {/* Dark gradient overlay */}
       <div
         className="
                 absolute inset-0
-                bg-linear-to-t
-                from-black/85
-                via-black/60
-                to-black/30
+                bg-linear-to-tr
+                from-black/90
+                via-black/50
+                to-transparent
               "
       />
 
@@ -65,7 +65,8 @@ export default function RecruiterHeaderImage() {
         <h1
           className="
                   text-white font-sans font-semibold
-                  text-3xl
+                  text-2xl
+                  xs:text-3xl
                   sm:text-4xl
                   md:text-5xl
                   lg:text-6xl
@@ -76,9 +77,9 @@ export default function RecruiterHeaderImage() {
 
         <p
           className="
-                  mt-6 text-zinc-200
+                  mt-4 sm:mt-6 text-zinc-100
                   max-w-xl sm:max-w-2xl
-                  text-base sm:text-lg md:text-xl
+                  text-sm sm:text-base md:text-lg lg:text-xl
                   leading-relaxed
                   font-sans
                 "
@@ -87,17 +88,28 @@ export default function RecruiterHeaderImage() {
           faster with a recruiter-first hiring experience.
         </p>
 
-        <div className="mt-8 flex gap-4 relative">
-          <NormalButton
-            link="/add/internship"
-            title="Post a Job/Internship"
-            variant="solid"
-          />
-          <NormalButton
-            link="/postedjobs"
-            title="Posted Jobs"
-            variant="outline"
-          />
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto relative px-4 sm:px-0">
+          <div className="w-full sm:w-auto">
+            <NormalButton
+              link="/add/internship"
+              title="Post a Job"
+              variant="solid"
+            />
+          </div>
+          <div className="w-full sm:w-auto">
+            <NormalButton
+              link="/postedjobs"
+              title="Posted Jobs"
+              variant="outline"
+            />
+          </div>
+          <div className="w-full sm:w-auto">
+            <NormalButton
+              link="/recruiterdrafts"
+              title="Saved drafts"
+              variant="solid"
+            />
+          </div>
         </div>
 
       </div>

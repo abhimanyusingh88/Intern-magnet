@@ -85,6 +85,7 @@ model RecruiterHiring {
   why_join                  String?
   required_qualifications   String?
   preferred_qualifications  String?
+  draft                     Boolean @default(false) 
   user                      User                @relation(fields: [user_id_recruiter], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
 

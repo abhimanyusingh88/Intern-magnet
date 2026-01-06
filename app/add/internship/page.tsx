@@ -5,12 +5,16 @@ import { auth } from "@/lib/auth";
 import { ArrowLeftCircle, Rocket } from "lucide-react";
 import { redirect } from "next/dist/server/api-utils";
 import BackButton from "@/components/utils/BackButton";
+import LoginRequiredPage from "@/components/utils/LoginReminderPage";
 // import { useRouter } from "next/navigation";
 // import { useRouter } from "next/router";
 
 export default async function InternshipPage() {
     const session = await auth();
     const user = session?.user?.name
+    if (!session) {
+        return <LoginRequiredPage />
+    }
 
 
     return (

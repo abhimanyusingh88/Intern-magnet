@@ -6,42 +6,20 @@ import ChoiceForms from "./ChoiceForms";
 import { FormData } from "@/lib/types/types";
 import { recruiterHiring } from "@/app/actions/recruiterHiring";
 import CompanyLogo from "./companyLogo";
+import { initialFormData } from "./InitialFormData";
+import DraftSavingButton from "./draftSavingButton";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function AllRecruitersForm({ count, setCount, user }: { count: number, setCount: React.Dispatch<React.SetStateAction<number>>, user: any }) {
-    const initialFormData: FormData = {
-        company_name: "",
-        job_title: "",
-        work_experience_min: "",
-        work_experience_max: "",
-        salary_per_month_from: "",
-        salary_per_month_to: "",
-        additional_benefits: "",
-        primary_skills: "",
-        employment_type: "",
-        location: "",
-        screening_questions: [{ question: "", type: "yes_no" }],
-        job_description: "",
-        application_deadline: "",
-        number_of_applications: "",
-        educational_requirements: "",
-        communication_preferences: "",
-        key_responsibilities: "",
-        good_to_have: "",
-        what_we_offer: "",
-        company_description: "",
-        website_link: "",
-        company_logo: "",
-        why_join: "",
-        required_qualifications: "",
-        preferred_qualifications: ""
-
-    };
-
+    const queryClient = useQueryClient();
     const [formData, setFormData] = useState<FormData>(initialFormData);
     const [saving, setSaving] = useState(false);
+    const [savingDraft, setSavingDraft] = useState(false);
 
     const [isLoaded, setIsLoaded] = useState(false);
+
+    const hasAtLeastOneValue = formData.company_name.trim() !== "" && formData.job_title.trim() !== "";
     //1. session stoarge se data lenge
     useEffect(() => {
         const savedData = sessionStorage.getItem("recruiterFormData");
@@ -59,17 +37,36 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
         setIsLoaded(true);
     }, []);
 
-    // 2.session storage ko data denge
-    useEffect(() => {
-        if (isLoaded) {
-            sessionStorage.setItem("recruiterFormData", JSON.stringify(formData));
-        }
-    }, [formData, isLoaded]);
-
-
     const router = useRouter();
 
-    //3. submission pe sab reset and also session storage be clear karenge
+    const handleSaveDraft = async () => {
+        try {
+            setSavingDraft(true);
+            const draftData = { ...formData, draft: true };
+            // Call the server action with draft: true
+            await recruiterHiring(draftData);
+
+            // Clear session storage
+            sessionStorage.removeItem("recruiterFormData");
+            sessionStorage.removeItem("recruiterFormCount");
+
+            // Invalidate drafts query to ensure list is fresh
+            queryClient.invalidateQueries({ queryKey: ["drafts"] });
+
+            // Reset state
+            setFormData(initialFormData);
+            setCount(-1);
+
+            // Navigate back to drafts page
+            router.push("/recruiterdrafts");
+        } catch (error) {
+            console.error("Draft save failed:", error);
+            alert("Failed to save draft. Please try again.");
+        } finally {
+            setSavingDraft(false);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -78,12 +75,17 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
 
         try {
             setSaving(true);
+            // Ensure draft is false when submitting the final post
+            const submissionData = { ...formData, draft: false };
             // Call the server action manually with our state data
-            await recruiterHiring(formData);
+            await recruiterHiring(submissionData);
 
             // Clear session storage
             sessionStorage.removeItem("recruiterFormData");
             sessionStorage.removeItem("recruiterFormCount");
+
+            // Invalidate drafts query
+            queryClient.invalidateQueries({ queryKey: ["drafts"] });
 
             // Reset state
             setFormData(initialFormData);
@@ -99,6 +101,8 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
         }
     };
 
+
+
     if (!isLoaded) return null;
 
     return <div className="flex flex-col gap-4 ">
@@ -108,6 +112,12 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
                 Company/Business
             </span>
         </p>
+
+        {hasAtLeastOneValue && (
+            <div className="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50 shadow-2xl">
+                <DraftSavingButton handleSaveDraft={handleSaveDraft} savingDraft={savingDraft} />
+            </div>
+        )}
 
         {/* Company Logo Upload */}
         <div className="w-fit">

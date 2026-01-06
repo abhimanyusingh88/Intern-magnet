@@ -5,12 +5,13 @@ import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";
 import { AdditionalBenefits } from "./AdditionalBenefits";
 import FormTextArea from "../utils/FormTextArea";
+import LoginRequiredPage from "../utils/LoginReminderPage";
 
 export default function JobDetailsRecruiter({
     count,
     setCount,
     formData,
-    setFormData
+    setFormData,
 }: {
     count: number;
     setCount: React.Dispatch<React.SetStateAction<number>>;
@@ -30,6 +31,7 @@ export default function JobDetailsRecruiter({
         formData.salary_per_month_to.trim() !== "" &&
         formData.company_description.trim() !== "" &&
         formData.website_link.trim() !== "";
+
 
     return (
         <div className="flex flex-col pb-4 gap-4 w-full">

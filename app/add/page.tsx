@@ -3,7 +3,7 @@ import RecruiterCard from "@/components/Recruiter-hiring/recruiterCard";
 import RecruiterHeaderImage from "@/components/Recruiter-hiring/RecruiterHeaderImage";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Building, Crown, Users } from "lucide-react";
+import { Building, Crown, Rocket, Users } from "lucide-react";
 
 export default async function AddPage() {
     const session = await auth();
@@ -42,7 +42,10 @@ export default async function AddPage() {
         >
             <BackGroundGlow />
             <div className="w-full flex flex-col gap-2 items-center justify-center mb-4">
-                <p className=" text-[18px] sm:text-3xl font-bold bg-linear-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">Hello {userName || sessionName}, Welcome to our hiring platform</p>
+                <div className="flex justify-center gap-2">
+                    <p className=" text-[18px] sm:text-3xl font-bold bg-linear-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">Hello {userName || sessionName}, Welcome to our hiring platform</p>
+                    <Rocket className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-500 animate-float" />
+                </div>
                 <p className="text-xs sm:text-[14px] font-thin text-zinc-300">Make your hiring process easy and smooth</p>
             </div>
             {/* HERO / BANNER */}

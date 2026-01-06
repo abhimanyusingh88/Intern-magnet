@@ -41,7 +41,7 @@ export default function HomePage() {
       </div>
 
       {/* CTA */}
-      <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+      <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
         <NormalButton link="/internships" title="Get started" variant="solid" />
         <NormalButton link="/internships" title="Browse internships" variant="outline" />
       </div>
