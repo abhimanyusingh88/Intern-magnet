@@ -66,7 +66,7 @@ export default function ManageJobContent({ id }: { id: string }) {
                             <StatCard icon={<Clock className="w-4 h-4" />} label="Posted" value={new Date(job.created_at).toLocaleDateString()} />
                             <StatCard icon={<Calendar className="w-4 h-4 text-red-400" />} label="Deadline" value={job.application_deadline} color="text-red-400" />
                             <StatCard icon={<Briefcase className="w-4 h-4 text-indigo-400" />} label="Experience" value={`${job.work_experience_min}–${job.work_experience_max} yrs`} />
-                            <StatCard icon={<Users className="w-4 h-4" />} label="Applicants" value={`${job.number_of_applications || 0} Posts`} />
+                            <StatCard icon={<Users className="w-4 h-4" />} label="Total post" value={`${job.number_of_applications || 0} Posts`} />
                         </div>
 
                         <div className="space-y-6">

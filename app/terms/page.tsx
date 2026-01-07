@@ -1,4 +1,10 @@
 import BackGroundGlow from "@/components/BackGroundGlow"
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions | Intern-Magnet",
+  description: "Read our terms and conditions for using the Intern-Magnet platform.",
+};
 
 export default function TermsPage() {
   return (
@@ -166,7 +172,7 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-zinc-100">17. Contact Information</h2>
             <p className="mt-3 text-sm text-zinc-400">
               For questions regarding these Terms, contact us at{" "}
-              <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text font-medium text-transparent">
+              <span className="bg-linear-to-r from-indigo-400 to-pink-400 bg-clip-text font-medium text-transparent">
                 support@internmagnet.com
               </span>.
             </p>

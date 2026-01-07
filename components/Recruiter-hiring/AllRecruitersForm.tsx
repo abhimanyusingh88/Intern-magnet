@@ -20,7 +20,7 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
     const [isLoaded, setIsLoaded] = useState(false);
 
     const hasAtLeastOneValue = formData.company_name.trim() !== "" && formData.job_title.trim() !== "";
-    //1. session stoarge se data lenge
+    // 1. session storage se data lenge
     useEffect(() => {
         const savedData = sessionStorage.getItem("recruiterFormData");
         if (savedData) {
@@ -36,6 +36,13 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
         }
         setIsLoaded(true);
     }, []);
+
+    // 2. usko data denge
+    useEffect(() => {
+        if (isLoaded) {
+            sessionStorage.setItem("recruiterFormData", JSON.stringify(formData));
+        }
+    }, [formData, isLoaded]);
 
     const router = useRouter();
 

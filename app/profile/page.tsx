@@ -1,9 +1,15 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
-import DownProfileComponent from "@/components/DownProfileComponent";
+import DownProfileComponent from "@/components/Profile-elements/DownProfileComponent";
 import ProfileMain from "@/components/Profile-elements/ProfileMain";
 import { SpinnerBig } from "@/components/utils/SpinnerBig";
 import { auth } from "@/lib/auth";
 import { Suspense } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "My Profile | Intern-Magnet",
+    description: "View and manage your professional profile, resume, and internship applications.",
+};
 
 export default async function ProfilePage() {
     const session = await auth();

@@ -66,7 +66,7 @@ export default function DraftJobs() {
 
     return (
         <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {optimisticDrafts.map((item: any, index: number) => (
+            {Array.isArray(optimisticDrafts) && optimisticDrafts.map((item: any, index: number) => (
                 <motion.div
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}

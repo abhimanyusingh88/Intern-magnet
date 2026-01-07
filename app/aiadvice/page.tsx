@@ -1,6 +1,12 @@
 import AiAdviceLayout from "@/components/AiAdviceLayout";
 import BackGroundGlow from "@/components/BackGroundGlow";
 import { Sparkles } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "AI Career Advice | Intern-Magnet",
+    description: "Personalized career guidance and resume optimization powered by AI.",
+};
 
 export default function AIAdvicePage() {
     return (

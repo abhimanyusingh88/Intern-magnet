@@ -4,6 +4,12 @@ import RecruiterHeaderImage from "@/components/Recruiter-hiring/RecruiterHeaderI
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Building, Crown, Rocket, Users } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Recruiter Panel | Intern-Magnet",
+    description: "Post internship listings, manage applicants, and build your employer brand.",
+};
 
 export default async function AddPage() {
     const session = await auth();

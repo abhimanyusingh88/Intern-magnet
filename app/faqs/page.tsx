@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import BackGroundGlow from "@/components/BackGroundGlow"
-import FaqForm from "@/components/FaqForm"
-import FaqAccordion from "@/components/FaqAccordion"
-import FaqPage from "@/components/FaqPage"
+import FaqForm from "@/components/faq/FaqForm"
+import FaqAccordion from "@/components/faq/FaqAccordion"
+import FaqPage from "@/components/faq/FaqPage"
 
 
 const faqs = [

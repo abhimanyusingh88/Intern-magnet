@@ -2,8 +2,9 @@
 
 import { useState } from "react"
 import { Mail, MapPin, Phone, ChevronDown } from "lucide-react"
+// import ContactForm from "../ContactForm"
+import BackGroundGlow from "../BackGroundGlow"
 import ContactForm from "./ContactForm"
-import BackGroundGlow from "./BackGroundGlow"
 
 const faqs = [
   {
@@ -29,7 +30,7 @@ export default function Contact() {
 
   return (
     <main className="relative overflow-hidden bg-zinc-950">
-      <BackGroundGlow/>
+      <BackGroundGlow />
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:py-20">
         {/* Header */}
@@ -38,7 +39,7 @@ export default function Contact() {
             Contact Us
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-zinc-400">
-            Have questions, feedback, or partnership ideas?  
+            Have questions, feedback, or partnership ideas?
             We’d love to hear from you.
           </p>
         </div>
@@ -89,9 +90,8 @@ export default function Contact() {
                       </span>
                       <ChevronDown
                         size={18}
-                        className={`text-zinc-400 transition ${
-                          open === i ? "rotate-180" : ""
-                        }`}
+                        className={`text-zinc-400 transition ${open === i ? "rotate-180" : ""
+                          }`}
                       />
                     </div>
                     {open === i && (
@@ -112,7 +112,7 @@ export default function Contact() {
             </h2>
 
             {/* Ready for Server Actions */}
-            <ContactForm/>
+            <ContactForm />
           </div>
         </div>
       </div>

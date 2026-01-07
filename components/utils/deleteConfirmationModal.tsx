@@ -1,15 +1,18 @@
 "use client";
-
 import { X, Trash2 } from "lucide-react";
 
 export default function DeleteConfirmationModal({
     handleDelete,
     openModal,
     setOpenModal,
+    title,
+    para
 }: {
     handleDelete: () => void;
     openModal: boolean;
     setOpenModal: (v: boolean) => void;
+    title: string;
+    para: string;
 }) {
     if (!openModal) return null;
 
@@ -41,11 +44,11 @@ export default function DeleteConfirmationModal({
 
                 {/* Text */}
                 <h2 className="text-center text-lg font-semibold text-white">
-                    Delete job post?
+                    {title}
                 </h2>
 
                 <p className="mt-2 text-center text-sm text-zinc-400">
-                    This action cannot be undone. The job post will be permanently removed.
+                    {para}
                 </p>
 
                 {/* Actions */}

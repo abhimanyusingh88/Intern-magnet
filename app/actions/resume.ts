@@ -3,7 +3,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-// import { supabase } from "@/lib/supabase/supabase";
 
 export async function getResumeDownloadUrl() {
     const session = await auth();

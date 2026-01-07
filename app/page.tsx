@@ -21,7 +21,7 @@ export default function HomePage() {
       {/* Top content */}
       <section className="flex justify-center">
         <div className="flex items-center gap-2 sm:gap-3">
-          <p
+          <h1
             className="
               bg-linear-to-r from-indigo-500 to-pink-500
               bg-clip-text text-transparent font-semibold
@@ -29,7 +29,7 @@ export default function HomePage() {
             "
           >
             Skyrocket your career with us
-          </p>
+          </h1>
           {/* <p className="text-zinc-300 text-xs sm:text-xl">Post and hunt at same place</p> */}
           <Rocket className="h-6 w-6 sm:h-7 animate-float sm:w-7 md:h-9 md:w-9 lg:h-10 lg:w-10 text-indigo-500" />
 
@@ -37,7 +37,7 @@ export default function HomePage() {
 
       </section>
       <div className="w-full flex justify-center">
-        <p className="text-zinc-300 text-xs font-thin sm:text-lg font-sans">Post and hunt at same place</p>
+        <h2 className="text-zinc-300 text-xs font-thin sm:text-lg font-sans">Post and hunt at same place</h2>
       </div>
 
       {/* CTA */}

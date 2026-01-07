@@ -3,6 +3,12 @@ import PostedJobs from "@/components/postedJobPage/PostedJobs";
 import BackButton from "@/components/utils/BackButton";
 import LoginRequiredPage from "@/components/utils/LoginReminderPage";
 import { auth } from "@/lib/auth";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Posted Jobs | Intern-Magnet",
+  description: "Manage your active job listings and track internship applications.",
+};
 
 export default async function PostedJobsPage() {
   const session = await auth();

@@ -1,4 +1,10 @@
 import LoginCard from "@/components/utils/LoginCard";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Login | Intern-Magnet",
+  description: "Sign in to your Intern-Magnet account to manage your profile and applications.",
+};
 
 export default async function LoginPage({
   searchParams,

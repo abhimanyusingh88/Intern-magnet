@@ -1,10 +1,30 @@
+
+"use client"
 import useDeleteJob from "@/lib/data/deletingJob";
 import { ChevronRight, LocateIcon, MapPin, Trash2 } from "lucide-react"
 import Link from "next/link";
-import { startTransition } from "react";
+import { startTransition, useState } from "react";
+import DeleteConfirmationModal from "../utils/deleteConfirmationModal";
 
 export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob: any }) {
     const { mutateAsync } = useDeleteJob();
+    const [openModalDelete, setOpenModalDelete] = useState(false);
+
+    const handleDelete = async () => {
+        startTransition(async () => {
+            deleteJob(job.id);
+            await mutateAsync(job.id);
+        });
+        setOpenModalDelete(false);
+    }
+
+    if (openModalDelete) return <DeleteConfirmationModal
+        title="Delete job post?"
+        para="This action cannot be undone. The job post will be permanently removed."
+        handleDelete={handleDelete}
+        openModal={openModalDelete}
+        setOpenModal={setOpenModalDelete}
+    />
 
     return (
         <main className="relative group">
@@ -14,14 +34,9 @@ export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob
 
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-indigo-500/15 to-transparent" />
                 <div onClick={
-                    () => {
-                        startTransition(async () => {
-                            deleteJob(job.id);
-                            await mutateAsync(job.id);
-                        })
-
-                    }
-                } className="absolute right-1 top-1">
+                    () => setOpenModalDelete(true)
+                }
+                    className="absolute right-1 top-1">
                     <Trash2 size={20} className="text-indigo-500 hover:text-indigo-400 cursor-pointer" />
                 </div>
 

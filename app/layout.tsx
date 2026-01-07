@@ -4,7 +4,7 @@ import "./globals.css";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import NavBar from "@/components/utils/navBar";
 import Footer from "@/components/utils/Footer";
-import { SessionProvider } from "@/components/SessionProvider";
+import { SessionProvider } from "@/components/Profile-elements/SessionProvider";
 import { ProfileProvider } from "@/components/Profile-elements/ProfileContext";
 import { auth } from "@/lib/auth";
 import { CustomProvider } from "rsuite";
@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Intern-Magnet",
+  title: "Home | Intern-Magnet",
   description: "A platform to help students find internships and companies find talent.",
 };
 

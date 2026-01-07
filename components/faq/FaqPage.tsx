@@ -1,4 +1,4 @@
-import BackGroundGlow from "./BackGroundGlow";
+import BackGroundGlow from "../BackGroundGlow";
 import FaqAccordion from "./FaqAccordion";
 import FaqForm from "./FaqForm";
 

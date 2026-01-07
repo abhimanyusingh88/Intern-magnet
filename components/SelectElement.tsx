@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { QuestionType, Row, SelectElementProps } from "@/lib/types/types";
+import { QuestionType, SelectElementProps } from "@/lib/types/types";
 
 const options: { label: string; value: QuestionType }[] = [
     { label: "Yes / No", value: "yes_no" },

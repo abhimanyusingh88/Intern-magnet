@@ -8,10 +8,10 @@ export default function PrivacyPolicyContent() {
       {/* background glow */}
       <BackGroundGlow />
 
-      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:py-20">
+      <div className="relative mx-auto max-w-7xl px-5 pt-17 pb-12 sm:pb-16 sm:pt-18">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="bg-gradient-to-r from-indigo-600 via-purple-400 to-pink-400 bg-clip-text text-3xl font-semibold text-transparent sm:text-4xl">
+          <h1 className="bg-linear-to-r from-indigo-600 via-purple-400 to-pink-400 bg-clip-text text-3xl font-semibold text-transparent sm:text-4xl">
             Privacy & Policy
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-zinc-400">
@@ -24,7 +24,7 @@ export default function PrivacyPolicyContent() {
         </div>
 
         {/* Card */}
-        <div className="space-y-12 rounded-2xl border border-white/10 p-6 backdrop-blur-xl sm:p-10">
+        <div className="space-y-12 rounded-2xl border border-white/10 p-6 backdrop-blur-xl sm:p-8">
           <section>
             <h2 className="text-lg font-semibold text-zinc-100">
               1. Introduction

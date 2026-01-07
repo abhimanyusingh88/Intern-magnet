@@ -1,24 +1,24 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import SideNav from "./utils/SideNav"
-import { SpinnerBig } from "./utils/SpinnerBig"
+import SideNav from "../utils/SideNav"
+import { SpinnerBig } from "../utils/SpinnerBig"
 import { updateProfile } from "@/app/actions/profile"
 import { getInitialDownProfileData } from "@/lib/profile-helpers"
 import ProfileData from "@/lib/data/UserData"
-import { useProfile } from "./Profile-elements/ProfileContext"
+import { useProfile } from "./ProfileContext"
 
 // Section Components
-import CareerPreferences from "./profile-sections/CareerPreferences"
-import Education from "./profile-sections/Education"
-import Skills from "./profile-sections/Skills"
-import Languages from "./profile-sections/Languages"
-import Internships from "./profile-sections/Internships"
-import Projects from "./profile-sections/Projects"
-import Summary from "./profile-sections/Summary"
-import Accomplishments from "./profile-sections/Accomplishments"
-import Exams from "./profile-sections/Exams"
-import Resume from "./profile-sections/Resume"
+import CareerPreferences from "../profile-sections/CareerPreferences"
+import Education from "../profile-sections/Education"
+import Skills from "../profile-sections/Skills"
+import Languages from "../profile-sections/Languages"
+import Internships from "../profile-sections/Internships"
+import Projects from "../profile-sections/Projects"
+import Summary from "../profile-sections/Summary"
+import Accomplishments from "../profile-sections/Accomplishments"
+import Exams from "../profile-sections/Exams"
+import Resume from "../profile-sections/Resume"
 
 export default function DownProfileComponent() {
     const { data: userData, isLoading } = ProfileData();

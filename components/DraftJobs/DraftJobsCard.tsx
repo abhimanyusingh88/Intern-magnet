@@ -38,7 +38,10 @@ export default function DraftJobsCard({
         sessionStorage.setItem("recruiterFormCount", "-1");
         router.push("/add/internship");
     };
-    if (openModal) return <DeleteConfirmationModal openModal={openModal} setOpenModal={setOpenModal} handleDelete={onDelete} />
+    if (openModal) return <DeleteConfirmationModal
+        title="Delete job post?"
+        para="This action cannot be undone. The job post will be permanently removed."
+        openModal={openModal} setOpenModal={setOpenModal} handleDelete={onDelete} />
 
     return (
         <motion.div
