@@ -1,5 +1,5 @@
 "use client"
-import { useOptimistic, useTransition } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 import PostedDraftData from "@/lib/data/draftsJobs";
 import DraftJobsCard from "./DraftJobsCard";
 import { motion } from "framer-motion";
@@ -11,6 +11,7 @@ import useDeleteDraft from "@/lib/data/deletingDrafts";
 
 export default function DraftJobs() {
     const { data, isLoading, isError, error } = PostedDraftData();
+    const [openModal, setOpenModal] = useState(false);
     const deleteMutation = useDeleteDraft();
     const [isPending, startTransition] = useTransition();
 
@@ -24,6 +25,8 @@ export default function DraftJobs() {
             addOptimisticDraft(id);
             try {
                 await deleteMutation.mutateAsync(id);
+                setOpenModal(false);
+
             } catch (err) {
                 console.error("Failed to delete draft:", err);
             }
@@ -72,6 +75,8 @@ export default function DraftJobs() {
                 >
                     <Suspense fallback={<SpinnerMini />} key={item.id}>
                         <DraftJobsCard
+                            openModal={openModal}
+                            setOpenModal={setOpenModal}
                             item={item}
                             id={item.id}
                             onDelete={() => handleDelete(item.id)}

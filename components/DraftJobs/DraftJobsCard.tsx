@@ -1,18 +1,24 @@
+
 import { motion } from "framer-motion";
 import { Briefcase, Building2, ChevronRight, FileEdit, Trash2, Loader2 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
+import DeleteConfirmationModal from "../utils/deleteConfirmationModal";
 
 export default function DraftJobsCard({
     item,
     id,
     onDelete,
-    isDeleting
+    isDeleting,
+    openModal,
+    setOpenModal
 }: {
     item: any;
     id: string;
     onDelete: () => void;
     isDeleting?: boolean;
+    openModal?: boolean;
+    setOpenModal?: any
 }) {
     const router = useRouter();
 
@@ -32,6 +38,7 @@ export default function DraftJobsCard({
         sessionStorage.setItem("recruiterFormCount", "-1");
         router.push("/add/internship");
     };
+    if (openModal) return <DeleteConfirmationModal openModal={openModal} setOpenModal={setOpenModal} handleDelete={onDelete} />
 
     return (
         <motion.div
@@ -44,7 +51,7 @@ export default function DraftJobsCard({
                 <div
                     onClick={(e) => {
                         e.stopPropagation();
-                        onDelete();
+                        setOpenModal(true);
                     }}
                     className="absolute -top-5 -right-5 p-2 rounded-full bg-zinc-800/50 text-zinc-500 opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500/20 hover:text-red-400 cursor-pointer backdrop-blur-md border border-white/5"
                 >
