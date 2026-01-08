@@ -2,8 +2,9 @@
 
 import { CreditCard, Settings, ShieldQuestion, User, TriangleAlert } from "lucide-react";
 import Link from "next/link";
-import LogOutButton from "./LogOutButton";
-import { useSession } from "next-auth/react";
+import LogOutButton from "../login/LogOutButton";
+// import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useProfile } from "../Profile-elements/ProfileContext";
@@ -11,7 +12,9 @@ import { useProfile } from "../Profile-elements/ProfileContext";
 export default function MobileDropdown({ classApply, session, setOpen }: { classApply: string, session?: any, setOpen?: (open: boolean) => void }) {
   const { data: Usersession } = useSession()
   const isLoggedIn = !!Usersession?.user
-  const img = session?.user?.image
+  // Use session from props or hook
+  const user = session?.user || Usersession?.user
+  const img = user?.image
   const { completionPercentage } = useProfile()
   const pathname = usePathname()
   const isProfilePage = pathname === "/profile"
@@ -21,7 +24,7 @@ export default function MobileDropdown({ classApply, session, setOpen }: { class
       <Link href="/profile" onClick={() => setOpen?.(false)} className="flex items-center justify-between">
         {img &&
           <div className="flex items-center gap-3">
-            <Image className="rounded-full h-12 w-12 ml-[8px]" src={img || "/avatar-placeholder.png"} alt="profile" width={40} height={40} /> <span className="hover:text-white p-2 hover:rounded-lg hover:bg-white/5">{session?.user?.name}</span>
+            <Image className="rounded-full h-12 w-12 ml-[8px]" src={img || "/avatar-placeholder.png"} alt="profile" width={40} height={40} /> <span className="hover:text-white p-2 hover:rounded-lg hover:bg-white/5">{user?.name}</span>
           </div>
         }
         {isLoggedIn && !isProfilePage && completionPercentage < 100 && (

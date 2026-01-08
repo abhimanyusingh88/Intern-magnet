@@ -1,8 +1,9 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
 import DraftJobs from "@/components/DraftJobs/DraftJobs";
 import BackButton from "@/components/utils/BackButton";
-import LoginRequiredPage from "@/components/utils/LoginReminderPage";
+import LoginRequiredPage from "@/components/login/LoginReminderPage";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default async function RecruiterDrafts() {
-    const session = await auth();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
     if (!session) return <LoginRequiredPage />
 
 

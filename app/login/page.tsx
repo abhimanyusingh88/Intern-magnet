@@ -1,4 +1,4 @@
-import LoginCard from "@/components/utils/LoginCard";
+import LoginCard from "@/components/login/LoginCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

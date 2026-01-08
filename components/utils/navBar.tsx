@@ -1,14 +1,17 @@
 import Link from "next/link"
 import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 
 import ProfileDropdown from "../Profile-elements/profileDropdown"
 import NotificationBell from "../NotificationBell"
-import GoogleSignInBtn from "./SignInButton"
+import GoogleSignInBtn from "../login/SignInButton"
 import NavLinks from "./NavLinks"
 import MobileNavigation from "./MobileNavigation"
 
 export default async function NavBar() {
-  const session = await auth()
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
   const isLoggedIn = !!session?.user
   // In a server component, we don't have a loading state for the session check itself 
   // (the component suspends or awaits). So we pass false.

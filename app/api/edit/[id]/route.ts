@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -7,7 +8,9 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const session = await auth();
+        const session = await auth.api.getSession({
+            headers: await headers()
+        });
 
         if (!session?.user?.email) {
             return NextResponse.json(
@@ -18,7 +21,7 @@ export async function PUT(
         const { id } = await params;
         const body = await request.json();
 
-        const user = await prisma.user.findUnique({
+        const user = await prisma.legacyUser.findUnique({
             where: { email: session.user.email },
         });
 

@@ -1,8 +1,13 @@
 import { auth } from "@/lib/auth"
 import { NextRequest, NextResponse } from "next/server"
 
+import { headers } from "next/headers"
+
 export async function proxy(request: NextRequest) {
-  const session = await auth()
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+
   const pathname = request.nextUrl.pathname
 
   // If user is authenticated and tries to access /login, redirect to home

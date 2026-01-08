@@ -1,6 +1,7 @@
 "use client"
 
 import { signInAction } from "@/lib/actions"
+import { authClient } from "@/lib/auth-client"
 import BackGroundGlow from "../BackGroundGlow"
 import Image from "next/image"
 import { motion } from "framer-motion"
@@ -10,6 +11,15 @@ export default function LoginCard({
 }: {
     callbackUrl: string
 }) {
+    const { signIn } = authClient;
+
+    const handleSignIn = async () => {
+        await signIn.social({
+            provider: "google",
+            callbackURL: callbackUrl || "/"
+        })
+    }
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
             <motion.div
@@ -101,12 +111,10 @@ export default function LoginCard({
                                 </li>
                             </ul>
 
-                            <form
-                                action={() => signInAction(callbackUrl)}
-                                className="mt-6"
-                            >
+                            <div className="mt-6">
                                 <button
-                                    type="submit"
+                                    onClick={handleSignIn}
+                                    type="button"
                                     className="group cursor-pointer relative flex w-full items-center justify-center gap-3 rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm font-medium text-zinc-100 transition
                                     hover:border-white/40 hover:scale-[1.05] hover:bg-zinc-900/80
                                     active:scale-[0.97]"
@@ -127,7 +135,7 @@ export default function LoginCard({
                                         Continue with Google
                                     </span>
                                 </button>
-                            </form>
+                            </div>
 
                             <p className="mt-6 text-center text-xs text-zinc-500">
                                 By continuing, you agree to our{" "}

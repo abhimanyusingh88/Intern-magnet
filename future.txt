@@ -1,0 +1,82 @@
+
+In the end we will also integrate email password authentication using better auth 
+
+Hybrid Authentication Implementation Plan
+Goal Description
+Implement Email & Password authentication using Better Auth while preserving the existing Google OAuth flow via NextAuth (Beta). The system will unify user data in a single database schema, dealing gracefully with "Account Linking" scenarios where a Google user wants to add a password.
+
+User Review Required
+IMPORTANT
+
+Schema Unification: We will modify the Account and User tables to be compatible with both libraries. Using @map in Prisma will allow us to map Better Auth's expected column names to NextAuth's existing structure where possible.
+
+Proposed Strategy
+Shared Database, Separate Mechanisms:
+
+NextAuth handles Google.
+Better Auth handles Email/Password.
+User Table: Shared source of truth for "Does this user exist?".
+Strict Method Enforcement (Requirement #3 & #4):
+
+Scenario A: User signed up with Google.
+
+User tries to Sign Up/In with Email/Password:
+Result: Error! "This email is associated with a Google account. Please sign in with Google."
+We do NOT offer to set a password.
+Scenario B: User signed up with Email/Password.
+
+User tries to Sign In with Google:
+Result: Error! "This email is registered with a password. Please sign in with your email and password."
+We do NOT automatically link the Google account.
+Proposed Changes
+Database Layer
+[MODIFY] 
+schema.prisma
+User Model: Add password, emailVerified, image.
+Account Model: Add fields to support both libraries (Unification).
+Session Model: Add Session table for Better Auth.
+Verification Model: Add Verification table for Better Auth.
+Backend Implementation
+[NEW] 
+lib/better-auth.ts
+Configure Better Auth with emailAndPassword and emailVerification plugins.
+Email Verification Config:
+sendOnSignUp: true
+sendVerificationEmail(user, url, token): Call our custom mailer function.
+[NEW] 
+lib/email.ts
+Setup nodemailer transport (using environment variables SMTP_HOST, SMTP_USER, etc., or a simple console logger for dev if no creds provided).
+Export sendVerificationEmail function.
+[NEW] 
+app/api/auth/[...all]/route.ts
+Better Auth API handler.
+[NEW] 
+actions/auth-check.ts
+checkEmailStatus(email):
+Returns { status: 'GOOGLE_USER' | 'PASSWORD_USER' | 'NEW_USER' }.
+Used by frontend to show immediate errors before they even try to submit the full form.
+[MODIFY] 
+lib/auth.ts
+NextAuth Config: Add 
+signIn
+ callback.
+Logic: Check DB for user by email.
+If user exists AND has a password (meaning they are a Password User) -> Return False (Deny Login).
+Return specific error code if possible.
+Frontend Implementation
+[NEW] 
+components/auth/UnifiedAuthForm.tsx
+Pre-Submit Check: Before calling signIn.email or signUp.email, we call checkEmailStatus.
+Error Handling:
+If GOOGLE_USER -> Show Alert: "Please use Google Sign In."
+Google Button update:
+Handle the error case if NextAuth denies login (because they are a Password user).
+Verification Plan
+Run Migrations: Ensure no data loss.
+Scenario A (New User): Sign up with Email -> Success.
+Scenario B (Google User):
+Login with Google (NextAuth).
+Logout.
+Try Sign Up with same email (Better Auth).
+Expected: "Account exists" error/prompt.
+Complete flow -> Now can login with password.

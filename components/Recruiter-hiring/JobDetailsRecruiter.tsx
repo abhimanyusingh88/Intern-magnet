@@ -5,7 +5,7 @@ import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";
 import { AdditionalBenefits } from "./AdditionalBenefits";
 import FormTextArea from "../utils/FormTextArea";
-import LoginRequiredPage from "../utils/LoginReminderPage";
+import LoginRequiredPage from "../login/LoginReminderPage";
 
 export default function JobDetailsRecruiter({
     count,

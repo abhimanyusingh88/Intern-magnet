@@ -1,17 +1,20 @@
 "use server"
 import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 import { prisma } from "@/lib/prisma"
 import { FormData } from "@/lib/types/types"
 
 export async function recruiterHiring(formData: FormData) {
-    const session = await auth();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
 
     if (!session?.user?.email) {
         throw new Error("Unauthorized: You must be logged in to post a job.");
     }
     try {
         // Find the user ID from the email
-        const user = await prisma.user.findUnique({
+        const user = await prisma.legacyUser.findUnique({
             where: { email: session.user.email },
         });
         if (!user) {

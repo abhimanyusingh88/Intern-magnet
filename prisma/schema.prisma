@@ -9,7 +9,8 @@ datasource db {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model User {
+
+model LegacyUser {
   id                        BigInt            @id @default(autoincrement())
   created_at                DateTime          @default(now()) @db.Timestamptz(6)
   name                      String?
@@ -86,7 +87,7 @@ model RecruiterHiring {
   required_qualifications   String?
   preferred_qualifications  String?
   draft                     Boolean @default(false) 
-  user                      User                @relation(fields: [user_id_recruiter], references: [id], onDelete: Cascade)
+  user                      LegacyUser          @relation(fields: [user_id_recruiter], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
 
   @@map("recruiterhiring")
@@ -100,4 +101,66 @@ model ScreeningQuestion {
   recruiter    RecruiterHiring @relation(fields: [recruiter_id], references: [id], onDelete: Cascade)
 
   @@map("screening_questions")
+}
+
+
+
+model User {
+  id            String    @id
+  name          String?
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("auth_user")
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  token     String
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime
+  updatedAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("auth_session")
+}
+
+model Account {
+  id                    String    @id
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  idToken               String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("auth_account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("auth_verification")
 }

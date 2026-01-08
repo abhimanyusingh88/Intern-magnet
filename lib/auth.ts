@@ -1,55 +1,47 @@
-import NextAuth, { type NextAuthConfig } from "next-auth";
-import Google from "next-auth/providers/google";
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+import { PrismaClient } from "@prisma/client";
 import { GetUser, InsertUser } from "./service";
+import { createAuthMiddleware } from "better-auth/api";
 
-const authConfig: NextAuthConfig = {
-  providers: [
-    Google({
+const prisma = new PrismaClient();
+
+export const auth = betterAuth({
+  database: prismaAdapter(prisma, {
+    provider: "postgresql",
+  }),
+  socialProviders: {
+    google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-  ],
-  callbacks: {
-    authorized({ auth }) {
-      // Allow unauthenticated users to access pages, protect specific routes in middleware
-      return true;
     },
-    async signIn({ user }) {
+  },
+  hooks: {
+    after: createAuthMiddleware(async (ctx) => {
       try {
-        if (!user.email) return false;
-        const existingUser = await GetUser(user.email)
+        const newSession = ctx.context.newSession;
+        if (newSession && newSession.user) {
+          const userId = newSession.user.id;
 
-        if (!existingUser) {
-          await InsertUser({ name: user.name, email: user.email });
+          // Fetch the User (auth user) to get the email
+          const authUser = await prisma.user.findUnique({
+            where: { id: userId }
+          });
+
+          if (authUser && authUser.email) {
+            const existingLegacyUser = await GetUser(authUser.email);
+            if (!existingLegacyUser) {
+              await InsertUser({
+                name: authUser.name,
+                email: authUser.email
+              });
+              console.log(`[Auth Sync] Created legacy user for ${authUser.email}`);
+            }
+          }
         }
-
-        return true
       } catch (error) {
-        console.error("SignIn error:", error);
-        return false;
+        console.error("[Auth Sync] Error syncing user to legacy table:", error);
       }
-    },
-    async session({ session }) {
-      if (!session.user?.email) return session;
-
-      const user = await GetUser(session.user.email);
-
-      if (user) {
-        session.userId = user.id;
-      }
-
-      return session;
-    }
-
-  },
-  pages: {
-    signIn: "/login", // custom login page
-  },
-};
-
-export const {
-  auth,
-  signIn,
-  signOut,
-  handlers: { GET, POST },
-} = NextAuth(authConfig);
+    }),
+  }
+});

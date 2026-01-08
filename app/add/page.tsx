@@ -2,6 +2,7 @@ import BackGroundGlow from "@/components/BackGroundGlow";
 import RecruiterCard from "@/components/Recruiter-hiring/recruiterCard";
 import RecruiterHeaderImage from "@/components/Recruiter-hiring/RecruiterHeaderImage";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { Building, Crown, Rocket, Users } from "lucide-react";
 import type { Metadata } from "next";
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
 };
 
 export default async function AddPage() {
-    const session = await auth();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
     const sessionName = session?.user?.name;
 
     // Fetch user profile data from database
@@ -20,7 +23,7 @@ export default async function AddPage() {
 
     if (session?.user?.email) {
         try {
-            const user = await prisma.user.findFirst({
+            const user = await prisma.legacyUser.findFirst({
                 where: {
                     email: session.user.email,
                 },

@@ -1,14 +1,17 @@
 "use server";
 
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
 export async function getResumeDownloadUrl() {
-    const session = await auth();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
     if (!session?.user?.email) throw new Error("Unauthorized");
 
-    const user = await prisma.user.findFirst({
+    const user = await prisma.legacyUser.findFirst({
         where: { email: session.user.email },
         select: { resume_path: true },
     });

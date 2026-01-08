@@ -4,9 +4,9 @@ import "./globals.css";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import NavBar from "@/components/utils/navBar";
 import Footer from "@/components/utils/Footer";
-import { SessionProvider } from "@/components/Profile-elements/SessionProvider";
 import { ProfileProvider } from "@/components/Profile-elements/ProfileContext";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { CustomProvider } from "rsuite";
 import Providers from "./providers";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -33,14 +33,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
 
   let initialProfileData = {};
 
   if (session?.user?.email) {
     try {
       const { prisma } = await import("@/lib/prisma");
-      const user = await prisma.user.findFirst({
+      const user = await prisma.legacyUser.findFirst({
         where: { email: session.user.email },
       });
 
@@ -70,19 +72,17 @@ export default async function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      > <Providers>
-          <SessionProvider>
-            <ProfileProvider initialData={initialProfileData}>
-              <CustomProvider theme="dark">
-                <NavBar />
-                <ReactQueryDevtools initialIsOpen={false} />
-                <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
-                  {children}
-                </main>
-                <Footer />
-              </CustomProvider>
-            </ProfileProvider>
-          </SessionProvider>
+      >        <Providers>
+          <ProfileProvider initialData={initialProfileData}>
+            <CustomProvider theme="dark">
+              <NavBar />
+              <ReactQueryDevtools initialIsOpen={false} />
+              <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+                {children}
+              </main>
+              <Footer />
+            </CustomProvider>
+          </ProfileProvider>
         </Providers>
         <SessionStorageCleaner />
       </body>

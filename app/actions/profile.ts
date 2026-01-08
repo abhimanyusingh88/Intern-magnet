@@ -2,16 +2,19 @@
 
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
 export async function updateProfile(formData: FormData): Promise<string | undefined> {
-    const session = await auth();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
     if (!session?.user?.email) throw new Error("Unauthorized");
     if (!formData) throw new Error("Missing form data");
 
     try {
-        const user = await prisma.user.findFirst({
+        const user = await prisma.legacyUser.findFirst({
             where: { email: session.user.email },
         });
 
@@ -67,7 +70,7 @@ export async function updateProfile(formData: FormData): Promise<string | undefi
             updateData.resume_path = newPath;
         }
 
-        await prisma.user.update({
+        await prisma.legacyUser.update({
             where: { id: user.id },
             data: updateData,
         });

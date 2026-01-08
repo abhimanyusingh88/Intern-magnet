@@ -2,8 +2,9 @@
 
 import { ChevronDown, CreditCard, Settings, ShieldQuestion, User, TriangleAlert } from "lucide-react";
 import Link from "next/link";
-import LogOutButton from "./utils/LogOutButton";
-import { useSession } from "next-auth/react";
+import LogOutButton from "./login/LogOutButton";
+// import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useProfile } from "./Profile-elements/ProfileContext";
@@ -16,8 +17,9 @@ export default function DesktopDropdown({ classApply, className = "", session }:
   const pathname = usePathname()
   const isProfilePage = pathname === "/profile"
 
-  const isLoggedIn = !!Usersession?.user
-  const img = session?.user?.image
+  const user = session?.user || Usersession?.user
+  const isLoggedIn = !!user
+  const img = user?.image
 
   return (
     <div className="relative group">
@@ -35,7 +37,7 @@ export default function DesktopDropdown({ classApply, className = "", session }:
             <Link className="p-4" href="/profile">
               {img &&
                 <div className="flex items-center gap-4">
-                  <Image className="rounded-full h-12 w-12 ml-2" src={img || "/avatar-placeholder.png"} alt="profile" width={40} height={40} /> <span className="hover:text-white p-2 hover:rounded-lg hover:bg-white/5">{session?.user?.name}</span>
+                  <Image className="rounded-full h-12 w-12 ml-2" src={img || "/avatar-placeholder.png"} alt="profile" width={40} height={40} /> <span className="hover:text-white p-2 hover:rounded-lg hover:bg-white/5">{user?.name}</span>
                 </div>
               }
             </Link>

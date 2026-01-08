@@ -3,6 +3,7 @@ import DownProfileComponent from "@/components/Profile-elements/DownProfileCompo
 import ProfileMain from "@/components/Profile-elements/ProfileMain";
 import { SpinnerBig } from "@/components/utils/SpinnerBig";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfilePage() {
-    const session = await auth();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
 
 
     // If user doesn't exist in DB for some reason (shouldn't happen if auth worked), 

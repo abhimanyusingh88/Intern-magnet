@@ -2,15 +2,18 @@ import BackGroundGlow from "@/components/BackGroundGlow";
 import NetBg from "@/components/utils/netBg";
 import RecruiterForms from "@/components/Recruiter-hiring/recruiterForms";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { ArrowLeftCircle, Rocket } from "lucide-react";
 import { redirect } from "next/dist/server/api-utils";
 import BackButton from "@/components/utils/BackButton";
-import LoginRequiredPage from "@/components/utils/LoginReminderPage";
+import LoginRequiredPage from "@/components/login/LoginReminderPage";
 // import { useRouter } from "next/navigation";
 // import { useRouter } from "next/router";
 
 export default async function InternshipPage() {
-    const session = await auth();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
     const user = session?.user?.name
     if (!session) {
         return <LoginRequiredPage />
