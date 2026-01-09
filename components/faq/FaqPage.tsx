@@ -1,3 +1,5 @@
+"use client"
+
 import BackGroundGlow from "../BackGroundGlow";
 import FaqAccordion from "./FaqAccordion";
 import FaqForm from "./FaqForm";

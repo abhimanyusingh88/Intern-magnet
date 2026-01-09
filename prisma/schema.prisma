@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -163,4 +164,28 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("auth_verification")
+}
+
+model NaukriJob {
+  id                       BigInt   @id @default(autoincrement())
+  data_job_id              String   @unique
+  title                    String
+  link                     String
+  company_name             String
+  rating                   String?
+  rating_href              String?
+  rating_source_details    String?
+  rating_source_no_reviews String?
+  experience               String
+  location                 String
+  job_description          String?
+  tags                     String?  // JSON array stored as string
+  job_post_day             String?
+  logo_url                 String?
+  salary                   String?
+  created_at               DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at])
+  @@index([data_job_id])
+  @@map("naukri_jobs")
 }

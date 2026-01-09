@@ -26,6 +26,7 @@
     "next": "16.0.10",
     "next-auth": "^5.0.0-beta.30",
     "nodemailer": "^7.0.12",
+    "puppeteer": "^24.34.0",
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "rsuite": "^6.1.1",

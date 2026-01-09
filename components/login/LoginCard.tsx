@@ -1,6 +1,4 @@
 "use client"
-
-import { signInAction } from "@/lib/actions"
 import { authClient } from "@/lib/auth-client"
 import BackGroundGlow from "../BackGroundGlow"
 import Image from "next/image"

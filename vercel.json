@@ -1,0 +1,8 @@
+{
+    "crons": [
+        {
+            "path": "/api/cron/scrape-naukri",
+            "schedule": "30 20 * * *"
+        }
+    ]
+}

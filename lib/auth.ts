@@ -23,7 +23,6 @@ export const auth = betterAuth({
         if (newSession && newSession.user) {
           const userId = newSession.user.id;
 
-          // Fetch the User (auth user) to get the email
           const authUser = await prisma.user.findUnique({
             where: { id: userId }
           });

@@ -1,7 +1,6 @@
 "use client"
 
 import { useSearchParams } from "next/navigation";
-import { signInAction } from "@/lib/actions";
 import { authClient } from "@/lib/auth-client";
 
 export default function SignInButton({ isLoggedIn, isLoading }: { isLoggedIn: boolean; isLoading: boolean }) {
@@ -12,7 +11,6 @@ export default function SignInButton({ isLoggedIn, isLoading }: { isLoggedIn: bo
 
   if (isLoggedIn || isLoading) return null;
 
-  // agar koi callback url hai toh thik warna rehne de bhai
   const redirectUrl = callbackUrl || "/";
 
   const handleSignIn = async () => {
