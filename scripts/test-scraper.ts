@@ -7,15 +7,15 @@ async function runTest() {
     const startTime = Date.now();
 
     try {
-        // Step 1: Clean up old jobs
+
         console.log('\n📅 Step 1: Testing cleanup...');
         const deletedCount = await cleanupOldJobs();
 
-        // Step 2: Scrape jobs (fetching smaller amount for test)
-        console.log('\n🔍 Step 2: Testing scraper (limit: 10 jobs for test)...');
-        const scrapedJobs = await scrapeNaukriJobs(30);
 
-        // Step 3: Insert jobs
+        console.log('\n🔍 Step 2: Testing scraper (limit: 300 jobs for test)...');
+        const scrapedJobs = await scrapeNaukriJobs(300);
+
+
         console.log('\n💾 Step 3: Testing database insertion...');
         const insertedCount = await insertNaukriJobs(scrapedJobs);
 

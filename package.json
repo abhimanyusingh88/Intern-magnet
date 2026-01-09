@@ -29,6 +29,7 @@
     "puppeteer": "^24.34.0",
     "react": "19.2.1",
     "react-dom": "19.2.1",
+    "react-intersection-observer": "^10.0.0",
     "rsuite": "^6.1.1",
     "tailwind-merge": "^3.4.0"
   },

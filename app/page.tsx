@@ -43,7 +43,7 @@ export default function HomePage() {
       {/* CTA */}
       <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
         <NormalButton link="/internships" title="Get started" variant="solid" />
-        <NormalButton link="/internships" title="Browse internships" variant="outline" />
+        <NormalButton link="/jobspage" title="Browse jobs" variant="outline" />
       </div>
 
       {/* SLIDER */}

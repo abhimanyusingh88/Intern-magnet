@@ -143,3 +143,39 @@ export type MultiOptionsProps = {
     single?: boolean;
     hint?: string;
 };
+
+// Unified Jobs Types
+export interface UnifiedJob {
+    id: string;
+    original_id: string;
+    source: 'naukri' | 'internal';
+    title: string;
+    company_name: string;
+    location: string;
+    experience: string;
+    salary: string;
+    job_description?: string | null;
+    posted_ago?: string | null;
+    logo_url?: string | null;
+    apply_link?: string | null;
+    created_at: string;
+}
+
+export interface JobsResponse {
+    data: UnifiedJob[];
+    nextCursor?: string;
+    count: number;
+}
+
+export interface JobFilters {
+    title?: string;
+    location?: string;
+    skills?: string;
+    minSalary?: number;
+    maxSalary?: number;
+    minExperience?: number;
+    maxExperience?: number;
+    jobAge?: number;
+    source?: 'naukri' | 'internal';
+    sortBy?: 'recent' | 'oldest';
+}
