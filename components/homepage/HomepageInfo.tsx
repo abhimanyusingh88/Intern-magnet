@@ -63,7 +63,7 @@ export default function PlatformInfoCard() {
                             whileHover={{ y: -3 }}
                             className="group relative rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4"
                         >
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                             <div className="relative z-10 flex flex-col gap-2">
                                 <span className="text-lg">{item.icon}</span>

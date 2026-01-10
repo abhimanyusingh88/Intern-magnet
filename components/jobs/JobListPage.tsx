@@ -8,7 +8,6 @@ import { JobCardSkeleton } from '@/components/jobs/LoadingComponents';
 import { JobFilters } from '@/lib/types/types';
 import BackGroundGlow from '@/components/BackGroundGlow';
 import EndJobIndicator from './endJobIndicator';
-import { SpinnerMini } from '../utils/SpinnerMini';
 import NoMansLand from './noMansLand';
 import ErrorComponent from './errorComponent';
 import { selectClasses } from './reusableClasses';
@@ -78,7 +77,7 @@ export function JobListPage() {
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 transition-colors duration-500">
             <BackGroundGlow />
-            <div className="container mx-auto px-4 py-8 sm:py-10 max-w-7xl">
+            <div className="container mx-auto px-4 py-6 sm:py-10 max-w-7xl">
                 {/* Header */}
                 <div className="mt-8 mb-6 sm:mt-10 sm:mb-8 text-center lg:text-left">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-zinc-200 mb-4 tracking-tight">

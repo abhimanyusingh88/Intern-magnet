@@ -1,16 +1,17 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
-import HeroSlider from "@/components/HomeImageSlider";
 import NormalButton from "@/components/utils/normalButton";
-import PlatformInfoCard from "@/components/utils/DashBoardInfo";
-// import HeroSlider from "@/components/HeroSlider";
+import PlatformInfoCard from "@/components/homepage/HomepageInfo";
+
 import { Rocket } from "lucide-react";
+import HeroSlider from "@/components/homepage/HomeImageSlider";
+import { MinimalView } from "@/components/homepage/minimalview";
 
 export default function HomePage() {
   return (
     <main
       className="
         relative min-h-screen flex flex-col
-        px-6 pt-24 pb-12
+        px-6 pt-20 pb-12
         sm:px-10 sm:pt-28
         md:px-20 md:pt-20
         lg:px-36
@@ -50,6 +51,8 @@ export default function HomePage() {
 
       <HeroSlider />
       <PlatformInfoCard />
+
+      <MinimalView />
     </main>
   );
 }
