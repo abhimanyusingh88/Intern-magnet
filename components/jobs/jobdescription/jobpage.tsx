@@ -2,6 +2,9 @@
 "use client"
 import { PerJobData } from "@/lib/data/perJobdata"
 import { JobDetail } from "@/lib/types/types";
+import { Briefcase, Clock4, ComputerIcon, IndianRupee, MapPin, TicketsPlane, Users } from "lucide-react";
+import Image from "next/image";
+import MainHeaderJob from "./mainHeaderJob";
 
 export default function JobPage({ companyname, slug }: { companyname: string, slug: string }) {
 
@@ -39,25 +42,19 @@ export default function JobPage({ companyname, slug }: { companyname: string, sl
         preferred_qualifications: data?.preferred_qualifications,
     }
     return <div className="flex flex-col sm:flex-row gap-2 md:gap-4 ">
-        {/* yha pura company ka data  */}
-        <section className="w-full sm:w-2/3  rounded-xl ">
+        {/*/////////// yha pura company ka data  */}
+        <section className="w-full  sm:w-2/3  rounded-xl ">
             {isError && <p className="text-xl text-red-600">{error?.message}</p>}
             {/* main card waala div */}
-            <div className="w-full rounded-xl bg-zinc-700 opacity-45">
-                {/* first row isme company logo,job title */}
-                <div></div>
-                {/* second row isme company ka naam and exp and salary */}
-                <div></div>
-                {/* company location */}
-                <div></div>
-            </div>
+            <MainHeaderJob jobData={jobData} />
             {/* pura description waala div */}
             <div></div>
             {/* about company waala div */}
             <div></div>
         </section>
 
-        {/* yha bas ratings, reviews , additional benfits */}
+
+        {/*//////////// yha bas ratings, reviews , additional benfits */}
         <section className="w-full sm:w-1/3 h-[600px] rounded-xl bg-zinc-700 opacity-40"></section>
     </div>
 }
