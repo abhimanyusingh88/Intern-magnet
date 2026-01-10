@@ -84,6 +84,7 @@ export type FormData = {
     preferred_qualifications?: string;
     draft?: boolean;
     id?: string;
+    created_at?: string;
 };
 
 export interface ScreeningQuestion {

@@ -51,6 +51,7 @@ export async function recruiterHiring(formData: FormData) {
                 preferred_qualifications: formData.preferred_qualifications,
                 user_id_recruiter: user.id,
                 draft: formData.draft ?? false,
+                created_at: formData.created_at,
             };
 
             // Check if we should update an existing record
@@ -74,10 +75,23 @@ export async function recruiterHiring(formData: FormData) {
             }
 
             if (shouldUpdate && formData.id) {
+                const existingdata = await tx.recruiterHiring.findFirst({
+                    where: {
+                        id: BigInt(formData.id),
+                        user_id_recruiter: user.id
+                    }
+                })
+                const updatedData = {
+                    ...commonData
+                };
+
+                if (existingdata?.draft && !formData.draft) {
+                    updatedData.created_at = new Date().toISOString();
+                }
                 // Update existing record
                 hiringRecord = await tx.recruiterHiring.update({
                     where: { id: BigInt(formData.id) },
-                    data: commonData,
+                    data: updatedData,
                 });
 
                 // Clear existing screening questions

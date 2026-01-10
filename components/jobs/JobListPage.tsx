@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { useJobs } from '@/lib/data/useJobs';
 import { JobCard } from '@/components/jobs/JobCard';
 import { JobFiltersComponent } from '@/components/jobs/JobFilters';
-import { LoadingSpinner, JobCardSkeleton } from '@/components/jobs/LoadingComponents';
+import { JobCardSkeleton } from '@/components/jobs/LoadingComponents';
 import { JobFilters } from '@/lib/types/types';
 import BackGroundGlow from '@/components/BackGroundGlow';
 import EndJobIndicator from './endJobIndicator';
@@ -12,6 +12,7 @@ import { SpinnerMini } from '../utils/SpinnerMini';
 import NoMansLand from './noMansLand';
 import ErrorComponent from './errorComponent';
 import { selectClasses } from './reusableClasses';
+import LoadMoreSection from './loadMoreSection';
 
 export function JobListPage() {
     const [filters, setFilters] = useState<JobFilters>({});
@@ -39,14 +40,6 @@ export function JobListPage() {
         return () => clearTimeout(timer);
     }, [filters]);
 
-    // Auto-fetch when scrolling to bottom
-    useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-        }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-
     const pages = data?.pages ?? [];
 
     const jobs = pages.flatMap(page => page.data);
@@ -60,6 +53,25 @@ export function JobListPage() {
     }
 
     const allJobs = uniqueJobs;
+
+    // Auto-fetch when scrolling to bottom
+    useEffect(() => {
+        const canFetch = inView && hasNextPage && !isFetchingNextPage;
+        if (!canFetch) return;
+
+        // If we have jobs, fetch immediately when in view
+        if (allJobs.length > 0) {
+            fetchNextPage();
+        } else if (!isLoading) {
+            // If we are here, it means we have no jobs but there is a next page
+            // This could happen if filters are very restrictive.
+            // We'll wait a bit before trying again to avoid hammering the server
+            const timer = setTimeout(() => {
+                fetchNextPage();
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, allJobs.length, isLoading]);
 
     const totalCount = data?.pages[0]?.count;
 
@@ -154,23 +166,7 @@ export function JobListPage() {
 
                         {/* Infinite Scroll Trigger & Load More */}
                         {hasNextPage && !isError && (
-                            <div ref={ref} className="py-12 text-center">
-                                {isFetchingNextPage ? (
-                                    <div className="flex flex-col items-center justify-center gap-4">
-                                        <SpinnerMini />
-                                        <span className="text-sm font-medium text-gray-600 dark:text-zinc-400 animate-pulse">
-                                            Curating more opportunities...
-                                        </span>
-                                    </div>
-                                ) : (
-                                    <button
-                                        onClick={() => fetchNextPage()}
-                                        className="bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-10 py-4 rounded-xl hover:bg-black dark:hover:bg-zinc-200 transition-all hover:shadow-xl font-bold text-sm tracking-wide"
-                                    >
-                                        Load More Opportunities
-                                    </button>
-                                )}
-                            </div>
+                            <LoadMoreSection ref={ref} fetchNextPage={fetchNextPage} isFetchingNextPage={isFetchingNextPage} />
                         )}
 
                         {/* End of List */}

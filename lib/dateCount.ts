@@ -44,7 +44,6 @@ export function getNormalizedPostDate(createdAt: string | Date, postedAgo?: stri
         }
     }
 
-    // If it's something like "30+ days ago", we use 30
     const normalizedDate = new Date(scrapeDate.getTime() - (daysToAdd * 24 * 60 * 60 * 1000));
     return normalizedDate;
 }

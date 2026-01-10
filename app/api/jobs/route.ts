@@ -1,9 +1,12 @@
+import { parseSalaryToLakhs } from "@/components/utils/salaryPraser";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 const JOBS_PER_PAGE = 10;
+
+
 
 export async function GET(req: Request) {
     try {
@@ -22,25 +25,23 @@ export async function GET(req: Request) {
         const limit = Number(searchParams.get("limit")) || JOBS_PER_PAGE;
 
         // Filter params
-        const minSalary = searchParams.get("minSalary");
-        const maxSalary = searchParams.get("maxSalary");
+        const minSalaryParam = searchParams.get("minSalary");
+        const maxSalaryParam = searchParams.get("maxSalary");
+        const minSalary = minSalaryParam !== null ? parseInt(minSalaryParam) : null;
+        const maxSalary = maxSalaryParam !== null ? parseInt(maxSalaryParam) : null;
         const jobAge = searchParams.get("jobAge"); // in days
         const skills = searchParams.get("skills"); // comma-separated
         const title = searchParams.get("title");
         const location = searchParams.get("location");
-        const minExperience = searchParams.get("minExperience");
-        const maxExperience = searchParams.get("maxExperience");
+        const minExperienceParam = searchParams.get("minExperience");
+        const maxExperienceParam = searchParams.get("maxExperience");
+        const minExperience = minExperienceParam !== null ? parseInt(minExperienceParam) : null;
+        const maxExperience = maxExperienceParam !== null ? parseInt(maxExperienceParam) : null;
         const source = searchParams.get("source"); // 'naukri' or 'internal'
 
 
         const where: any = {};
 
-        // Filter by source
-        if (source) {
-            where.source = source;
-        }
-
-        // Filter by title (case-insensitive search)
         if (title) {
             where.title = {
                 contains: title,
@@ -48,7 +49,6 @@ export async function GET(req: Request) {
             };
         }
 
-        // Filter by location (case-insensitive search)
         if (location) {
             where.location = {
                 contains: location,
@@ -56,13 +56,26 @@ export async function GET(req: Request) {
             };
         }
 
-        // Filter by job age (posted_at)
+        if (source) {
+            where.source = source;
+        }
+
         if (jobAge) {
-            const daysAgo = new Date();
-            daysAgo.setDate(daysAgo.getDate() - parseInt(jobAge));
+            const date = new Date();
+            date.setDate(date.getDate() - parseInt(jobAge));
             where.posted_at = {
-                gte: daysAgo
+                gte: date
             };
+        }
+
+        if (skills) {
+            const skillList = skills.toLowerCase().split(',').map(s => s.trim());
+            where.OR = skillList.map(skill => ({
+                job_description: {
+                    contains: skill,
+                    mode: 'insensitive'
+                }
+            }));
         }
 
         console.log(`Fetching jobs with filters:`, { cursor, limit, where });
@@ -70,63 +83,82 @@ export async function GET(req: Request) {
         const sortBy = searchParams.get("sortBy") || "recent";
         const sortOrder = sortBy === "oldest" ? "asc" : "desc";
 
-        const jobs = await prisma.unified_jobs.findMany({
-            where,
-            take: limit + 1, // Fetch one extra to determine if there's a next page
-            cursor: cursor ? { id: cursor } : undefined,
-            orderBy: [
-                { posted_at: sortOrder },
-                { id: sortOrder },
-            ],
-        });
+        let allFilteredJobs: any[] = [];
+        let currentCursor = cursor;
+        let finalNextCursor: string | undefined = undefined;
+        let attempts = 0;
+        const MAX_ATTEMPTS = 10; // Look through more batches to fill the limit
 
-        let nextCursor: string | undefined = undefined;
-        if (jobs.length > limit) {
-            const nextItem = jobs.pop();
-            nextCursor = nextItem?.id || undefined;
+        while (allFilteredJobs.length < limit && attempts < MAX_ATTEMPTS) {
+            attempts++;
+            const jobs = await prisma.unified_jobs.findMany({
+                where,
+                take: limit + 1,
+                cursor: currentCursor ? { id: currentCursor } : undefined,
+                orderBy: [
+                    { posted_at: sortOrder },
+                    { id: sortOrder },
+                ],
+            });
+
+            if (jobs.length === 0) break;
+
+            let nextBatchCursor: string | undefined = undefined;
+            let currentBatch = [...jobs];
+
+            if (jobs.length > limit) {
+                const nextItem = currentBatch.pop();
+                nextBatchCursor = nextItem?.id || undefined;
+            }
+
+            // Post-process filtering for salary and experience
+            let filteredBatch = currentBatch.filter((job: any) => {
+                // Filter by experience range
+                if (minExperience !== null || maxExperience !== null) {
+                    const expMatches = job.experience?.match(/\d+/g);
+                    if (expMatches) {
+                        const jobMinExp = parseInt(expMatches[0]);
+                        const jobMaxExp = expMatches.length > 1 ? parseInt(expMatches[1]) : jobMinExp;
+
+                        // Specific check: job must fit within the user's requested range
+                        if (minExperience !== null && jobMaxExp < minExperience) return false;
+                        if (maxExperience !== null && jobMaxExp > maxExperience) return false;
+                    } else {
+                        // If experience is not parseable but filter is applied, exclude it
+                        return false;
+                    }
+                }
+
+                // Filter by salary (normalized to Lakhs)
+                if (minSalary !== null || maxSalary !== null) {
+                    const jobSalaryInLakhs = parseSalaryToLakhs(job.salary, job.source);
+                    if (jobSalaryInLakhs !== null) {
+                        if (minSalary !== null && jobSalaryInLakhs < minSalary) return false;
+                        if (maxSalary !== null && jobSalaryInLakhs > maxSalary) return false;
+                    } else {
+                        // If filter is applied but salary is missing/unparseable, exclude it
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            allFilteredJobs = [...allFilteredJobs, ...filteredBatch];
+            currentCursor = nextBatchCursor || null;
+            finalNextCursor = nextBatchCursor;
+
+            // If we didn't find any in this batch and there's no more, stop
+            if (!nextBatchCursor) break;
+            // If we found enough, stop
+            if (allFilteredJobs.length >= limit) {
+                allFilteredJobs = allFilteredJobs.slice(0, limit);
+                break;
+            }
         }
 
-        // Post-process filtering for salary, experience, and skills
-        let filteredJobs = jobs.filter((job: any) => {
-            // Filter by skills (check if job_description contains skills)
-            if (skills) {
-                const skillList = skills.toLowerCase().split(',').map(s => s.trim());
-                const jobDesc = (job.job_description || '').toLowerCase();
-                const hasSkill = skillList.some(skill => jobDesc.includes(skill));
-                if (!hasSkill) return false;
-            }
-
-            // Filter by experience (parse the experience string)
-            if (minExperience || maxExperience) {
-                const expMatch = job.experience?.match(/(\d+)/);
-                if (expMatch) {
-                    const jobExp = parseInt(expMatch[1]);
-                    if (minExperience && jobExp < parseInt(minExperience)) return false;
-                    if (maxExperience && jobExp > parseInt(maxExperience)) return false;
-                } else if (minExperience || maxExperience) {
-                    // If we can't parse experience and filters are set, exclude the job
-                    return false;
-                }
-            }
-
-            // Filter by salary (parse salary ranges)
-            if (minSalary || maxSalary) {
-                const salaryMatch = job.salary?.match(/(\d+)/);
-                if (salaryMatch) {
-                    const jobSalary = parseInt(salaryMatch[1]);
-                    if (minSalary && jobSalary < parseInt(minSalary)) return false;
-                    if (maxSalary && jobSalary > parseInt(maxSalary)) return false;
-                } else if (minSalary || maxSalary) {
-                    // If we can't parse salary and filters are set, exclude the job
-                    return false;
-                }
-            }
-
-            return true;
-        });
-
         // agar bigint hai usko pehle resolve karta hun bhot tang karta hai
-        const serializedJobs = filteredJobs.map((job: any) => ({
+        const serializedJobs = allFilteredJobs.map((job: any) => ({
             ...job,
             original_id: job.original_id?.toString(),
             experience: job.experience || "Not specified",
@@ -135,7 +167,7 @@ export async function GET(req: Request) {
 
         return NextResponse.json({
             data: serializedJobs,
-            nextCursor,
+            nextCursor: (finalNextCursor as string | null) || null,
             count: serializedJobs.length,
         });
 

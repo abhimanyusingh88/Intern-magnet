@@ -18,7 +18,7 @@ export function JobFiltersComponent({ filters, onFilterChange }: JobFiltersProps
 
 
     const handleChange = (key: keyof JobFilters, value: any) => {
-        const newFilters = { ...filters, [key]: value || undefined };
+        const newFilters = { ...filters, [key]: (value !== "" && value !== undefined) ? value : undefined };
         // Remove undefined values
         Object.keys(newFilters).forEach(k => {
             if (newFilters[k as keyof JobFilters] === undefined) {
@@ -104,15 +104,15 @@ export function JobFiltersComponent({ filters, onFilterChange }: JobFiltersProps
                             type="number"
                             placeholder="Min"
                             min="0"
-                            value={filters.minExperience || ''}
-                            onChange={(e) => handleChange('minExperience', e.target.value ? Number(e.target.value) : undefined)}
+                            value={filters.minExperience ?? ''}
+                            onChange={(e) => handleChange('minExperience', e.target.value !== "" ? Number(e.target.value) : undefined)}
                         />
                         <InputFilter
                             type="number"
                             placeholder="Max"
                             min="0"
-                            value={filters.maxExperience || ''}
-                            onChange={(e) => handleChange('maxExperience', e.target.value ? Number(e.target.value) : undefined)}
+                            value={filters.maxExperience ?? ''}
+                            onChange={(e) => handleChange('maxExperience', e.target.value !== "" ? Number(e.target.value) : undefined)}
                         />
                     </div>
                 </div>
@@ -128,15 +128,15 @@ export function JobFiltersComponent({ filters, onFilterChange }: JobFiltersProps
                             type="number"
                             placeholder="Min"
                             min="0"
-                            value={filters.minSalary || ''}
-                            onChange={(e) => handleChange('minSalary', e.target.value ? Number(e.target.value) : undefined)}
+                            value={filters.minSalary ?? ''}
+                            onChange={(e) => handleChange('minSalary', e.target.value !== "" ? Number(e.target.value) : undefined)}
                         />
                         <InputFilter
                             type="number"
                             placeholder="Max"
                             min="0"
-                            value={filters.maxSalary || ''}
-                            onChange={(e) => handleChange('maxSalary', e.target.value ? Number(e.target.value) : undefined)}
+                            value={filters.maxSalary ?? ''}
+                            onChange={(e) => handleChange('maxSalary', e.target.value !== "" ? Number(e.target.value) : undefined)}
                         />
                     </div>
                 </div>
