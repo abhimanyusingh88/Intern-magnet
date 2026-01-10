@@ -3,6 +3,9 @@ import { BriefcaseBusiness, ChevronRight, Clock4, ExternalLink, IndianRupee, Squ
 import Image from 'next/image';
 import Link from 'next/link';
 import { getTimeAgo, getNormalizedPostDate } from '@/lib/dateCount';
+import { Slugify } from './slugify';
+// import Slugify from './slugify';
+
 
 interface JobCardProps {
     job: UnifiedJob;
@@ -100,7 +103,7 @@ export function JobCard({ job }: JobCardProps) {
                             </a>
                         ) : (
                             <Link
-                                href={job.apply_link || '#'}
+                                href={`/jobspage/${Slugify(job.company_name)}/${Slugify(job.title)}-${job.original_id}`}
                                 className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 transition-all font-medium text-xs sm:text-sm shadow-sm hover:shadow-md"
                             >
                                 View Details

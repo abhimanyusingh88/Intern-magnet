@@ -104,7 +104,7 @@ export function JobListPage() {
                     <main className="lg:col-span-3">
                         {/* Results Count & Status */}
                         {!isLoading && (
-                            <div className="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/50 dark:bg-zinc-900/50 p-3 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 backdrop-blur-sm">
+                            <div className="mb-3 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/50 dark:bg-zinc-900/50 p-3 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 backdrop-blur-sm">
                                 <div className="text-sm text-gray-600 dark:text-zinc-400">
                                     {allJobs.length > 0 ? (
                                         <>
