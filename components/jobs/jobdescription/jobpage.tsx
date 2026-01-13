@@ -5,6 +5,7 @@ import { JobDetail } from "@/lib/types/types";
 import { Briefcase, Clock4, ComputerIcon, IndianRupee, MapPin, TicketsPlane, Users } from "lucide-react";
 import Image from "next/image";
 import MainHeaderJob from "./mainHeaderJob";
+import JobDescription from "./jobDescription";
 
 export default function JobPage({ companyname, slug }: { companyname: string, slug: string }) {
 
@@ -41,20 +42,21 @@ export default function JobPage({ companyname, slug }: { companyname: string, sl
         required_qualifications: data?.required_qualifications,
         preferred_qualifications: data?.preferred_qualifications,
     }
-    return <div className="flex flex-col sm:flex-row gap-2 md:gap-4 ">
+
+    return <div className="flex flex-col sm:flex-row gap-2 md:gap-4 sm:items-start">
         {/*/////////// yha pura company ka data  */}
-        <section className="w-full  sm:w-2/3  rounded-xl ">
+        <section className="w-full sm:w-2/3 rounded-xl min-h-[1000px]">
             {isError && <p className="text-xl text-red-600">{error?.message}</p>}
             {/* main card waala div */}
             <MainHeaderJob jobData={jobData} />
             {/* pura description waala div */}
-            <div></div>
+            <JobDescription jobData={jobData} />
             {/* about company waala div */}
             <div></div>
         </section>
 
 
         {/*//////////// yha bas ratings, reviews , additional benfits */}
-        <section className="w-full sm:w-1/3 h-[600px] rounded-xl bg-zinc-700 opacity-40"></section>
+        <section className="w-full sticky top-24 self-start sm:w-1/3 h-[600px] rounded-xl bg-zinc-800 opacity-40"></section>
     </div>
 }

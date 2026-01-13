@@ -7,7 +7,6 @@ import { NextResponse } from "next/server";
 const JOBS_PER_PAGE = 10;
 
 
-
 export async function GET(req: Request) {
     try {
         const session = await auth.api.getSession({

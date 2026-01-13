@@ -153,7 +153,7 @@ export default function EditForm({ job, setOpen }: editJOb) {
                     <MultiOptions
                         label="Primary Skills"
                         name="primary_skills"
-                        options={AdditionalBenefits}
+                        options={skills}
                         value={formData.primary_skills}
                         onChange={(val) => updateField("primary_skills", val)}
                     />

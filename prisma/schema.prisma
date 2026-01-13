@@ -160,8 +160,8 @@ model Verification {
 }
 
 model NaukriJob {
-  id                       BigInt   @id @default(autoincrement())
-  data_job_id              String   @unique
+  id                       BigInt    @id @default(autoincrement())
+  data_job_id              String    @unique
   title                    String
   link                     String
   company_name             String
@@ -175,9 +175,9 @@ model NaukriJob {
   tags                     String?
   job_post_day             String?
   logo_url                 String?
-  created_at               DateTime @default(now()) @db.Timestamptz(6)
-  posted_at                DateTime? @db.Timestamptz(6)
+  created_at               DateTime  @default(now()) @db.Timestamptz(6)
   salary                   String?
+  posted_at                DateTime? @db.Timestamptz(6)
 
   @@index([created_at])
   @@index([data_job_id])
@@ -185,7 +185,7 @@ model NaukriJob {
 }
 
 view unified_jobs {
-  id              String @unique
+  id              String    @unique
   original_id     BigInt?
   source          String?
   title           String?

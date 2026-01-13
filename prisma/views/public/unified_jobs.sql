@@ -11,7 +11,8 @@ SELECT
   naukri_jobs.job_post_day AS posted_ago,
   naukri_jobs.logo_url,
   naukri_jobs.link AS apply_link,
-  naukri_jobs.created_at
+  naukri_jobs.created_at,
+  naukri_jobs.posted_at
 FROM
   naukri_jobs
 UNION
@@ -39,7 +40,8 @@ SELECT
   NULL :: text AS posted_ago,
   recruiterhiring.company_logo AS logo_url,
   ('/jobs/' :: text || (recruiterhiring.id) :: text) AS apply_link,
-  recruiterhiring.created_at
+  recruiterhiring.created_at,
+  recruiterhiring.created_at AS posted_at
 FROM
   recruiterhiring
 WHERE
