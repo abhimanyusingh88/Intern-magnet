@@ -1,28 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-const array = [
-    {
-        icon: "🤖",
-        title: "Intelligent Matching",
-        desc: "Context-aware AI connects relevant candidates and roles.",
-    },
-    {
-        icon: "⚡",
-        title: "Frictionless Flow",
-        desc: "Reduced steps, faster decisions, cleaner hiring.",
-    },
-    {
-        icon: "🎯",
-        title: "Signal-Driven",
-        desc: "Intent and skills matter more than keywords.",
-    },
-    {
-        icon: "📈",
-        title: "Live Insights",
-        desc: "Real-time visibility into reach and engagement.",
-    },
-]
+import { manyOptions } from "./constants";
+
 
 export default function PlatformInfoCard() {
     return (
@@ -50,7 +30,7 @@ export default function PlatformInfoCard() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {array.map((item, i) => (
+                    {manyOptions.map((item, i) => (
                         <motion.div
                             key={item.title}
                             initial={{ opacity: 0, y: 12 }}

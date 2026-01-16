@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { JobFilters } from '@/lib/types/types';
-import { inputClasses, labelClasses, numberInputClasses, selectClasses, subLabelClasses } from './reusableClasses';
+import { labelClasses, selectClasses, subLabelClasses } from './reusableClasses';
 import { Filter } from 'lucide-react';
 import { InputFilter } from './inputFilter';
+import { motion } from 'framer-motion';
+import AgeSelect from './ageSelect';
 
 interface JobFiltersProps {
     filters: JobFilters;
@@ -59,132 +61,129 @@ export function JobFiltersComponent({ filters, onFilterChange }: JobFiltersProps
             </div>
 
             {/* Filters Content */}
-            <div className={`p-4 space-y-2 ${isExpanded ? 'block' : 'hidden lg:block'}`}>
-                {/* Title Search */}
-                <div>
-                    <label className={labelClasses}>Job Title</label>
-                    <InputFilter
-                        type="text"
-                        placeholder="e.g. Software Developer"
-                        value={filters.title || ''}
-                        onChange={(e) => handleChange('title', e.target.value)}
-                    />
-                </div>
-
-                {/* Location */}
-                <div>
-                    <label className={labelClasses}>Location</label>
-                    <InputFilter
-                        type="text"
-                        placeholder="e.g. Bangalore, Remote"
-                        value={filters.location || ''}
-                        onChange={(e) => handleChange('location', e.target.value)}
-                    />
-                </div>
-
-                {/* Skills */}
-                <div>
-                    <label className={labelClasses}>
-                        Skills
-                        <span className={subLabelClasses}>(comma-separated)</span>
-                    </label>
-                    <InputFilter
-                        type="text"
-                        placeholder="e.g. React, TypeScript, Node.js"
-                        value={filters.skills || ''}
-                        onChange={(e) => handleChange('skills', e.target.value)}
-                    />
-                </div>
-
-                {/* Experience Range */}
-                <div>
-                    <label className={labelClasses}>Experience (years)</label>
-                    <div className="grid grid-cols-2 gap-2">
+            <motion.div
+                initial={{ height: 0 }}
+                animate={{ height: isExpanded ? 'auto' : 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden lg:!h-auto"
+            >
+                <div className="p-4 space-y-2">
+                    {/* Title Search */}
+                    <div>
+                        <label className={labelClasses}>Job Title</label>
                         <InputFilter
-                            type="number"
-                            placeholder="Min"
-                            min="0"
-                            value={filters.minExperience ?? ''}
-                            onChange={(e) => handleChange('minExperience', e.target.value !== "" ? Number(e.target.value) : undefined)}
-                        />
-                        <InputFilter
-                            type="number"
-                            placeholder="Max"
-                            min="0"
-                            value={filters.maxExperience ?? ''}
-                            onChange={(e) => handleChange('maxExperience', e.target.value !== "" ? Number(e.target.value) : undefined)}
+                            type="text"
+                            placeholder="e.g. Software Developer"
+                            value={filters.title || ''}
+                            onChange={(e) => handleChange('title', e.target.value)}
                         />
                     </div>
-                </div>
 
-                {/* Salary Range */}
-                <div>
-                    <label className={labelClasses}>
-                        Salary (₹/year)
-                        <span className={subLabelClasses}>(in lakhs)</span>
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
+                    {/* Location */}
+                    <div>
+                        <label className={labelClasses}>Location</label>
                         <InputFilter
-                            type="number"
-                            placeholder="Min"
-                            min="0"
-                            value={filters.minSalary ?? ''}
-                            onChange={(e) => handleChange('minSalary', e.target.value !== "" ? Number(e.target.value) : undefined)}
-                        />
-                        <InputFilter
-                            type="number"
-                            placeholder="Max"
-                            min="0"
-                            value={filters.maxSalary ?? ''}
-                            onChange={(e) => handleChange('maxSalary', e.target.value !== "" ? Number(e.target.value) : undefined)}
+                            type="text"
+                            placeholder="e.g. Bangalore, Remote"
+                            value={filters.location || ''}
+                            onChange={(e) => handleChange('location', e.target.value)}
                         />
                     </div>
+
+                    {/* Skills */}
+                    <div>
+                        <label className={labelClasses}>
+                            Skills
+                            <span className={subLabelClasses}>(comma-separated)</span>
+                        </label>
+                        <InputFilter
+                            type="text"
+                            placeholder="e.g. React, TypeScript, Node.js"
+                            value={filters.skills || ''}
+                            onChange={(e) => handleChange('skills', e.target.value)}
+                        />
+                    </div>
+
+                    {/* Experience Range */}
+                    <div>
+                        <label className={labelClasses}>Experience (years)</label>
+                        <div className="grid grid-cols-2 gap-2">
+                            <InputFilter
+                                type="number"
+                                placeholder="Min"
+                                min="0"
+                                value={filters.minExperience ?? ''}
+                                onChange={(e) => handleChange('minExperience', e.target.value !== "" ? Number(e.target.value) : undefined)}
+                            />
+                            <InputFilter
+                                type="number"
+                                placeholder="Max"
+                                min="0"
+                                value={filters.maxExperience ?? ''}
+                                onChange={(e) => handleChange('maxExperience', e.target.value !== "" ? Number(e.target.value) : undefined)}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Salary Range */}
+                    <div>
+                        <label className={labelClasses}>
+                            Salary (₹/year)
+                            <span className={subLabelClasses}>(in lakhs)</span>
+                        </label>
+                        <div className="grid grid-cols-2 gap-2">
+                            <InputFilter
+                                type="number"
+                                placeholder="Min"
+                                min="0"
+                                value={filters.minSalary ?? ''}
+                                onChange={(e) => handleChange('minSalary', e.target.value !== "" ? Number(e.target.value) : undefined)}
+                            />
+                            <InputFilter
+                                type="number"
+                                placeholder="Max"
+                                min="0"
+                                value={filters.maxSalary ?? ''}
+                                onChange={(e) => handleChange('maxSalary', e.target.value !== "" ? Number(e.target.value) : undefined)}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Job Age */}
+                    <div>
+                        <label className={labelClasses}>Posted Within</label>
+                        <AgeSelect filters={filters} handleChange={handleChange} selectClasses={selectClasses} />
+                    </div>
+
+                    {/* Source */}
+                    <div>
+                        <label className={labelClasses}>Job Source</label>
+                        <select
+                            value={filters.source || ''}
+                            onChange={(e) => handleChange('source', e.target.value || undefined)}
+                            className={selectClasses}
+                        >
+                            <option value="">All sources</option>
+                            <option value="naukri">Naukri Jobs</option>
+                            <option value="internal">Internal Jobs</option>
+                        </select>
+                    </div>
+
+                    {/* Reset Button */}
+                    {activeFilterCount > 0 && (
+                        <button
+                            onClick={handleReset}
+                            className="w-full bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 py-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            Reset Filters
+                        </button>
+                    )}
+
                 </div>
-
-                {/* Job Age */}
-                <div>
-                    <label className={labelClasses}>Posted Within</label>
-                    <select
-                        value={filters.jobAge || ''}
-                        onChange={(e) => handleChange('jobAge', e.target.value ? Number(e.target.value) : undefined)}
-                        className={selectClasses}
-                    >
-                        <option value="">Any time</option>
-                        <option value="1">Last 24 hours</option>
-                        <option value="3">Last 3 days</option>
-                        <option value="7">Last week</option>
-                        <option value="30">Last month</option>
-                    </select>
-                </div>
-
-                {/* Source */}
-                <div>
-                    <label className={labelClasses}>Job Source</label>
-                    <select
-                        value={filters.source || ''}
-                        onChange={(e) => handleChange('source', e.target.value || undefined)}
-                        className={selectClasses}
-                    >
-                        <option value="">All sources</option>
-                        <option value="naukri">Naukri Jobs</option>
-                        <option value="internal">Internal Jobs</option>
-                    </select>
-                </div>
-
-                {/* Reset Button */}
-                {activeFilterCount > 0 && (
-                    <button
-                        onClick={handleReset}
-                        className="w-full bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 py-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors font-medium text-sm flex items-center justify-center gap-2"
-                    >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                        Reset Filters
-                    </button>
-                )}
-
-            </div>
-        </div>
+            </motion.div>
+        </div >
     );
 }

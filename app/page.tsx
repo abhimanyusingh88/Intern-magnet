@@ -5,6 +5,7 @@ import PlatformInfoCard from "@/components/homepage/HomepageInfo";
 import { Rocket } from "lucide-react";
 import HeroSlider from "@/components/homepage/HomeImageSlider";
 import { MinimalView } from "@/components/homepage/minimalview";
+import TrustSection from "@/components/homepage/TrustSection";
 
 export default function HomePage() {
   return (
@@ -42,7 +43,7 @@ export default function HomePage() {
       </div>
 
       {/* CTA */}
-      <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+      <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
         <NormalButton link="/internships" title="Get started" variant="solid" />
         <NormalButton link="/jobspage" title="Browse jobs" variant="outline" />
       </div>
@@ -53,6 +54,7 @@ export default function HomePage() {
       <PlatformInfoCard />
 
       <MinimalView />
+      <TrustSection />
     </main>
   );
 }

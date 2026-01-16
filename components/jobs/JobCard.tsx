@@ -54,8 +54,9 @@ export function JobCard({ job }: JobCardProps) {
 
                         {/* Source Badge */}
                         {isExternal && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium whitespace-nowrap bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
-                                🌐 Naukri
+                            <span className="px-2 py-0.5 rounded-full text-[10px]  sm:text-xs flex flex-col gap-1 font-medium whitespace-nowrap">
+                                <Image src="/naukri-logo.png" alt="naukri-logo " width={200} height={200} className="h-5 w-5 sm:h-6 sm:w-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+
                             </span>
                         )}
                     </div>

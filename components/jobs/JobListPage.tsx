@@ -72,7 +72,6 @@ export function JobListPage() {
         }
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, allJobs.length, isLoading]);
 
-    const totalCount = data?.pages[0]?.count;
 
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 transition-colors duration-500">
@@ -120,7 +119,7 @@ export function JobListPage() {
                                     <select
                                         value={filters.sortBy || 'recent'}
                                         onChange={(e) => setFilters({ ...filters, sortBy: e.target.value as any })}
-                                        className={`${selectClasses} !bg-white dark:!bg-zinc-900 !py-1.5 !px-3 !w-auto min-w-[140px] border-gray-200 dark:border-zinc-800`}
+                                        className={`${selectClasses} cursor-pointer !bg-white dark:!bg-zinc-800 !py-1.5 !px-3 !w-auto min-w-[140px] border-gray-200 dark:border-zinc-800`}
                                     >
                                         <option value="recent">Recent First</option>
                                         <option value="oldest">Oldest First</option>

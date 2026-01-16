@@ -3,29 +3,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { slides } from "./constants";
 
-const slides = [
-    {
-        image: "/Career.png",
-        title: "Tired of internship hunts?",
-        description: "We've got you covered! Stop searching. Start your career.",
-    },
-    {
-        image: "/Certification.png",
-        title: "Get certified, get noticed",
-        description: "Industry-recognized certifications that boost your profile.",
-    },
-    {
-        image: "/Skill.png",
-        title: "Build real skills",
-        description: "Learn by doing with hands-on tasks and mentorship.",
-    },
-    {
-        image: "/Project.png",
-        title: "Showcase real projects",
-        description: "Work on real-world projects recruiters care about.",
-    },
-];
+
 
 export default function HeroSlider() {
     const total = slides.length;
@@ -67,7 +47,7 @@ export default function HeroSlider() {
     const prev = () => setIndex((i) => i - 1);
 
     return (
-        <section className="relative mt-10 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] w-full overflow-hidden rounded-2xl">
+        <section className="relative mt-6 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] w-full overflow-hidden rounded-2xl">
             <div
                 className={`absolute inset-0 flex ${animate ? "transition-transform duration-700 ease-in-out" : ""
                     }`}

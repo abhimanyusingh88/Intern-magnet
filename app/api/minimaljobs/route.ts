@@ -5,15 +5,15 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const session = await auth.api.getSession({
-            headers: await headers()
-        })
-        if (!session?.user) {
-            return NextResponse.json(
-                { message: "unauthorized user access" },
-                { status: 401 }
-            )
-        }
+        // const session = await auth.api.getSession({
+        //     headers: await headers()
+        // })
+        // if (!session?.user) {
+        //     return NextResponse.json(
+        //         { message: "unauthorized user access" },
+        //         { status: 401 }
+        //     )
+        // }
         const miniJobs = await prisma.unified_jobs.findMany(
 
             {
