@@ -6,6 +6,7 @@ import { Briefcase, Clock4, ComputerIcon, IndianRupee, MapPin, TicketsPlane, Use
 import Image from "next/image";
 import MainHeaderJob from "./mainHeaderJob";
 import JobDescription from "./jobDescription";
+import ErrorComponent from "../errorComponent";
 
 export default function JobPage({ companyname, slug }: { companyname: string, slug: string }) {
 
@@ -45,8 +46,8 @@ export default function JobPage({ companyname, slug }: { companyname: string, sl
 
     return <div className="flex flex-col sm:flex-row gap-2 md:gap-4 sm:items-start">
         {/*/////////// yha pura company ka data  */}
-        <section className="w-full sm:w-2/3 rounded-xl min-h-[1000px]">
-            {isError && <p className="text-xl text-red-600">{error?.message}</p>}
+        <section className="w-full sm:w-2/3 rounded-xl sm:min-h-[1000px]">
+            {isError && <ErrorComponent error={error} />}
             {/* main card waala div */}
             <MainHeaderJob jobData={jobData} />
             {/* pura description waala div */}
@@ -57,6 +58,6 @@ export default function JobPage({ companyname, slug }: { companyname: string, sl
 
 
         {/*//////////// yha bas ratings, reviews , additional benfits */}
-        <section className="w-full sticky top-24 self-start sm:w-1/3 h-[600px] rounded-xl bg-zinc-800 opacity-40"></section>
+        <section className="w-full sticky sm:top-0  lg:top-24 self-start sm:w-1/3 h-[600px] rounded-xl bg-zinc-800 opacity-40"></section>
     </div>
 }

@@ -6,6 +6,7 @@ import { Rocket } from "lucide-react";
 import HeroSlider from "@/components/homepage/HomeImageSlider";
 import { MinimalView } from "@/components/homepage/minimalview";
 import TrustSection from "@/components/homepage/TrustSection";
+import NetBg from "@/components/utils/netBg";
 
 export default function HomePage() {
   return (
@@ -18,6 +19,9 @@ export default function HomePage() {
         lg:px-36
       "
     >
+      <div className=" sticky top-20">
+        <NetBg />
+      </div>
       <BackGroundGlow />
 
       {/* Top content */}

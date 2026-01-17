@@ -5,7 +5,8 @@ export default function JobDescription({ jobData }: { jobData: JobDetail }) {
         {/* yha pe description */}
         <div>
             <h1 className="text-zinc-200 text-sm mb-2  sm:text-lg md:text-xl font-semibold">Job description</h1>
-            <div className="space-y-2 text-zinc-300 text-justify font-light leading-5   sm:leading-6  text-xs sm:text-xs md:text-sm">
+            <div className="space-y-2 text-zinc-300  text-justify font-light leading-relaxed text-xs sm:text-sm md:text-base">
+
                 {jobData.job_description
                     ?.split("\n")
                     .filter(Boolean)

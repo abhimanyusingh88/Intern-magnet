@@ -60,8 +60,8 @@ export default function TrustSection() {
                             <Image
                                 src="/trustt.png"
                                 alt="Trusted Job Platform"
-                                width={1200}
-                                height={1200}
+                                width={300}
+                                height={300}
                                 className="w-full h-auto rounded-2xl shadow-2xl border border-gray-100 dark:border-zinc-800 relative z-10"
                                 priority
                                 quality={75}
