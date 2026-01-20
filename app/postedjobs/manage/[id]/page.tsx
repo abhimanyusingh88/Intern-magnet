@@ -1,7 +1,9 @@
-
 import ManageJobContent from "@/components/manage-job/ManageJobContent";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import LoginRequiredPage from "@/components/login/LoginReminderPage";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const { id } = await params;
@@ -24,10 +26,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function ManageJobPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
 
-    // We removed server-side prefetching to prevent the loading.tsx spinner from blocking navigation.
-    // The client component <ManageJobContent> will now handle fetching, using the cache if available.
+    if (!session) {
+        return <LoginRequiredPage />
+    }
+
+    const { id } = await params;
 
     return (
         <ManageJobContent id={id} />

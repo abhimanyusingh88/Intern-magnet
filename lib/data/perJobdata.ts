@@ -14,7 +14,8 @@ export function PerJobData({ id, companyname, slug }: Props) {
             const jobdata = await fetch(`/api/job/${companyname}/${slug}`);
             const res = jobdata.json();
             return res;
-        }
+        },
+        staleTime: 5 * 60 * 1000
     })
     return { data, error, isLoading, isError }
 }

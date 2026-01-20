@@ -41,7 +41,10 @@ export function useJobs({ filters = {}, limit = 10 }: UseJobsOptions = {}) {
 
             return response.json();
         },
+        staleTime: 5 * 60 * 1000,
         getNextPageParam: (lastPage) => lastPage.nextCursor,
         initialPageParam: undefined,
+
     });
+
 }

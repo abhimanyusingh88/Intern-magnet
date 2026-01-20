@@ -6,9 +6,9 @@ export const getManageJobQueryOptions = (id: string, baseUrl?: string, cookieStr
 
     queryFn: async () => {
         const headers: Record<string, string> = {};
-        if (cookieString) {
-            headers.cookie = cookieString;
-        }
+        // if (cookieString) {
+        //     headers.cookie = cookieString;
+        // }
 
         // On server, we need the full URL. On client, we use relative.
         const url = `${baseUrl || ""}/api/recruitermanage/${id}`;

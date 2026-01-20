@@ -1,7 +1,5 @@
 import { parseSalaryToLakhs } from "@/components/utils/salaryPraser";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 const JOBS_PER_PAGE = 10;
@@ -9,13 +7,7 @@ const JOBS_PER_PAGE = 10;
 
 export async function GET(req: Request) {
     try {
-        const session = await auth.api.getSession({
-            headers: await headers()
-        });
 
-        if (!session?.user) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        }
 
         const { searchParams } = new URL(req.url);
 
