@@ -6,6 +6,7 @@ export const getManageJobQueryOptions = (id: string, baseUrl?: string, cookieStr
 
     queryFn: async () => {
         const headers: Record<string, string> = {};
+        // abhi iska kaam nhi hai because client pe hi kaam ho rha hai filhaal
         // if (cookieString) {
         //     headers.cookie = cookieString;
         // }

@@ -19,7 +19,10 @@ export function MinimalView() {
     useEffect(() => {
         async function fetchJobs() {
             try {
-                const res = await fetch("/api/minimaljobs");
+                const res = await fetch("http://localhost:3000/api/minimaljobs", {
+                    next: { revalidate: 300 }
+                });
+                ;
                 if (res.ok) {
                     const data = await res.json();
                     setJobs(data);

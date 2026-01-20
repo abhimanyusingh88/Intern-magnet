@@ -2,6 +2,7 @@ import Link from "next/link";
 import FormInput from "./FormInput";
 import NormalButton from "../utils/normalButton";
 import { FormData } from "@/lib/types/types";
+import FormTextArea from "../utils/FormTextArea";
 export default function CommunicationPrefRecruiter({
     count,
     setCount,
@@ -19,7 +20,7 @@ export default function CommunicationPrefRecruiter({
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    const isValid = formData.communication_preferences.trim() !== "";
+    const isValid = formData.communication_preferences.trim() !== "" && formData.selection_process?.trim() !== "";
 
     return <div className="flex flex-col gap-4">
         <FormInput
@@ -30,6 +31,14 @@ export default function CommunicationPrefRecruiter({
             hint="(eg. email, phone, in-person interview)"
             value={formData.communication_preferences}
             onChange={(val) => updateField("communication_preferences", val)}
+        />
+        <FormTextArea
+            label="Selection process"
+            name="selection_process"
+            placeholder="Add here"
+            required
+            value={formData.selection_process}
+            onChange={(val) => updateField("selection_process", val)}
         />
         <div className="flex justify-between">
             <p className=" text-xs text-zinc-500 sm:text-sm max-w-xs">

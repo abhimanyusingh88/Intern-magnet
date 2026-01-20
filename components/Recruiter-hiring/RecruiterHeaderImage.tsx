@@ -39,18 +39,18 @@ export default function RecruiterHeaderImage() {
       {/* Side glow (outside feel) */}
       <div
         className="
-                pointer-events-none
-                absolute -left-32 top-1/2 -translate-y-1/2
-                h-[120%] w-64
-                bg-[radial-gradient(60%_50%_at_50%_50%,rgba(99,102,241,0.45),transparent_70%)]
+                sm:pointer-events-none
+                sm:absolute sm:-left-32 sm:top-1/2 sm:-translate-y-1/2
+                sm:h-[120%] sm:w-64
+                sm:bg-[radial-gradient(60%_50%_at_50%_50%,rgba(99,102,241,0.45),transparent_70%)]
               "
       />
       <div
         className="
-                pointer-events-none
-                absolute -right-32 top-1/2 -translate-y-1/2
+                sm:pointer-events-none
+                sm:absolute sm:-right-32 sm:top-1/2 sm:-translate-y-1/2
                 h-[120%] w-64
-                bg-[radial-gradient(60%_50%_at_50%_50%,rgba(99,102,241,0.45),transparent_70%)]
+                sm:bg-[radial-gradient(60%_50%_at_50%_50%,rgba(99,102,241,0.45),transparent_70%)]
               "
       />
 

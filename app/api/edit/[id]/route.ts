@@ -55,6 +55,9 @@ export async function PATCH(
                 why_join: body.why_join,
                 required_qualifications: body.required_qualifications,
                 preferred_qualifications: body.preferred_qualifications,
+                skill_description: body.skill_description,
+                role: body.role,
+                selection_process: body.selection_process,
             },
         });
 

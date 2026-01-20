@@ -85,6 +85,9 @@ export type FormData = {
     draft?: boolean;
     id?: string;
     created_at?: string;
+    skill_description?: string;
+    role?: string;
+    selection_process?: string;
 };
 
 export interface ScreeningQuestion {
@@ -121,6 +124,9 @@ export interface JobDetail {
     why_join?: string;
     required_qualifications?: string;
     preferred_qualifications?: string;
+    skill_description?: string;
+    role?: string;
+    selection_process?: string;
 
 }
 export type FormInputProps = {

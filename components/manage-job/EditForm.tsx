@@ -46,7 +46,10 @@ export default function EditForm({ job, setOpen }: editJOb) {
         website_link: job.website_link || "",
         why_join: job.why_join || "",
         required_qualifications: job.required_qualifications || "",
-        preferred_qualifications: job.preferred_qualifications || ""
+        preferred_qualifications: job.preferred_qualifications || "",
+        skill_description: job.skill_description || "",
+        role: job.role || "",
+        selection_process: job.selection_process || "",
     };
     const updateField = (field: keyof FormData, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -116,6 +119,12 @@ export default function EditForm({ job, setOpen }: editJOb) {
                         onChange={(val) => updateField("job_title", val)}
                     />
                     <FormInput
+                        label="Role"
+                        name="role"
+                        value={formData.role}
+                        onChange={(val) => updateField("role", val)}
+                    />
+                    <FormInput
                         label="Work Experience Minimum"
                         numeric={true}
                         name="work_experience_min"
@@ -156,6 +165,12 @@ export default function EditForm({ job, setOpen }: editJOb) {
                         options={skills}
                         value={formData.primary_skills}
                         onChange={(val) => updateField("primary_skills", val)}
+                    />
+                    <FormTextArea
+                        label="Skill Description"
+                        name="skill_description"
+                        value={formData.skill_description}
+                        onChange={(val) => updateField("skill_description", val)}
                     />
                     <FormTextArea
                         label="Why join us?"
@@ -252,6 +267,12 @@ export default function EditForm({ job, setOpen }: editJOb) {
                         name="communication_preferences"
                         value={formData.communication_preferences}
                         onChange={(val) => updateField("communication_preferences", val)}
+                    />
+                    <FormTextArea
+                        label="Selection process"
+                        name="selection_process"
+                        value={formData.selection_process}
+                        onChange={(val) => updateField("selection_process", val)}
                     />
                     <div className="w-full flex  justify-end">
                         <NormalButton

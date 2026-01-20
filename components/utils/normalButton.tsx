@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 export default function NormalButton({
+    anch,
     link,
     title,
     variant = "solid",
@@ -13,6 +14,7 @@ export default function NormalButton({
     disabled = false,
     saving
 }: {
+    anch?: boolean,
     link?: string;
     title: string;
     variant?: "solid" | "outline";
@@ -34,8 +36,8 @@ export default function NormalButton({
         }
     }
     const classes = clsx(
-        "group inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200",
-        "px-4 py-2 text-sm min-w-[130px] sm:min-w-[150px] md:min-w-[170px] lg:min-w-[190px]",
+        "group inline-flex cursor-pointer whitespace-nowrap items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200",
+        "px-2 py-2 text-sm min-w-[125px] sm:min-w-[150px] md:min-w-[170px] lg:min-w-[180px]",
         "sm:px-5 sm:py-2.5 sm:text-sm",
         "md:px-6 md:py-3 md:text-base",
         !disabled && "hover:scale-[1.05] active:scale-[0.97]",
@@ -70,6 +72,13 @@ export default function NormalButton({
             <Link href={link} className={classes}>
                 {content}
             </Link>
+        );
+    }
+    if (anch) {
+        return (
+            <a href={link} className={classes}>
+                {content}
+            </a>
         );
     }
 

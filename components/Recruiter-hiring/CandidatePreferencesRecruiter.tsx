@@ -51,6 +51,14 @@ export default function CandidatePreferencesRecruiter({
                     onChange={(val) => updateField("primary_skills", val)}
                 />
                 <FormTextArea
+                    label="Skill Description"
+                    name="skill_description"
+                    placeholder="Add here"
+                    required
+                    value={formData.skill_description}
+                    onChange={(val) => updateField("skill_description", val)}
+                />
+                <FormTextArea
                     label="Why join us?"
                     name="why_join"
                     placeholder="Add here"

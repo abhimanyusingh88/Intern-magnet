@@ -5,7 +5,6 @@ import { FormData } from "@/lib/types/types";
 import MultiOptions from "./MultiOptions";
 import { AdditionalBenefits } from "./AdditionalBenefits";
 import FormTextArea from "../utils/FormTextArea";
-import LoginRequiredPage from "../login/LoginReminderPage";
 
 export default function JobDetailsRecruiter({
     count,
@@ -30,7 +29,8 @@ export default function JobDetailsRecruiter({
         formData.salary_per_month_from.trim() !== "" &&
         formData.salary_per_month_to.trim() !== "" &&
         formData.company_description.trim() !== "" &&
-        formData.website_link.trim() !== "";
+        formData.website_link.trim() !== "" &&
+        formData.role?.trim() !== "";
 
 
     return (
@@ -52,6 +52,14 @@ export default function JobDetailsRecruiter({
                     required
                     value={formData.company_description}
                     onChange={(val) => updateField("company_description", val)}
+                />
+                <FormInput
+                    label="Role"
+                    name="role"
+                    placeholder="Role"
+                    required
+                    value={formData.role}
+                    onChange={(val) => updateField("role", val)}
                 />
                 <FormInput
                     label="Website Link"

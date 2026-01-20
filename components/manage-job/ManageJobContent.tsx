@@ -79,7 +79,7 @@ export default function ManageJobContent({ id }: { id: string }) {
 
                             {job.key_responsibilities && (
                                 <Section title="Key Responsibilities">
-                                    <BulletList text={job.key_responsibilities} />
+                                    <BulletList color="bg-indigo-500" text={job.key_responsibilities} />
                                 </Section>
                             )}
 
@@ -100,27 +100,34 @@ export default function ManageJobContent({ id }: { id: string }) {
 
                             {job.what_we_offer && (
                                 <Section title="What We Offer">
-                                    <BulletList text={job.what_we_offer} />
+                                    <BulletList color="bg-indigo-500" text={job.what_we_offer} />
                                 </Section>
                             )}
                             {
                                 job.why_join && (
                                     <Section title="Why Join Us">
-                                        <BulletList text={job.why_join} />
+                                        <BulletList color="bg-indigo-500" text={job.why_join} />
                                     </Section>
                                 )
                             }
                             {
                                 job.required_qualifications && (
                                     <Section title="Required Qualifications">
-                                        <BulletList text={job.required_qualifications} />
+                                        <BulletList color="bg-indigo-500" text={job.required_qualifications} />
                                     </Section>
                                 )
                             }
                             {
                                 job.preferred_qualifications && (
                                     <Section title="Preferred Qualifications">
-                                        <BulletList text={job.preferred_qualifications} />
+                                        <BulletList color="bg-indigo-500" text={job.preferred_qualifications} />
+                                    </Section>
+                                )
+                            }
+                            {
+                                job.skill_description && (
+                                    <Section title="Skill Description">
+                                        <BulletList color="bg-indigo-500" text={job.skill_description} />
                                     </Section>
                                 )
                             }

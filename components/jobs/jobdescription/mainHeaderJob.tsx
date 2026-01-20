@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function MainHeaderJob({ jobData }: { jobData: JobDetail }) {
     return (
-        <div className="w-full p-6 flex flex-col gap-5 rounded-2xl bg-zinc-950 border border-zinc-900 shadow-xl">
+        <div className="w-full p-6 flex flex-col gap-5 rounded-2xl bg-zinc-900/60 border border-zinc-900 shadow-xl">
             {/* Header */}
             <div className="flex flex-col sm:flex-row w-full justify-between items-start sm:items-center gap-4">
                 <div className="flex items-center gap-4">

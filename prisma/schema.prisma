@@ -84,6 +84,9 @@ model RecruiterHiring {
   preferred_qualifications  String?
   required_qualifications   String?
   why_join                  String?
+  skill_description         String?
+  role                      String?
+  selection_process         String?
   draft                     Boolean             @default(false)
   user                      LegacyUser          @relation(fields: [user_id_recruiter], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
@@ -199,4 +202,14 @@ view unified_jobs {
   apply_link      String?
   created_at      DateTime? @db.Timestamptz(6)
   posted_at       DateTime? @db.Timestamptz(6)
+}
+
+model Applied {
+  id              BigInt    @id @default(autoincrement())
+  job_id          BigInt
+  user_id         BigInt
+  applied_at      DateTime  @default(now()) @db.Timestamptz(6)
+  status          String
+  viewed          Boolean
+ @@map("applied")
 }

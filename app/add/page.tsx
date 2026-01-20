@@ -53,7 +53,7 @@ export default async function AddPage() {
             <div className="w-full flex flex-col gap-2 items-center justify-center mb-4">
                 <div className="flex justify-center gap-2">
                     <p className=" text-[18px] sm:text-3xl font-bold bg-linear-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">Hello {userName || sessionName}, Welcome to our hiring platform</p>
-                    <Rocket className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-500 animate-float" />
+                    <Rocket className="w-10 h-10 sm:w-11 sm:h-11 text-indigo-500 animate-float" />
                 </div>
                 <p className="text-xs sm:text-[14px] font-thin text-zinc-300">Make your hiring process easy and smooth</p>
             </div>
