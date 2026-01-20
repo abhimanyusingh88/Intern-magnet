@@ -1,7 +1,5 @@
-import { getManageJobQueryOptions } from "@/lib/data/manageJob";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+
 import ManageJobContent from "@/components/manage-job/ManageJobContent";
-import { cookies } from "next/headers";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 
@@ -27,26 +25,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ManageJobPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const queryClient = new QueryClient();
-    const cookieStore = await cookies();
-    // yha pe cookies manually bhejna pad rha kyuki server pe cheeze ho rhi hai , na ki browser me
-    try {
-        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-        await queryClient.prefetchQuery(getManageJobQueryOptions(
-            id,
-            baseUrl,
-            cookieStore.toString()
-        ));
-    } catch (e) {
-        // Log the actual error for debugging
-        console.error("Server-side prefetch error:", e);
-        // Throwing here as per user preference to ensure we know if it's failing
-        throw new Error(`Server-side prefetch failed: ${(e as Error).message}`);
-    }
+
+    // We removed server-side prefetching to prevent the loading.tsx spinner from blocking navigation.
+    // The client component <ManageJobContent> will now handle fetching, using the cache if available.
 
     return (
-        <HydrationBoundary state={dehydrate(queryClient)}>
-            <ManageJobContent id={id} />
-        </HydrationBoundary>
+        <ManageJobContent id={id} />
     );
 }

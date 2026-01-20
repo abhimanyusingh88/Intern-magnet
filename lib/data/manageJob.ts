@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 // Exporting the fetcher logic so it can be used on the server for prefetching
 export const getManageJobQueryOptions = (id: string, baseUrl?: string, cookieString?: string) => ({
     queryKey: ["manageJob", id],
+
     queryFn: async () => {
         const headers: Record<string, string> = {};
         if (cookieString) {
@@ -21,7 +22,9 @@ export const getManageJobQueryOptions = (id: string, baseUrl?: string, cookieStr
             throw new Error(errorData.error || `Failed to fetch job: ${res.status}`);
         }
         return res.json();
-    }
+    },
+    staleTime: 5 * 60 * 1000
+
 });
 
 export default function useManageJobData(id: string) {

@@ -63,7 +63,7 @@ export default function EditForm({ job, setOpen }: editJOb) {
         try {
             setSaving(true);
             const res = await fetch(`/api/edit/${job.id}`, {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },

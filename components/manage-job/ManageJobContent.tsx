@@ -63,7 +63,7 @@ export default function ManageJobContent({ id }: { id: string }) {
                     {/* Main Content Area */}
                     <div className="lg:col-span-2 space-y-8">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <StatCard icon={<Clock className="w-4 h-4" />} label="Posted" value={new Date(job.created_at).toLocaleDateString()} />
+                            <StatCard icon={<Clock className="w-4 h-4" />} label="Posted" value={new Date(job.created_at).toLocaleDateString("en-GB")} />
                             <StatCard icon={<Calendar className="w-4 h-4 text-red-400" />} label="Deadline" value={job.application_deadline} color="text-red-400" />
                             <StatCard icon={<Briefcase className="w-4 h-4 text-indigo-400" />} label="Experience" value={`${job.work_experience_min}–${job.work_experience_max} yrs`} />
                             <StatCard icon={<Users className="w-4 h-4" />} label="Total post" value={`${job.number_of_applications || 0} Posts`} />
