@@ -84,10 +84,10 @@ model RecruiterHiring {
   preferred_qualifications  String?
   required_qualifications   String?
   why_join                  String?
+  draft                     Boolean             @default(false)
+  selection_process         String?
   skill_description         String?
   role                      String?
-  selection_process         String?
-  draft                     Boolean             @default(false)
   user                      LegacyUser          @relation(fields: [user_id_recruiter], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
 
@@ -99,7 +99,7 @@ model ScreeningQuestion {
   question     String
   type         String
   recruiter_id BigInt
-  ans          String
+  ans          String?
   recruiter    RecruiterHiring @relation(fields: [recruiter_id], references: [id], onDelete: Cascade)
 
   @@map("screening_questions")
@@ -188,6 +188,17 @@ model NaukriJob {
   @@map("naukri_jobs")
 }
 
+model Applied {
+  id         BigInt   @id @default(autoincrement())
+  job_id     BigInt
+  user_id    BigInt
+  applied_at DateTime @default(now()) @db.Timestamptz(6)
+  status     String
+  viewed     Boolean
+
+  @@map("applied")
+}
+
 view unified_jobs {
   id              String    @unique
   original_id     BigInt?
@@ -204,14 +215,3 @@ view unified_jobs {
   created_at      DateTime? @db.Timestamptz(6)
   posted_at       DateTime? @db.Timestamptz(6)
 }
-
-model Applied {
-  id              BigInt    @id @default(autoincrement())
-  job_id          BigInt
-  user_id         BigInt
-  applied_at      DateTime  @default(now()) @db.Timestamptz(6)
-  status          String
-  viewed          Boolean
- @@map("applied")
-}
-

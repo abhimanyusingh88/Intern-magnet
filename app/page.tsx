@@ -46,11 +46,7 @@ export default function HomePage() {
         <h2 className="text-zinc-300 text-xs font-thin sm:text-lg font-sans">Post and hunt at same place</h2>
       </div>
 
-      {/* CTA */}
-      <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-        <NormalButton link="/internships" title="Get started" variant="solid" />
-        <NormalButton link="/jobspage" title="Browse jobs" variant="outline" />
-      </div>
+
 
       {/* SLIDER */}
 

@@ -88,29 +88,7 @@ export default function RecruiterHeaderImage() {
           faster with a recruiter-first hiring experience.
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto relative px-4 sm:px-0">
-          <div className="w-full sm:w-auto">
-            <NormalButton
-              link="/add/internship"
-              title="Post a Job"
-              variant="solid"
-            />
-          </div>
-          <div className="w-full sm:w-auto">
-            <NormalButton
-              link="/postedjobs"
-              title="Posted Jobs"
-              variant="outline"
-            />
-          </div>
-          <div className="w-full sm:w-auto">
-            <NormalButton
-              link="/recruiterdrafts"
-              title="Saved drafts"
-              variant="solid"
-            />
-          </div>
-        </div>
+
 
       </div>
     </motion.section>

@@ -6,6 +6,7 @@ export default function NetBg() {
         pointer-events-none
         absolute inset-0
         -top-16 h-48
+        
         overflow-hidden
       "
         >

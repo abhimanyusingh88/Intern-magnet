@@ -22,6 +22,7 @@ import {
     Rocket
 } from "lucide-react";
 import { BulletList } from "../utils/BulletList";
+import NetBg from "../utils/netBg";
 
 
 
@@ -41,16 +42,18 @@ export default function ManageJobContent({ id }: { id: string }) {
     return (
         <main className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30">
             {/* <BackgroundDecoration /> */}
-            <BackButton />
+            <div className="sticky top-10">
+                <NetBg />
+            </div>
             <BackGroundGlow />
             {open && <EditForm job={job} setOpen={setOpen} />}
 
             <div className="relative max-w-6xl mx-auto px-6 sm:px-10 pt-20 pb-20">
-                <div className="w-full font-sans flex-col gap-2 flex justify-center sm:text-3xl sm:pb-4 text-center mb-4">
-                    <div className="w-full justify-center flex gap-2"><p className="bg-linear-to-r font-sans from-indigo-500 to-pink-400 text-transparent bg-clip-text  font-bold">Your complete editing area, modify your posting here with ease</p>
-                        <Rocket className="text-indigo-500 h-8 w-8 sm:h-10 sm:w-10 animate-float" /></div>
+                <div className="w-full font-sans flex-col  flex justify-center sm:text-3xl sm:pb-4 text-center mb-2">
+                    <div className="w-full  justify-center flex gap-2"><p className="bg-linear-to-r text-lg sm:text-xl md:text-2xl font-sans from-indigo-500 to-pink-400 text-transparent bg-clip-text  font-bold">Your complete editing area, modify your posting here with ease</p>
+                        <Rocket className="text-indigo-500 h-12 w-12  animate-float" /></div>
 
-                    <p className="text-xs sm:text-lg font-thin font-sans text-zinc-400">MANAGE, REVIEW, EDIT</p>
+                    <p className="text-xs sm:text-lg mt-2 sm:mt-0 font-thin font-sans text-zinc-400">MANAGE, REVIEW, EDIT</p>
                 </div>
                 {/* edit button */}
                 <div className="w-full flex sm:justify-end justify-center"><span className="text-zinc-500 text-sm font-sans mr-2 hover:text-zinc-200">Edit Your job</span><Edit onClick={() => setOpen((prev) => !prev)} className="h-6 w-6 text-indigo-400 hover:text-indigo-300 transition-all duration-100 ease-in-out transform-gpu  cursor-pointer" /></div>

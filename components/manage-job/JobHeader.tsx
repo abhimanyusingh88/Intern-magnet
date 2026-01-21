@@ -26,9 +26,9 @@ export function JobHeader({ job }: { job: JobDetail }) {
                     </button>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6">
+                <div className="flex  sm:items-center gap-5 sm:gap-6">
                     {job.company_logo && (
-                        <div className="relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-3xl overflow-hidden border border-white/10 bg-zinc-900/40 backdrop-blur-xl shadow-2xl p-2.5 shadow-indigo-500/5">
+                        <div className="relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/40 backdrop-blur-xl shadow-2xl p-2.5 shadow-indigo-500/5">
                             <Image
                                 src={job.company_logo}
                                 alt={`${job.company_name} logo`}
@@ -64,9 +64,11 @@ export function JobHeader({ job }: { job: JobDetail }) {
                             <span className="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-wider">
                                 {job.employment_type}
                             </span>
-                            <span className="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-wider">
-                                {job.role}
-                            </span>
+                            {job.role !== "" &&
+                                <span className="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+                                    {job.role}
+                                </span>
+                            }
                         </div>
                     </div>
                 </div>
