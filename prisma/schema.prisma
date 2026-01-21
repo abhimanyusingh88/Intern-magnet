@@ -99,6 +99,7 @@ model ScreeningQuestion {
   question     String
   type         String
   recruiter_id BigInt
+  ans          String
   recruiter    RecruiterHiring @relation(fields: [recruiter_id], references: [id], onDelete: Cascade)
 
   @@map("screening_questions")
@@ -213,3 +214,4 @@ model Applied {
   viewed          Boolean
  @@map("applied")
 }
+

@@ -7,8 +7,6 @@ import { updateProfile } from "@/app/actions/profile"
 import { getInitialDownProfileData } from "@/lib/profile-helpers"
 import ProfileData from "@/lib/data/UserData"
 import { useProfile } from "./ProfileContext"
-
-// Section Components
 import CareerPreferences from "../profile-sections/CareerPreferences"
 import Education from "../profile-sections/Education"
 import Skills from "../profile-sections/Skills"
@@ -52,7 +50,7 @@ export default function DownProfileComponent() {
     return (
         <form
             encType="multipart/form-data"
-            className="mx-auto max-w-7xl px-4 py-8 md:px-0"
+            className="mx-auto max-w-7xl py-4"
             onSubmit={async (e) => {
                 e.preventDefault();
                 if (!formData) return;

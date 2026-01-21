@@ -1,6 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import { prisma } from "./prisma";
+
+
 
 /**
  * Deletes Naukri jobs older than 7 days
@@ -28,6 +30,6 @@ export async function cleanupOldJobs(): Promise<number> {
         console.error('Error cleaning up old jobs:', error);
         throw error;
     } finally {
-        await prisma.$disconnect();
+
     }
 }

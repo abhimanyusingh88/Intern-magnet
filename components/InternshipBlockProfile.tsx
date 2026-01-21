@@ -36,7 +36,7 @@ export default function InternshipBlock({ value, onChange, label, company, durat
 
                             <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm text-zinc-400/80">
                                 <span>Internship</span>
-                                {(value?.[`${duration}_start`] && value?.[`${duration}_end`]) && (
+                                {(value?.[`${duration}_start`] && value?.[`${duration}_end`]) && (value?.[`${duration}_start`] <= value?.[`${duration}_end`]) && (
                                     <span className="text-xs font-medium text-indigo-400 bg-indigo-400/5 px-2 py-0.5 rounded border border-indigo-400/30">
                                         {value?.[`${duration}_start`]} - {value?.[`${duration}_end`]}
                                     </span>

@@ -26,20 +26,20 @@ export default async function ProfilePage() {
         <div className="relative w-full">
             <BackGroundGlow />
 
-            <div className="pt-24 pb-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="space-y-8">
-                    <div>
-                        <Suspense fallback={<SpinnerBig />}>
-                            {/* Add profile content here */}
-                            <ProfileMain session={session} />
-                        </Suspense>
-                    </div>
+            <div className="pt-24 pb-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="space-y-4">
+                    {/* <div> */}
+                    {/* <Suspense fallback={<SpinnerBig />}> */}
+                    {/* Add profile content here */}
+                    <ProfileMain session={session} />
+                    {/* </Suspense> */}
+                    {/* </div> */}
 
-                    <div>
-                        <Suspense fallback={<SpinnerBig />}>
-                            <DownProfileComponent />
-                        </Suspense>
-                    </div>
+                    {/* <div> */}
+                    {/* <Suspense fallback={<SpinnerBig />}> */}
+                    <DownProfileComponent />
+                    {/* </Suspense> */}
+                    {/* </div> */}
                 </div>
             </div>
         </div>

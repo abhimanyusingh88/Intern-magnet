@@ -55,7 +55,7 @@ export default function EditableField({
     return (
         <>
             <div className={`space-y-2 group ${className}`}>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">
                     {label}
                 </p>
 

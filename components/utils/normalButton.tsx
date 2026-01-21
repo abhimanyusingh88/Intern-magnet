@@ -67,7 +67,7 @@ export default function NormalButton({
         </>
     );
 
-    if (link) {
+    if (link && !anch && !disabled) {
         return (
             <Link href={link} className={classes}>
                 {content}
@@ -76,7 +76,7 @@ export default function NormalButton({
     }
     if (anch) {
         return (
-            <a href={link} className={classes}>
+            <a href={`https://${link}`} target="_blank" rel="noopener noreferrer" className={classes}>
                 {content}
             </a>
         );

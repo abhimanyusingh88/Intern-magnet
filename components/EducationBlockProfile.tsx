@@ -38,7 +38,7 @@ export default function EducationBlock({ value, onChange, label, degree, college
 
                             <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm text-zinc-400/80">
                                 <span>{value?.[college]}</span>
-                                {(value?.[`${duration}_start`] && value?.[`${duration}_end`]) && (
+                                {(value?.[`${duration}_start`] && value?.[`${duration}_end`]) && (value?.[`${duration}_start`] <= value?.[`${duration}_end`]) && (
                                     <span className="text-xs font-medium text-indigo-400 bg-indigo-400/5 px-2 py-0.5 rounded border border-indigo-400">
                                         {value?.[`${duration}_start`]} - {value?.[`${duration}_end`]}
                                     </span>
@@ -87,9 +87,6 @@ export default function EducationBlock({ value, onChange, label, degree, college
                 const formData = new FormData();
                 Object.entries(tempData).forEach(([k, v]) => formData.append(k, v as string));
                 await updateProfile(formData);
-                // Also update the parent state purely for immediate UI reflection if needed, 
-                // but the parent usually re-fetches or we need to call onChange to update parent local state.
-                // We'll call onChange for each field to update DownProfileComponent's local state.
                 Object.entries(tempData).forEach(([k, v]) => onChange(k, v));
             }}
         />

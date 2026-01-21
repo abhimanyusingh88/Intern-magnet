@@ -13,13 +13,13 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-zinc-950 isolation isolate">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-indigo-500/40 to-transparent" />
 
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 md:grid-cols-4 md:gap-14">
 
           <div className="space-y-5 text-center sm:col-span-2 md:col-span-1 md:text-left">
-            <div className="inline-block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-2xl font-semibold text-transparent">
+            <div className="inline-block bg-linear-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-2xl font-semibold text-transparent">
               InternMagnet
             </div>
             <p className="mx-auto max-w-sm text-sm leading-relaxed text-zinc-400 md:mx-0">
@@ -68,7 +68,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="group relative rounded-full p-2.5 transition hover:bg-white/5"
                 >
-                  <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500/30 to-pink-500/30 opacity-0 blur-md transition group-hover:opacity-100" />
+                  <span className="absolute inset-0 rounded-full bg-linear-to-r from-indigo-500/30 to-pink-500/30 opacity-0 blur-md transition group-hover:opacity-100" />
                   <Icon
                     size={20}
                     className="relative text-zinc-400 transition group-hover:text-white group-hover:scale-110"

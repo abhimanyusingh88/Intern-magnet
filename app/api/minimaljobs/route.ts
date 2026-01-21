@@ -1,26 +1,28 @@
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { getTimeAgo } from "@/lib/dateCount";
 
 export async function GET() {
     try {
-        // const session = await auth.api.getSession({
-        //     headers: await headers()
-        // })
-        // if (!session?.user) {
-        //     return NextResponse.json(
-        //         { message: "unauthorized user access" },
-        //         { status: 401 }
-        //     )
-        // }
-        const miniJobs = await prisma.unified_jobs.findMany(
+        // yha auth ka koi kaam nii because thode sabko jobs dikhana hai
+        const [internalJobs, naukriJobs] = await Promise.all([
+            prisma.unified_jobs.findMany({
+                where: { source: 'internal' },
+                orderBy: { created_at: 'desc' },
+                take: 2,
+            }),
+            prisma.unified_jobs.findMany({
+                where: { source: 'naukri' },
+                orderBy: { created_at: 'desc' },
+                take: 2,
+            }),
+        ]);
 
-            {
-                take: 4,
-            }
+        const miniJobs = [...internalJobs, ...naukriJobs].map(job => ({
+            ...job,
+            posted_ago: job.source === 'internal' && job.created_at ? getTimeAgo(job.created_at) : job.posted_ago
+        }));
 
-        )
         if (!miniJobs) return NextResponse.json(
             { message: "something went wrong, try again!" },
             { status: 401 }

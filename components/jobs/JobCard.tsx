@@ -21,7 +21,7 @@ export function JobCard({ job }: JobCardProps) {
     const timeAgo = getTimeAgo(referenceDate);
 
     return (
-        <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-4 sm:p-5 hover:shadow-lg transition-all duration-300 hover:border-blue-300 dark:hover:border-blue-500/50 group">
+        <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-5 sm:p-5 hover:shadow-lg transition-all duration-300 hover:border-blue-300 dark:hover:border-blue-500/50 group">
             <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
                 {/* Company Logo */}
                 <div className="shrink-0">
@@ -77,7 +77,7 @@ export function JobCard({ job }: JobCardProps) {
                         </div>
                         {timeAgo && (
                             <div className="flex items-center gap-1">
-                                <span className="text-gray-500 dark:text-zinc-600"><Clock4 className='w-[16px] h-[16px] text-gray-400' /></span>
+                                <span className="text-gray-500 dark:text-zinc-600"><Clock4 className='w-[15px] h-[15px] text-gray-400' /></span>
                                 <span className="whitespace-nowrap">{timeAgo}</span>
                             </div>
                         )}

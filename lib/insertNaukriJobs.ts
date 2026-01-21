@@ -1,8 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
 import { NaukriJobData } from './scrapeNaukriJobs';
 import { getNormalizedPostDate } from './dateCount';
+import { prisma } from './prisma';
 
-const prisma = new PrismaClient();
+
 
 /**
  * Inserts Naukri jobs into the database
@@ -61,6 +62,6 @@ export async function insertNaukriJobs(jobs: NaukriJobData[]): Promise<number> {
         console.error('Error inserting jobs:', error);
         throw error;
     } finally {
-        await prisma.$disconnect();
+
     }
 }

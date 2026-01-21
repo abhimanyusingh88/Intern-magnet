@@ -78,7 +78,7 @@ export function JobListPage() {
             <BackGroundGlow />
             <div className="container mx-auto px-4 py-6 sm:py-10 max-w-7xl">
                 {/* Header */}
-                <div className="mt-8 mb-6 sm:mt-10 sm:mb-8 text-center lg:text-left">
+                <div className="mt-10 sm:mt-8 mb-6 sm:mb-8 text-center lg:text-left">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-zinc-200 mb-4 tracking-tight">
                         Find Your <span className="bg-linear-to-r from-indigo-400 to-pink-500 text-transparent bg-clip-text">Dream Job</span>
                     </h1>

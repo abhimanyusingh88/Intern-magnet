@@ -34,7 +34,7 @@ export default function CompanyDescription({ jobData }: { jobData: JobDetail }) 
 
         </div>
         <div className="space-y-2 flex items-center gap-2 text-wrap">
-            <h1 className="text-zinc-200 text-sm   sm:text-lg md:text-xl font-semibold"><span><MapPin className="text-amber-300 w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5" /></span></h1>
+            <h1 className="text-zinc-200 text-sm   sm:text-lg md:text-xl font-semibold"><span><MapPin className="text-amber-500 w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5" /></span></h1>
             <div className="text-zinc-300  text-justify font-light leading-relaxed  text-xs sm:text-sm md:text-[14px]">
 
                 {jobData.location}

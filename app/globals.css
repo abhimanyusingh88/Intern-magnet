@@ -40,57 +40,6 @@ body {
   transform-origin: top;
 }
 
-/* Custom styling for RSuite DatePicker */
-/*
-.rs-picker-default .rs-picker-toggle.rs-btn,
-.rs-picker-subtle .rs-picker-toggle.rs-btn,
-.custom-datepicker-trigger .rs-picker-toggle.rs-btn {
-  background-color: transparent !important;
-  border-bottom: 2px solid rgba(99, 102, 241, 0.4) !important;
-  border-radius: 0 !important;
-  padding: 8px 0 !important;
-  box-shadow: none !important;
-  color: white !important;
-}
-
-.rs-picker-default .rs-picker-toggle.rs-btn:hover,
-.rs-picker-subtle .rs-picker-toggle.rs-btn:hover,
-.custom-datepicker-trigger .rs-picker-toggle.rs-btn:hover {
-  border-bottom-color: rgba(99, 102, 241, 0.8) !important;
-  background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-.rs-picker-toggle-placeholder,
-.rs-picker-toggle-value,
-.custom-datepicker-trigger .rs-picker-toggle-placeholder,
-.custom-datepicker-trigger .rs-picker-toggle-value {
-  font-size: 0.875rem !important;
-  color: #d4d4d8 !important;
-  /* zinc-300 
-}
-
-/* Ensure the calendar popup also matches our dark theme */
-/* .rs-picker-menu,
-.rs-picker-column-menu,
-.rs-calendar {
-  background-color: #09090b !important;
-  /* zinc-950 
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
-  color: white !important;
-  z-index: 9999 !important;
-}
-
-.rs-calendar-table-cell-content {
-  color: #d4d4d8 !important;
-}
-
-.rs-calendar-table-header-row {
-  color: #71717a !important;
-  /* zinc-400 
-} 
-
-
 
 /* Year Range Picker Styling */
 .year-picker-select {
@@ -202,16 +151,16 @@ select.input-profile:hover {
 } */
 
 .filled {
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgb(83, 97, 148);
+
   background-color: rgba(22, 21, 21, 0.968);
   border-radius: 0.75rem;
-  border-width: 0.15rem;
+  border-width: 0.1rem;
   border-style: solid;
 
   &:hover {
-    background-color: rgba(44, 43, 43, 0.868);
-    scale: 1.02;
-    transition: ease-in-out 0.2s;
+    background-color: rgba(34, 32, 32, 0.868);
+    transition: ease-in-out 0.1s;
   }
 
 

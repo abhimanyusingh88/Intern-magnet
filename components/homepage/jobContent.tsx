@@ -1,4 +1,4 @@
-import { BriefcaseBusiness, ExternalLink, Eye, IndianRupee, MapPin } from "lucide-react";
+import { BriefcaseBusiness, Clock4, ExternalLink, Eye, IndianRupee, MapPin } from "lucide-react";
 import Image from "next/image";
 import { UnifiedJob } from "@/lib/types/types";
 import LinkButtons from "./linkButtons";
@@ -48,6 +48,11 @@ export default function JobContent({ job }: { job: UnifiedJob }) {
                 <div className="flex items-center gap-2 text-[11px] sm:text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">
                     <IndianRupee size={14} className="text-emerald-500/60" />
                     <span className="truncate">{job.salary && job.salary.trim() !== "" ? job.salary : "Not disclosed"}</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-[11px] sm:text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">
+                    <Clock4 size={14} className="text-zinc-500" />
+                    <span className="truncate">{job.posted_ago && job.posted_ago.trim() !== "" ? job.posted_ago : "Not disclosed"}</span>
                 </div>
             </div>
 

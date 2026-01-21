@@ -11,7 +11,7 @@ export default function MainHeaderJob({ jobData }: { jobData: JobDetail }) {
                     {jobData.company_logo ? (
                         <div className="p-1 rounded-xl border-2 border-zinc-800 bg-zinc-900 shadow-lg shrink-0">
                             <Image
-                                quality={100}
+                                quality={75}
                                 src={jobData.company_logo}
                                 alt="company logo"
                                 width={56}
