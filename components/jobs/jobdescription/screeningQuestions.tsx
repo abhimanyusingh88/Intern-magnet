@@ -57,10 +57,11 @@ export default function ScreeningQuestionsModal({
 
                 {type === "text" ? (
                     <textarea
+
                         name={`question-${id}`}
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
-                        className="w-full min-h-[120px] p-4 rounded-lg bg-zinc-800 text-zinc-100 border border-zinc-700 focus:outline-none"
+                        className="w-full resize-none min-h-[120px] p-4 rounded-lg bg-zinc-800 text-zinc-100 border border-zinc-700 focus:outline-none"
                     />
                 ) : (
                     <>

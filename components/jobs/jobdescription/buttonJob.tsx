@@ -27,7 +27,7 @@ export default function ButtonJob({
 }: ButtonJobProps) {
 
     const baseStyles =
-        "relative inline-flex items-center justify-center gap-2 rounded-xl font-semibold overflow-hidden whitespace-nowrap transition-all duration-300 transform-gpu";
+        "relative inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl font-semibold overflow-hidden whitespace-nowrap transition-all duration-300 transform-gpu";
 
     const sizeStyles =
         "px-4 py-2 text-sm sm:px-3 sm:py-2 md:px-4 md:py-2";

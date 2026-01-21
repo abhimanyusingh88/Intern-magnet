@@ -1,4 +1,3 @@
-
 "use client"
 import { PerJobData } from "@/lib/data/perJobdata"
 import { JobDetail } from "@/lib/types/types";
@@ -11,6 +10,7 @@ import SideJobDescView from "./sideJobDescView";
 // import AdditionalBenefits from "./additionalBenefits";
 
 export default function JobPage({ companyname, slug, session }: { companyname: string, slug: string, session: any }) {
+
 
     const arr: string[] = slug.split("-");
     const id: string = (arr[arr.length - 1]);
@@ -48,6 +48,8 @@ export default function JobPage({ companyname, slug, session }: { companyname: s
         role: data?.role,
         selection_process: data?.selection_process,
     }
+
+
     // console.log(jobData.screening_questions);
 
     if (isLoading) return <SpinnerBig />
