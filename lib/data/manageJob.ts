@@ -24,7 +24,7 @@ export const getManageJobQueryOptions = (id: string, baseUrl?: string, cookieStr
         }
         return res.json();
     },
-    staleTime: 5 * 60 * 1000
+    staleTime: 10 * 60 * 1000
 
 });
 

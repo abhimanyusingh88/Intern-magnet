@@ -1,13 +1,28 @@
-export default function AgeSelect({ filters, handleChange, selectClasses }: any) {
-    return <select
-        value={filters.jobAge || ''}
-        onChange={(e) => handleChange('jobAge', e.target.value ? Number(e.target.value) : undefined)}
-        className={selectClasses}
-    >
-        <option value="">Any time</option>
-        <option value="1">Last 24 hours</option>
-        <option value="3">Last 3 days</option>
-        <option value="7">Last week</option>
-        <option value="30">Last month</option>
-    </select>
+'use client';
+
+import { JobFilters } from '@/lib/types/types';
+import CustomSelect from './CustomSelect';
+
+interface AgeSelectProps {
+    filters: JobFilters;
+    handleChange: (key: keyof JobFilters, value: any) => void;
+}
+
+const AGE_OPTIONS = [
+    { value: '', label: 'Any time' },
+    { value: '1', label: 'Last 24 hours' },
+    { value: '3', label: 'Last 3 days' },
+    { value: '7', label: 'Last week' },
+    { value: '30', label: 'Last month' },
+];
+
+export default function AgeSelect({ filters, handleChange }: AgeSelectProps) {
+    return (
+        <CustomSelect
+            value={filters.jobAge}
+            onChange={(value) => handleChange('jobAge', value ? Number(value) : undefined)}
+            options={AGE_OPTIONS}
+            placeholder="Any time"
+        />
+    );
 }

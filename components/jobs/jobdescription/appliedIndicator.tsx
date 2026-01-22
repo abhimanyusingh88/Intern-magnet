@@ -1,6 +1,7 @@
-import { CheckCircle2 } from "lucide-react"
+import { ArrowRight, CheckCircle2 } from "lucide-react"
 import ButtonJob from "./buttonJob"
 import { JobDetail } from "@/lib/types/types"
+import Link from "next/link"
 
 export default function AppliedIndicator({ jobData }: { jobData: JobDetail }) {
 
@@ -19,6 +20,13 @@ export default function AppliedIndicator({ jobData }: { jobData: JobDetail }) {
                         </p>
                     </div>
                 </div>
+            </div>
+            <div className="p-6 flex items-center justify-center border-[0.08px] border-indigo-400 bg-zinc-900/60 mt-2 rounded-xl">
+                <Link href="/jobspage" className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-all duration-150 ease-in-out mt-2 text-xs  md:text-sm cursor-pointer ">
+                    <span className="leading-tight text flex items-center gap-1">
+                        EXPLORE SIMILAR JOBS <span><ArrowRight className="h-5 w-5" /></span>
+                    </span>
+                </Link>
             </div>
 
             {/* Visit Website Button below success message */}

@@ -7,6 +7,8 @@ import ErrorComponent from "../errorComponent";
 import CompanyDescription from "./companyDescription";
 import { SpinnerBig } from "@/components/utils/SpinnerBig";
 import SideJobDescView from "./sideJobDescView";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 // import AdditionalBenefits from "./additionalBenefits";
 
 export default function JobPage({ companyname, slug, session }: { companyname: string, slug: string, session: any }) {
@@ -76,6 +78,8 @@ export default function JobPage({ companyname, slug, session }: { companyname: s
 
             <SideJobDescView session={session} jobData={jobData} />
 
+
         </section >
+
     </div >
 }

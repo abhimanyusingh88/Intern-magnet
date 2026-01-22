@@ -25,6 +25,7 @@ export default function ButtonJob({
     onClick,
     className
 }: ButtonJobProps) {
+    if (saving && title !== "Apply") return;
 
     const baseStyles =
         "relative inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl font-semibold overflow-hidden whitespace-nowrap transition-all duration-300 transform-gpu";

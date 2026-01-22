@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useInView } from 'react-intersection-observer';
 import { useJobs } from '@/lib/data/useJobs';
 import { JobCard } from '@/components/jobs/JobCard';
@@ -14,8 +15,28 @@ import { selectClasses } from './reusableClasses';
 import LoadMoreSection from './loadMoreSection';
 
 export function JobListPage() {
-    const [filters, setFilters] = useState<JobFilters>({});
-    const [debouncedFilters, setDebouncedFilters] = useState<JobFilters>({});
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    // Initialize filters from URL on mount
+    const getFiltersFromURL = (): JobFilters => {
+        const filters: JobFilters = {};
+
+        if (searchParams.get('title')) filters.title = searchParams.get('title')!;
+        if (searchParams.get('location')) filters.location = searchParams.get('location')!;
+        if (searchParams.get('skills')) filters.skills = searchParams.get('skills')!;
+        if (searchParams.get('minSalary')) filters.minSalary = Number(searchParams.get('minSalary'));
+        if (searchParams.get('maxSalary')) filters.maxSalary = Number(searchParams.get('maxSalary'));
+        if (searchParams.get('minExperience')) filters.minExperience = Number(searchParams.get('minExperience'));
+        if (searchParams.get('maxExperience')) filters.maxExperience = Number(searchParams.get('maxExperience'));
+        if (searchParams.get('jobAge')) filters.jobAge = Number(searchParams.get('jobAge'));
+        if (searchParams.get('source')) filters.source = searchParams.get('source') as 'naukri' | 'internal';
+        if (searchParams.get('sortBy')) filters.sortBy = searchParams.get('sortBy') as 'recent' | 'oldest';
+
+        return filters;
+    };
+
+    const [filters, setFilters] = useState<JobFilters>(getFiltersFromURL);
     const { ref, inView } = useInView({
         threshold: 0,
     });
@@ -28,16 +49,38 @@ export function JobListPage() {
         isLoading,
         isError,
         error,
-    } = useJobs({ filters: debouncedFilters, limit: 10 });
+    } = useJobs({ filters, limit: 10 });
 
-    // Debounce filters change
+    // Apply filters by updating URL
+    const applyFilters = (newFilters: JobFilters) => {
+        const params = new URLSearchParams();
+
+        // Add all filter values to URL
+        if (newFilters.title) params.set('title', newFilters.title);
+        if (newFilters.location) params.set('location', newFilters.location);
+        if (newFilters.skills) params.set('skills', newFilters.skills);
+        if (newFilters.minSalary !== undefined) params.set('minSalary', newFilters.minSalary.toString());
+        if (newFilters.maxSalary !== undefined) params.set('maxSalary', newFilters.maxSalary.toString());
+        if (newFilters.minExperience !== undefined) params.set('minExperience', newFilters.minExperience.toString());
+        if (newFilters.maxExperience !== undefined) params.set('maxExperience', newFilters.maxExperience.toString());
+        if (newFilters.jobAge !== undefined) params.set('jobAge', newFilters.jobAge.toString());
+        if (newFilters.source) params.set('source', newFilters.source);
+        if (newFilters.sortBy) params.set('sortBy', newFilters.sortBy);
+
+        // Update URL
+        const queryString = params.toString();
+        router.push(queryString ? `/jobspage?${queryString}` : '/jobspage');
+
+        // Update local state
+        setFilters(newFilters);
+    };
+
+    // Listen to URL changes (browser back/forward)
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedFilters(filters);
-        }, 500);
-
-        return () => clearTimeout(timer);
-    }, [filters]);
+        const urlFilters = getFiltersFromURL();
+        setFilters(urlFilters);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams]);
 
     const pages = data?.pages ?? [];
 
@@ -53,18 +96,16 @@ export function JobListPage() {
 
     const allJobs = uniqueJobs;
 
-    // Auto-fetch when scrolling to bottom
+
     useEffect(() => {
         const canFetch = inView && hasNextPage && !isFetchingNextPage;
         if (!canFetch) return;
 
-        // If we have jobs, fetch immediately when in view
+
         if (allJobs.length > 0) {
             fetchNextPage();
         } else if (!isLoading) {
-            // If we are here, it means we have no jobs but there is a next page
-            // This could happen if filters are very restrictive.
-            // We'll wait a bit before trying again to avoid hammering the server
+            // debouncing
             const timer = setTimeout(() => {
                 fetchNextPage();
             }, 1000);
@@ -91,10 +132,8 @@ export function JobListPage() {
                     {/* Filters Sidebar */}
                     <aside className="lg:col-span-1">
                         <JobFiltersComponent
-                            filters={filters}
-                            onFilterChange={(f) => {
-                                setFilters(f);
-                            }}
+                            appliedFilters={filters}
+                            onApplyFilters={applyFilters}
                         />
                     </aside>
 
@@ -118,7 +157,7 @@ export function JobListPage() {
                                     <span className="text-xs font-medium text-gray-500 dark:text-zinc-500 whitespace-nowrap uppercase tracking-wider">Sort:</span>
                                     <select
                                         value={filters.sortBy || 'recent'}
-                                        onChange={(e) => setFilters({ ...filters, sortBy: e.target.value as any })}
+                                        onChange={(e) => applyFilters({ ...filters, sortBy: e.target.value as any })}
                                         className={`${selectClasses} cursor-pointer !bg-white dark:!bg-zinc-800 !py-1.5 !px-3 !w-auto min-w-[140px] border-gray-200 dark:border-zinc-800`}
                                     >
                                         <option value="recent">Recent First</option>
@@ -151,7 +190,7 @@ export function JobListPage() {
 
                         {/* Empty State */}
                         {!isLoading && !isError && allJobs.length === 0 && (
-                            <NoMansLand setFilters={setFilters} />
+                            <NoMansLand setFilters={(f: JobFilters) => applyFilters(f)} />
                         )}
 
                         {!isLoading && !isError && allJobs.length > 0 && (
