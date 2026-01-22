@@ -59,9 +59,9 @@ export default function JobPage({ companyname, slug, session }: { companyname: s
 
     if (error) return <ErrorComponent error={error} />
 
-    return <div className="flex flex-col sm:flex-row gap-2 md:gap-4 sm:items-start">
+    return <div className="flex flex-col md:flex-row gap-2 md:gap-4 sm:items-start">
         {/*/////////// yha pura company ka data  */}
-        <section className="w-full sm:w-2/3 rounded-xl sm:min-h-[1000px]">
+        <section className="w-full md:w-2/3 rounded-xl ">
 
             {/* main card waala div */}
             <MainHeaderJob jobData={jobData} />
@@ -74,7 +74,7 @@ export default function JobPage({ companyname, slug, session }: { companyname: s
 
 
         {/*//////////// yha bas ratings, reviews , additional benfits */}
-        <section className="w-full  sticky sm:top-0  lg:top-16 self-start sm:w-1/3  rounded-xl ">
+        <section className="w-full  sticky sm:top-16  lg:top-16 self-start md:w-1/3  rounded-xl ">
 
             <SideJobDescView session={session} jobData={jobData} />
 

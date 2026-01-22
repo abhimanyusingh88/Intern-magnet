@@ -8,10 +8,11 @@ export default function BoxPoints({ data, label }: { data: any, label: string })
             {data
                 ?.split(",")
                 .map((sk: any, i: any) => (
+
                     <span
                         key={i}
-                        className="px-3 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 
-                           text-amber-500 text-xs font-medium leading-none whitespace-nowrap"
+                        className="px-3 flex flex-wrap py-2 rounded-2xl bg-zinc-900 border border-zinc-800 
+                           text-amber-500 text-xs font-medium leading-none "
                     >
                         {sk.trim()}
                     </span>

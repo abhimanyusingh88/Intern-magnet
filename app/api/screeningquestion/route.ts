@@ -1,9 +1,20 @@
+import { JobApplyEmail } from "@/app/emailTempalates/emailTempalateApply";
 import { Slugify } from "@/components/jobs/slugify";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { Resend } from "resend"
+type SubmitData = {
+    job_id: string;
+    user_id: string;
+    companyName: string;
+    jobTitle: string;
+} & Record<string, string>;
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 
 export async function POST(request: Request) {
     try {
@@ -17,7 +28,7 @@ export async function POST(request: Request) {
             )
         }
 
-        const data = await request.json();
+        const data: SubmitData = await request.json();
         // console.log("Screening Question Data:", data);
         const { job_id, user_id, companyName, jobTitle, ...answers } = data;
         const applied = await prisma.applied.create({
@@ -42,7 +53,23 @@ export async function POST(request: Request) {
         const answersOfQuestions = await prisma.$transaction(updates);
         const final = { ...applied, ...answersOfQuestions }
         console.log("final data:", final);
-        revalidatePath(`/jobspage/${Slugify(companyName)}/${Slugify(jobTitle)}-${job_id}`)
+        revalidatePath(`/jobspage/${Slugify(companyName)}/${Slugify(jobTitle)}-${job_id}`);
+
+        //resend se mail bhejna hai, baad me domain milne pe domain se bhejunga
+
+        const { data: mailData, error } = await resend.emails.send({
+            from: 'Acme <onboarding@resend.dev>',
+            to: ["singabhimanyu9794@gmail.com"],
+            subject: 'Hello world',
+            react: JobApplyEmail({ companyName, jobTitle })
+        });
+        if (error) {
+            return NextResponse.json(
+                { error },
+                { status: 500 }
+            );
+        }
+
 
 
         return NextResponse.json({

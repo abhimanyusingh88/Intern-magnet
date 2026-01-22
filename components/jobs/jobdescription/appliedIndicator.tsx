@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2 } from "lucide-react"
+import { ArrowRight, CheckCircle2, Search } from "lucide-react"
 import ButtonJob from "./buttonJob"
 import { JobDetail } from "@/lib/types/types"
 import Link from "next/link"
@@ -9,7 +9,7 @@ export default function AppliedIndicator({ jobData }: { jobData: JobDetail }) {
         <>
             <div className="mt-6 p-4 sm:p-5 rounded-xl bg-linear-to-br from-emerald-500/10 to-green-500/10 border border-emerald-500/30 backdrop-blur-sm">
                 <div className="flex items-center gap-3 sm:gap-4">
-                    <CheckCircle2 className="h-7 w-7 sm:h-8 sm:w-8 text-emerald-400 shrink-0 " />
+                    <CheckCircle2 className="h-7 w-7 sm:h-8 animate-pulse sm:w-8 text-emerald-400 shrink-0 " />
 
                     <div className="leading-tight">
                         <h3 className="text-emerald-400 font-semibold text-base sm:text-lg">
@@ -21,13 +21,36 @@ export default function AppliedIndicator({ jobData }: { jobData: JobDetail }) {
                     </div>
                 </div>
             </div>
-            <div className="p-6 flex items-center justify-center border-[0.08px] border-indigo-400 bg-zinc-900/60 mt-2 rounded-xl">
-                <Link href="/jobspage" className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-all duration-150 ease-in-out mt-2 text-xs  md:text-sm cursor-pointer ">
-                    <span className="leading-tight text flex items-center gap-1">
-                        EXPLORE SIMILAR JOBS <span><ArrowRight className="h-5 w-5" /></span>
+            <div className="p-4 flex items-center hover:border-indigo-400 hover:text-indigo-400 justify-center border-[0.08px] border-indigo-500 mt-2 transition-all duration-150 ease-in-out transform-gpu rounded-xl">
+                <Link
+                    href="/appliedjobs"
+                    className="flex items-center gap-2 text-indigo-500 hover:text-indigo-400 transition-all duration-150 ease-in-out text-xs md:text-sm cursor-pointer"
+                >
+                    <span className="flex items-center ">
+
+                        TRACK APPLICATION
+                        <ArrowRight className="h-5 w-5" />
                     </span>
                 </Link>
             </div>
+            <div className="p-4 flex items-center hover:border-indigo-400 hover:text-indigo-400 justify-center border-[0.08px] border-indigo-500 mt-2 transition-all duration-150 ease-in-out transform-gpu rounded-xl">
+                <Link
+                    href={`/jobspage?title=${jobData.job_title}&skills=${jobData.primary_skills
+                        .split(",")
+                        .slice(0, 5)
+                        .join("+")}`}
+
+
+                    className="flex items-center gap-2 text-indigo-500 hover:text-indigo-400 transition-all duration-150 ease-in-out text-xs md:text-sm cursor-pointer"
+                >
+                    <span className="flex items-center gap-2">
+                        <Search className="h-6 w-6" />
+                        EXPLORE SIMILAR JOBS
+                        <ArrowRight className="h-5 w-5" />
+                    </span>
+                </Link>
+            </div>
+
 
             {/* Visit Website Button below success message */}
             <div className="flex justify-center mt-6">

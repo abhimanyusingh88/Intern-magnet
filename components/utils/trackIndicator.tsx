@@ -14,13 +14,13 @@ export default function TrackIndicator({ steps = [] }: RecruitmentProcessTracker
                         {/* Indicator column */}
                         <div className="relative flex flex-col items-center">
                             {/* Dot */}
-                            <span className="relative z-10 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-400">
-                                <Circle className="h-3 w-3 text-zinc-200" />
+                            <span className="relative z-10 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-600">
+                                <Circle className="h-3 w-3 text-zinc-300" />
                             </span>
 
                             {/* Connector */}
                             {i !== length - 1 && (
-                                <span className="absolute top-2 left-1/2 h-[calc(100%+24px)] w-[2px] -translate-x-1/2 bg-indigo-400" />
+                                <span className="absolute top-2 left-1/2 h-[calc(100%+24px)] w-[2px] -translate-x-1/2 bg-indigo-600" />
                             )}
                         </div>
 
