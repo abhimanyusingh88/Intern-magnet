@@ -1,4 +1,4 @@
-import { useProfile } from "../Profile-elements/ProfileContext";
+import { useProfile } from "../providers/ProfileContext";
 import { sections } from "../SectionDataFileds";
 
 export default function SideNav() {

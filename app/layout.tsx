@@ -4,7 +4,7 @@ import "./globals.css";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import NavBar from "@/components/utils/navBar";
 import Footer from "@/components/utils/Footer";
-import { ProfileProvider } from "@/components/Profile-elements/ProfileContext";
+import { ProfileProvider } from "@/components/providers/ProfileContext";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { CustomProvider } from "rsuite";

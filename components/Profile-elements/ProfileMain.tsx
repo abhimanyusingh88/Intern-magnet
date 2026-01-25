@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Pencil } from "lucide-react"
 import Image from "next/image"
-import { useProfile } from "./ProfileContext"
+import { useProfile } from "../providers/ProfileContext"
 import { useQueryClient } from "@tanstack/react-query"
 import FieldEditModal from "../FieldEditModal"
 import ProfileAdditionalDetails from "./ProfileAdditional"
