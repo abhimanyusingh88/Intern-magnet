@@ -42,6 +42,26 @@ export interface UserProfileData {
     // ... any other fields from schema if needed
     [key: string]: any;
 }
+export interface UpdateCommand<T> {
+    field: string;
+    action: 'add' | 'edit' | 'delete';
+    item?: T;
+    index?: number;
+}
+
+export interface DynamicProfileSectionProps<T> {
+    title: string;
+    id: string;
+    items: T[];
+    limit: number;
+    itemLabel: string;
+    emptyMessage: string;
+    initialItem: T;
+    onSave: (command: UpdateCommand<T>) => Promise<void>;
+    renderItem: (item: T, onEdit: () => void, onDelete: () => void) => React.ReactNode;
+    renderForm: (item: T, onChange: (item: T) => void) => React.ReactNode;
+    gridClassName?: string;
+}
 
 export type QuestionType = "yes_no" | "text";
 

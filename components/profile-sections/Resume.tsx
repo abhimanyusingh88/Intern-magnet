@@ -41,7 +41,7 @@ export default function Resume({
                         sm:flex-row
                         sm:items-center
                         gap-2
-                        p-3
+                        p-2
                         rounded-lg
                         bg-indigo-500/5
                         border
@@ -52,9 +52,19 @@ export default function Resume({
                             <p className="text-sm text-zinc-300 truncate">
                                 Current:{" "}
                                 <span className="text-indigo-400 font-medium">
-                                    {data.resume_path?.includes("-")
-                                        ? data.resume_path.split("-").slice(2).join("-")
-                                        : data.resume_path || "Resume"}
+                                    {(() => {
+                                        const path = data.resume_path;
+                                        if (!path || path === "undefined") return "Resume";
+
+                                        // Try to extract filename from our known pattern: userId/resume_path-timestamp-filename
+                                        const parts = path.split("-");
+                                        if (parts.length >= 3) {
+                                            return parts.slice(2).join("-");
+                                        }
+
+                                        // Fallback: just the part after the last slash
+                                        return path.split("/").pop() || "Resume";
+                                    })()}
                                 </span>
                             </p>
                         </div>

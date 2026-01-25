@@ -36,7 +36,7 @@ export default function MobileMenu({
 
   return (
     <div
-      className={`md:hidden border-t bg-zinc-900/80 backdrop-blur-xl overflow-y-auto scrollbar-hide transition-all duration-300 ease-in-out ${open ? "max-h-[calc(100vh-56px)] opacity-100 border-white/10" : "max-h-0 opacity-0 border-transparent"
+      className={`md:hidden border-t bg-zinc-900/95 backdrop-blur-xl overflow-y-auto scrollbar-hide transition-all duration-300 ease-in-out ${open ? "max-h-[calc(100vh-56px)] opacity-100 border-white/10" : "max-h-0 opacity-0 border-transparent"
         }`}
     >
       <div className="flex flex-col gap-2 px-4 py-4 text-sm text-zinc-300">

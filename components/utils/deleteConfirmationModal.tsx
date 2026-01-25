@@ -1,5 +1,7 @@
 "use client";
 import { X, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function DeleteConfirmationModal({
     handleDelete,
@@ -14,22 +16,47 @@ export default function DeleteConfirmationModal({
     title: string;
     para: string;
 }) {
-    if (!openModal) return null;
+    const [mounted, setMounted] = useState(false);
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Prevent body scroll when open
+    useEffect(() => {
+        if (openModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [openModal]);
+
+    if (!openModal || !mounted) return null;
+
+    return createPortal(
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+                onClick={() => setOpenModal(false)}
+            />
+
             <div
                 className="
-                    relative w-[90%] max-w-sm
+                    relative w-full max-w-sm
                     rounded-2xl
                     bg-zinc-900
-                    border border-zinc-800
+                    border border-white/10
                     p-6
                     shadow-2xl
                     animate-in fade-in zoom-in-95
+                    duration-200
                 "
             >
-                {/* Close */}
+                {/* Close Button */}
                 <button
                     onClick={() => setOpenModal(false)}
                     className="absolute right-4 top-4 text-zinc-400 hover:text-white transition"
@@ -42,50 +69,59 @@ export default function DeleteConfirmationModal({
                     <Trash2 className="h-6 w-6 text-red-500" />
                 </div>
 
-                {/* Text */}
-                <h2 className="text-center text-lg font-semibold text-white">
-                    {title}
-                </h2>
+                {/* Text Context */}
+                <div className="text-center space-y-2">
+                    <h2 className="text-lg font-bold text-white tracking-tight">
+                        {title}
+                    </h2>
+                    <p className="text-sm text-zinc-400 px-2">
+                        {para}
+                    </p>
+                </div>
 
-                <p className="mt-2 text-center text-sm text-zinc-400">
-                    {para}
-                </p>
-
-                {/* Actions */}
-                <div className="mt-6 flex gap-3">
+                {/* Action Buttons */}
+                <div className="mt-8 flex gap-3">
                     <button
                         onClick={() => setOpenModal(false)}
                         className="
                             flex-1 rounded-xl
                             cursor-pointer
-                            border border-zinc-700
+                            border border-white/5
+                            bg-white/5
                             px-4 py-2.5
-                            text-sm font-medium
+                            text-sm font-semibold
                             text-zinc-300
-                            hover:bg-zinc-800
-                            transition
+                            hover:bg-white/10
+                            hover:text-white
+                            transition-all
                         "
                     >
                         Cancel
                     </button>
 
                     <button
-                        onClick={handleDelete}
+                        onClick={() => {
+                            handleDelete();
+                            setOpenModal(false);
+                        }}
                         className="
-                        cursor-pointer
                             flex-1 rounded-xl
+                            cursor-pointer
                             bg-red-600
-                            px-4 py-2.5
-                            text-sm font-medium
+                            px-4 py-3
+                            text-sm font-bold
                             text-white
-                            hover:bg-red-700
-                            transition
+                            hover:bg-red-500
+                            shadow-lg shadow-red-900/20
+                            transition-all
+                            active:scale-[0.98]
                         "
                     >
                         Delete
                     </button>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }

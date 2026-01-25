@@ -36,7 +36,7 @@ export default function LanguageRow({
                 <div className="flex items-center justify-between">
                     {hasValue ? (
                         <>
-                            <span className="font-medium text-zinc-200">{value?.[`${namePrefix}_name`]}</span>
+                            <span className="font-medium text-xs sm:text-sm text-zinc-200">{value?.[`${namePrefix}_name`]}</span>
                             {value?.[`${namePrefix}_proficiency`] && (
                                 <span className="text-xs bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/20 uppercase tracking-wide">
                                     {value?.[`${namePrefix}_proficiency`]}

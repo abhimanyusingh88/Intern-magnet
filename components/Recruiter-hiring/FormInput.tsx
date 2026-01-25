@@ -27,7 +27,7 @@ export default function FormInput({
                 required={required}
                 inputMode={numeric ? "numeric" : undefined}
                 pattern={numeric ? "[0-9]*" : undefined}
-                value={value}
+                value={value || ""}
                 onChange={
                     onChange
                         ? (e) => {

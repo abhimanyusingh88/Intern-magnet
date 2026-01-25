@@ -72,7 +72,7 @@ export default function FieldEditModal({
                     <h3 className="text-lg font-semibold text-white">{title}</h3>
                     <button
                         onClick={onClose}
-                        className="rounded-full p-2 text-zinc-400 hover:bg-white/5 hover:text-white transition-colors"
+                        className="rounded-full p-2 cursor-pointer hover:rotate-90  duration-400 text-zinc-400 hover:bg-white/5 hover:text-white transition-all transform-gpu ease-in-out"
                     >
                         <X size={18} />
                     </button>
@@ -87,14 +87,14 @@ export default function FieldEditModal({
                 <div className="flex justify-end gap-3 border-t border-white/5 px-6 py-4 bg-zinc-900/50">
                     <button
                         onClick={onClose}
-                        className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-400 hover:bg-white/5 hover:text-white transition-colors"
+                        className="rounded-lg cursor-pointer px-4 py-2 text-sm font-medium text-zinc-400 hover:bg-white/5 hover:text-white transition-colors"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onSave}
                         disabled={isSaving}
-                        className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                        className="rounded-lg cursor-pointer bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                     >
                         {isSaving ? "Saving..." : "Save Changes"}
                     </button>

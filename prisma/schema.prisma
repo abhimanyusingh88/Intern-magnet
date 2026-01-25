@@ -34,7 +34,7 @@ model LegacyUser {
   class_x_board             String?
   class_x_details_start     String?
   class_x_details_end       String?
-  skills                    String?
+  skills                    String[]          @default([])
   language_1_name           String?
   language_1_proficiency    String?
   language_2_name           String?
@@ -42,13 +42,15 @@ model LegacyUser {
   internship_company        String?
   internship_duration_start String?
   internship_duration_end   String?
-  projects                  String?
+  internships               Json?
+  projects                  Json?
   profile_summary           String?
-  certifications            String?
+  certifications            Json?
   awards                    String?
   clubs                     String?
   exam_name                 String?
   exam_rank                 String?
+  exams                     Json?
   resume_path               String?
   updated_at                DateTime?         @db.Timestamptz(6)
   recruiter_hirings         RecruiterHiring[]

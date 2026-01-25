@@ -31,16 +31,15 @@ export function getInitialDownProfileData(userData: UserProfileData | null | any
         internship_company: userData?.internship_company || "",
         internship_duration_start: userData?.internship_duration_start || "",
         internship_duration_end: userData?.internship_duration_end || "",
-
-        projects: userData?.projects || "",
+        internships: userData?.internships || [],
+        projects: userData?.projects || [],
         profile_summary: userData?.profile_summary || "",
 
-        certifications: userData?.certifications || "",
         awards: userData?.awards || "",
         clubs: userData?.clubs || "",
 
-        exam_name: userData?.exam_name || "",
-        exam_rank: userData?.exam_rank || "",
+        certifications: Array.isArray(userData?.certifications) ? userData.certifications : [],
+        exams: Array.isArray(userData?.exams) ? userData.exams : [],
         resume_path: userData?.resume_path || "",
     };
 }

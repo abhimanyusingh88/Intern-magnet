@@ -11,7 +11,7 @@ interface LanguagesProps {
 export default function Languages({ data, onChange }: LanguagesProps) {
     return (
         <Card id="section-languages" title="Languages">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                 <LanguageRow value={data} onChange={onChange} label="Language 1" namePrefix="language_1" />
                 <LanguageRow value={data} onChange={onChange} label="Language 2" namePrefix="language_2" />
             </div>

@@ -26,6 +26,9 @@ export const initialFormData: FormData = {
     why_join: "",
     required_qualifications: "",
     preferred_qualifications: "",
+    skill_description: "",
+    role: "",
+    selection_process: "",
     draft: false
 
 };

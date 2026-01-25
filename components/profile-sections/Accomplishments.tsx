@@ -17,22 +17,13 @@ export default function Accomplishments({ data, setFormData }: AccomplishmentsPr
     };
 
     return (
-        <>
-            <div className="bg-zinc-900/60 rounded-xl border border-white/5 p-4">
-                <EditableField
-                    label="Certifications"
-                    name="certifications"
-                    isTextarea
-                    value={data.certifications || ""}
-                    onSave={handleSave}
-                />
-            </div>
+        <div id="section-accomplishments" className="space-y-3">
             <div className="bg-zinc-900/60 rounded-xl border border-white/5 p-4">
                 <EditableField
                     label="Awards"
                     name="awards"
                     isTextarea
-                    value={data.awards || ""}
+                    value={String(data.awards || "")}
                     onSave={handleSave}
                 />
             </div>
@@ -41,10 +32,10 @@ export default function Accomplishments({ data, setFormData }: AccomplishmentsPr
                     label="Clubs"
                     name="clubs"
                     isTextarea
-                    value={data.clubs || ""}
+                    value={String(data.clubs || "")}
                     onSave={handleSave}
                 />
             </div>
-        </>
+        </div>
     );
 }

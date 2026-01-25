@@ -12,7 +12,7 @@ interface EducationProps {
 export default function Education({ data, onChange }: EducationProps) {
     return (
         <Card id="section-education" title="Education">
-            <div className="space-y-6">
+            <div className=" space-y-2 md:space-y-4">
                 <EducationBlock
                     value={data}
                     onChange={onChange}

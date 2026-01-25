@@ -45,6 +45,7 @@ export default function CareerPreferences({ data, setFormData }: CareerPreferenc
 
             <EditableField
                 label="Preferred location"
+                margin="mt-2"
                 name="preferred_location"
                 value={data.preferred_location || ""}
                 onSave={handleSave}

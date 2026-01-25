@@ -29,10 +29,10 @@ export default function EducationBlock({ value, onChange, label, degree, college
             label={label}
             hasValue={hasValue}
             renderView={() => (
-                <div className="w-full flex flex-col gap-1.5">
+                <div className="w-full flex flex-col gap-1">
                     {hasValue ? (
                         <>
-                            <div className="font-medium text-zinc-200 text-base leading-snug wrap-break-word pr-8">
+                            <div className="font-medium text-zinc-200 text-[13px] sm:text-sm md:text-base leading-snug wrap-break-word pr-8">
                                 {value?.[degree]}
                             </div>
 

@@ -93,7 +93,7 @@ export default function DraftJobsCard({
                 <div className="mt-4 pt-4 border-t border-white/5">
                     <button
                         onClick={handleComplete}
-                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-bold text-black transition-transform active:scale-95 group-hover:bg-indigo-50"
+                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-linear-to-r from-indigo-600 to-purple-700 px-4 py-3 text-sm font-bold text-zinc-200  hover:scale-102 duration-200 transition-all transform-gpu ease-in-out group-hover:from-indigo-700 group-hover:to-purple-800"
                     >
                         Complete job posting
                         <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

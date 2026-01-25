@@ -8,6 +8,7 @@ interface ProfileContextType {
     setFields: (fields: Record<string, any>) => void;
     completionPercentage: number;
     getProgressColor: (percentage: number) => string;
+    isFieldFilled: (key: string) => boolean;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined)
@@ -18,8 +19,7 @@ const TRACKED_FIELDS = [
     "college_edu", "education_duration_start", "education_duration_end", "class_xii", "class_xii_board", "class_xii_details_start", "class_xii_details_end",
     "class_x", "class_x_board", "class_x_details_start", "class_x_details_end", "skills",
     "language_1_name", "language_1_proficiency", "language_2_name", "language_2_proficiency",
-    "internship_company", "internship_duration_start", "internship_duration_end", "projects", "profile_summary",
-    "certifications", "awards", "clubs", "exam_name", "exam_rank", "resume_path"
+    "internships", "projects", "profile_summary", "certifications", "awards", "clubs", "exams", "resume_path"
 ];
 
 export function ProfileProvider({ children, initialData = {} }: { children: React.ReactNode, initialData?: Record<string, any> }) {
@@ -37,15 +37,19 @@ export function ProfileProvider({ children, initialData = {} }: { children: Reac
         setProfileFields(prev => ({ ...prev, ...fields }))
     }, [])
 
-    const completionPercentage = useMemo(() => {
-        const filledFieldsCount = TRACKED_FIELDS.filter(key => {
-            const val = profileFields[key];
-            if (typeof val === 'string') return val.trim() !== "";
-            return val !== undefined && val !== null;
-        }).length;
+    const isFieldFilled = useCallback((key: string) => {
+        const val = profileFields[key];
+        if (val === undefined || val === null) return false;
+        if (typeof val === 'string') return val.trim() !== "";
+        if (Array.isArray(val)) return val.length > 0;
+        if (typeof val === 'object') return Object.keys(val).length > 0;
+        return true;
+    }, [profileFields]);
 
+    const completionPercentage = useMemo(() => {
+        const filledFieldsCount = TRACKED_FIELDS.filter(isFieldFilled).length;
         return Math.round((filledFieldsCount / TRACKED_FIELDS.length) * 100);
-    }, [profileFields])
+    }, [isFieldFilled])
 
     const getProgressColor = useCallback((percentage: number) => {
         if (percentage < 50) return "text-red-500";
@@ -54,7 +58,7 @@ export function ProfileProvider({ children, initialData = {} }: { children: Reac
     }, [])
 
     return (
-        <ProfileContext.Provider value={{ profileFields, setField, setFields, completionPercentage, getProgressColor }}>
+        <ProfileContext.Provider value={{ profileFields, setField, setFields, completionPercentage, getProgressColor, isFieldFilled }}>
             {children}
         </ProfileContext.Provider>
     )

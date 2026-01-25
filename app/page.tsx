@@ -7,6 +7,7 @@ import HeroSlider from "@/components/homepage/HomeImageSlider";
 import { MinimalView } from "@/components/homepage/minimalview";
 import TrustSection from "@/components/homepage/TrustSection";
 import NetBg from "@/components/utils/netBg";
+import HowItWorks from "@/components/homepage/howitworks";
 
 export default function HomePage() {
   return (
@@ -43,7 +44,7 @@ export default function HomePage() {
 
       </section>
       <div className="w-full flex justify-center">
-        <h2 className="text-zinc-300 text-xs font-thin sm:text-lg font-sans">Post and hunt at same place</h2>
+        <h2 className="text-zinc-300 text-xs font-thin sm:text-lg font-sans">One stop destination for both recruiters and job seekers</h2>
       </div>
 
 
@@ -55,6 +56,7 @@ export default function HomePage() {
 
       <MinimalView />
       <TrustSection />
+      <HowItWorks />
     </main>
   );
 }

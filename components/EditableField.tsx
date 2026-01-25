@@ -14,6 +14,7 @@ interface EditableFieldProps {
     onSave: (name: string, value: string) => Promise<void>
     className?: string
     type?: string
+    margin?: string
 }
 
 export default function EditableField({
@@ -25,7 +26,8 @@ export default function EditableField({
     options,
     onSave,
     className = "",
-    type = "text"
+    type = "text",
+    margin = ""
 }: EditableFieldProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [tempValue, setTempValue] = useState(value);
@@ -54,7 +56,7 @@ export default function EditableField({
 
     return (
         <>
-            <div className={`space-y-2 group ${className}`}>
+            <div className={`space-y-2 group ${className} ${margin}`}>
                 <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">
                     {label}
                 </p>
@@ -72,7 +74,7 @@ export default function EditableField({
                 >
                     <div className="flex-1">
                         {hasValue ? (
-                            <div className="whitespace-pre-wrap  text-sm md:text-base">{key}</div>
+                            <div className="whitespace-pre-wrap  text-[13px] sm:text-sm md:text-base ">{key}</div>
                         ) : (
                             <span className="italic opacity-50">{placeholder || "Click to add..."}</span>
                         )}

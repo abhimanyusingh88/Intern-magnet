@@ -94,7 +94,7 @@ export default function ProfileMain({ session }: { session: any }) {
     }
 
     return (
-        <section className="relative rounded-2xl border border-white/10 bg-zinc-900/60 p-4 sm:p-6 backdrop-blur-xl group/card">
+        <section className="relative rounded-2xl border border-white/10 bg-zinc-900/60 p-4 md:p-6 backdrop-blur-xl group/card">
             {/* Edit Icon for the card */}
             <button
                 type="button"
