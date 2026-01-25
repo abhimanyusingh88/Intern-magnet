@@ -102,7 +102,7 @@ export default function DynamicProfileSection<T>({
                     <button
                         type="button"
                         onClick={() => handleOpenModal()}
-                        className="w-full flex items-center cursor-pointer justify-center gap-2 py-3 rounded-xl border border-dashed border-indigo-500/35 text-zinc-500 hover:border-indigo-500/30 hover:text-indigo-400 hover:border-indigo-500/90 transition-all group"
+                        className="w-full flex items-center cursor-pointer justify-center gap-2 py-3 rounded-xl border border-dashed border-indigo-500/35 text-zinc-500  hover:text-indigo-400 hover:border-indigo-500/90 transition-all group"
                     >
                         <Plus size={18} />
                         <span className="text-sm font-medium">Add {itemLabel}</span>
