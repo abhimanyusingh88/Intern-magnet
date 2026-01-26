@@ -1,188 +1,185 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Pencil } from "lucide-react"
+import { Pencil, Briefcase, User as UserIcon } from "lucide-react"
 import Image from "next/image"
-import { useProfile } from "../providers/ProfileContext"
+import { useProfile, ProfileMode } from "../providers/ProfileContext"
 import { useQueryClient } from "@tanstack/react-query"
+import { motion, AnimatePresence } from "framer-motion"
 import FieldEditModal from "../FieldEditModal"
 import ProfileAdditionalDetails from "./ProfileAdditional"
 import MainDetails from "../MainDetails"
 import ImageModal from "../utils/ImageModal"
 import ProfileEditForm from "./ProfileEditForm"
 import ProfileIndicatorText from "./ProfileIndicatorText"
+import OnboardingChoice from "./OnboardingChoice"
+import RecruiterProfileLayout from "./RecruiterProfileLayout"
+import DownProfileComponent from "./DownProfileComponent"
+import ProfileModeSwitcher from "./ProfileModeSwitcher"
 
 import { updateProfile } from "@/app/actions/profile"
 import ProfileData from "@/lib/data/UserData"
+import RecruiterProfileData from "@/lib/data/RecruiterData"
 import { SpinnerBig } from "../utils/SpinnerBig"
 
 export default function ProfileMain({ session }: { session: any }) {
-    const { data: userData, isLoading } = ProfileData();
-    const { completionPercentage: globalCompletionPercentage, getProgressColor, setFields } = useProfile()
+    const { data: userData, isLoading: isUserLoading } = ProfileData();
+    const { data: recruiterData, isLoading: isRecruiterLoading } = RecruiterProfileData();
+    const {
+        activeMode,
+        setActiveMode,
+        completionPercentage,
+        recruiterCompletionPercentage,
+        getProgressColor,
+        setFields,
+        setRecruiterFields,
+        profileFields,
+    } = useProfile()
+
     const [openImageModal, setImageModal] = useState(false);
+    const [localActiveMode, setLocalActiveMode] = useState<ProfileMode | null>(null);
 
-    // Helper to derive state from props to ensure consistency
-    // We use a function to get the object so we can use it for both initialization and comparisons
-    const getInitialData = (user: any, sess: any) => ({
-        college: user?.college || "",
-        course: user?.course || "",
-        name: user?.name || sess?.user?.name || "",
-        email: user?.email || sess?.user?.email || "",
-        phone: user?.phone || "",
-        address: user?.address || "",
-        dob: user?.dob || "",
-        gender: user?.gender || ""
-    });
-
-    // Initialize state from DB data or fallbacks
-    const [profileData, setProfileData] = useState(getInitialData(userData, session));
-
+    // Skip onboarding if mode is already persisted
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const saved = localStorage.getItem("profileActiveMode") as ProfileMode;
+            if (saved) setLocalActiveMode(saved);
+        }
+    }, []);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const queryClient = useQueryClient();
     const sessionImage = session?.user?.image;
 
-    const queryClient = useQueryClient();
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [editFormData, setEditFormData] = useState(profileData);
-    const [isSaving, setIsSaving] = useState(false);
+    // Determine if onboarding is needed
+    // Onboarding is needed if neither profile has any substantial data (beyond email/name from session)
+    const hasSeekerData = userData && typeof userData === 'object' ? Object.keys(userData).length > 2 : false;
+    const hasRecruiterData = recruiterData && typeof recruiterData === 'object' ? Object.keys(recruiterData).length > 2 : false;
 
-    // Sync state with props when data updates
     useEffect(() => {
-        if (userData) {
-            const newData = getInitialData(userData, session);
-            setProfileData(newData);
-            setEditFormData(newData);
-            setFields(userData);
-        }
-    }, [userData, session, setFields]);
+        if (userData) setFields(userData);
+        if (recruiterData) setRecruiterFields(recruiterData);
+    }, [userData, recruiterData, setFields, setRecruiterFields]);
 
-    const handleEditOpen = () => {
-        setEditFormData(profileData); // Reset form to current data
-        setIsEditModalOpen(true);
+    ///////////////////////////////////////////////////////////////////////
+
+    if (isUserLoading || isRecruiterLoading) return <SpinnerBig />;
+
+    const showOnboarding = !hasSeekerData && !hasRecruiterData && !localActiveMode;
+
+    if (showOnboarding) {
+        return <OnboardingChoice onChoice={(mode) => {
+            setLocalActiveMode(mode);
+            setActiveMode(mode);
+        }} />;
     }
 
-    const handleEditChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setEditFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    }
-
-    const handleMasterSave = async () => {
-        setIsSaving(true);
-        try {
-            const formData = new FormData();
-            Object.entries(editFormData).forEach(([k, v]) => formData.append(k, v));
-
-            await updateProfile(formData);
-
-            // Immediate local update
-            setProfileData(editFormData);
-
-            // Force re-fetch to ensure consistency
-            await queryClient.invalidateQueries({ queryKey: ["profileData"] });
-
-            setIsEditModalOpen(false);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsSaving(false);
-        }
-    }
-
-    if (isLoading) {
-        return (
-
-            <SpinnerBig />
-
-        )
-    }
+    const currentCompletion = activeMode === "SEEKER" ? completionPercentage : recruiterCompletionPercentage;
 
     return (
-        <section className="relative rounded-2xl border border-white/10 bg-zinc-900/60 p-4 md:p-6 backdrop-blur-xl group/card">
-            {/* Edit Icon for the card */}
-            <button
-                type="button"
-                onClick={handleEditOpen}
-                className="absolute top-4 right-4 z-20 p-2 rounded-lg border border-white/5 bg-zinc-900/50 text-zinc-400 hover:text-white hover:border-white/10 hover:bg-zinc-800 transition-all cursor-pointer"
-            >
-                <Pencil size={18} />
-            </button>
+        <div className="space-y-6">
+            {/* Mode Switcher */}
+            <ProfileModeSwitcher activeMode={activeMode} setActiveMode={setActiveMode} />
 
-
-            {openImageModal &&
-                <ImageModal open={openImageModal} setOpen={setImageModal} sessionImage={sessionImage} />
-            }
-
-            <div className="space-y-6">
-
-                {/* TOP SECTION: PROFILE IMAGE AND PRIMARY INFO */}
-                <div className="flex flex-col sm:flex-row items-start gap-6">
-                    {/* Profile Image with Progress Ring */}
-                    <div className="relative shrink-0 h-28 w-28 group/avatar">
-                        {/* Progress Ring SVG */}
-                        <svg className="absolute -inset-2 h-32 w-32 -rotate-90 transform" viewBox="0 0 128 128">
-                            {/* Background Circle */}
-                            <circle
-                                cx="64"
-                                cy="64"
-                                r="58"
-                                fill="transparent"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                                className="text-white/5"
-                            />
-                            {/* Progress Circle */}
-                            <circle
-                                cx="64"
-                                cy="64"
-                                r="58"
-                                fill="transparent"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                                strokeDasharray={364.4}
-                                strokeDashoffset={364.4 - (364.4 * globalCompletionPercentage) / 100}
-                                className={`${getProgressColor(globalCompletionPercentage)} transition-all duration-1000 ease-out`}
-                                strokeLinecap="round"
-                            />
-                        </svg>
-
-                        <div className="relative h-full w-full rounded-full border border-white/10 bg-zinc-950 p-1 transition-transform group-hover/avatar:scale-95 duration-500">
-                            <Image
-                                onClick={() => setImageModal(true)}
-                                src={sessionImage || "/avatar-placeholder.png"}
-                                width={112}
-                                height={112}
-                                className="h-full cursor-pointer w-full rounded-full object-cover"
-                                alt="profile"
-                            />
-                        </div>
-
-                        {/* Percentage Badge */}
-                        <div className="absolute -bottom-1 -right-1 bg-zinc-900 border border-white/10 px-2 py-0.5 rounded-full shadow-xl">
-                            <span className={`text-[10px] font-bold ${getProgressColor(globalCompletionPercentage)}`}>{globalCompletionPercentage}%</span>
-                        </div>
-                    </div>
-
-                    {/* The main section on profile */}
-                    <MainDetails currentData={profileData} />
-
-                </div>
-
-                {/* Call to Action Text */}
-                <ProfileIndicatorText globalCompletionPercentage={globalCompletionPercentage} getProgressColor={getProgressColor} />
-
-                {/* BOTTOM SECTION: ADDITIONAL DETAILS */}
-                <ProfileAdditionalDetails
-                    currentData={profileData}
-                />
-
-                <FieldEditModal
-                    isOpen={isEditModalOpen}
-                    onClose={() => setIsEditModalOpen(false)}
-                    title="Edit Profile Details"
-                    onSave={handleMasterSave}
-                    isSaving={isSaving}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={activeMode}
+                    initial={{ opacity: 0, x: activeMode === "SEEKER" ? -20 : 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: activeMode === "SEEKER" ? 20 : -20 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                    <ProfileEditForm editFormData={editFormData} handleEditChange={handleEditChange} />
-                </FieldEditModal>
+                    {activeMode === "SEEKER" ? (
+                        <>
+                            <section className="relative rounded-2xl border border-white/10 bg-zinc-900/60 p-4 md:p-6 backdrop-blur-xl group/card">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsEditModalOpen(true)}
+                                    className="absolute top-4 right-4 z-20 p-2 rounded-lg border border-white/5 bg-zinc-900/50 text-zinc-400 hover:text-white hover:border-white/10 hover:bg-zinc-800 transition-all cursor-pointer"
+                                >
+                                    <Pencil size={18} />
+                                </button>
 
-            </div>
-        </section>
+                                {openImageModal &&
+                                    <ImageModal open={openImageModal} setOpen={setImageModal} sessionImage={sessionImage} />
+                                }
+
+                                <div className="space-y-6">
+                                    <div className="flex flex-col sm:flex-row items-start gap-6">
+                                        <div className="relative shrink-0 h-28 w-28 group/avatar">
+                                            <svg className="absolute -inset-2 h-32 w-32 -rotate-90 transform" viewBox="0 0 128 128">
+                                                <circle cx="64" cy="64" r="58" fill="transparent" stroke="currentColor" strokeWidth="4" className="text-white/5" />
+                                                <circle
+                                                    cx="64" cy="64" r="58" fill="transparent" stroke="currentColor" strokeWidth="4"
+                                                    strokeDasharray={364.4}
+                                                    strokeDashoffset={364.4 - (364.4 * completionPercentage) / 100}
+                                                    className={`${getProgressColor(completionPercentage)} transition-all duration-1000 ease-out`}
+                                                    strokeLinecap="round"
+                                                />
+                                            </svg>
+
+                                            <div className="relative h-full w-full rounded-full border border-white/10 bg-zinc-950 p-1 transition-transform group-hover/avatar:scale-95 duration-500">
+                                                <Image
+                                                    onClick={() => setImageModal(true)}
+                                                    src={sessionImage || "/avatar-placeholder.png"}
+                                                    width={112}
+                                                    height={112}
+                                                    className="h-full cursor-pointer w-full rounded-full object-cover"
+                                                    alt="profile"
+                                                />
+                                            </div>
+
+                                            <div className="absolute -bottom-1 -right-1 bg-zinc-900 border border-white/10 px-2 py-0.5 rounded-full shadow-xl">
+                                                <span className={`text-[10px] font-bold ${getProgressColor(completionPercentage)}`}>{completionPercentage}%</span>
+                                            </div>
+                                        </div>
+
+                                        <MainDetails currentData={profileFields} />
+                                    </div>
+
+                                    <ProfileIndicatorText globalCompletionPercentage={completionPercentage} getProgressColor={getProgressColor} />
+
+                                    <ProfileAdditionalDetails currentData={profileFields} />
+                                </div>
+                            </section>
+                            <div className="mt-8">
+                                <DownProfileComponent />
+                            </div>
+                        </>
+                    ) : (
+                        <RecruiterProfileLayout />
+                    )}
+                </motion.div>
+            </AnimatePresence>
+
+            {/* Seeker Edit Modal */}
+            <FieldEditModal
+                isOpen={isEditModalOpen && activeMode === "SEEKER"}
+                onClose={() => setIsEditModalOpen(false)}
+                title="Edit Profile Details"
+                onSave={async () => {
+                    setIsSaving(true);
+                    try {
+                        const formData = new FormData();
+                        Object.entries(profileFields).forEach(([k, v]) => {
+                            if (v !== null && v !== undefined) formData.append(k, String(v));
+                        });
+                        await updateProfile(formData);
+                        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
+                        setIsEditModalOpen(false);
+                    } catch (error) {
+                        console.error(error);
+                    } finally {
+                        setIsSaving(false);
+                    }
+                }}
+                isSaving={isSaving}
+            >
+                <ProfileEditForm editFormData={profileFields as any} handleEditChange={(e) => {
+                    const { name, value } = e.target;
+                    setFields({ [name]: value });
+                }} />
+            </FieldEditModal>
+        </div >
     )
 }

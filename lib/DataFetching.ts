@@ -7,3 +7,13 @@ export const fetchProfileData = async () => {
 
     return res.json();
 };
+
+export const fetchRecruiterProfileData = async () => {
+    const res = await fetch("/api/profile/recruiter");
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch recruiter profile data");
+    }
+
+    return res.json();
+};

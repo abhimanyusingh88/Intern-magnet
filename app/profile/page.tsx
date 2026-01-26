@@ -1,10 +1,7 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
-import DownProfileComponent from "@/components/Profile-elements/DownProfileComponent";
 import ProfileMain from "@/components/Profile-elements/ProfileMain";
-import { SpinnerBig } from "@/components/utils/SpinnerBig";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { Suspense } from "react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -28,18 +25,7 @@ export default async function ProfilePage() {
 
             <div className="pt-24 pb-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="space-y-4">
-                    {/* <div> */}
-                    {/* <Suspense fallback={<SpinnerBig />}> */}
-                    {/* Add profile content here */}
                     <ProfileMain session={session} />
-                    {/* </Suspense> */}
-                    {/* </div> */}
-
-                    {/* <div> */}
-                    {/* <Suspense fallback={<SpinnerBig />}> */}
-                    <DownProfileComponent />
-                    {/* </Suspense> */}
-                    {/* </div> */}
                 </div>
             </div>
         </div>

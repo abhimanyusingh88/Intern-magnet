@@ -53,9 +53,29 @@ model LegacyUser {
   exams                     Json?
   resume_path               String?
   updated_at                DateTime?         @db.Timestamptz(6)
-  recruiter_hirings         RecruiterHiring[]
 
   @@map("users")
+}
+
+
+model RecruiterProfile {
+  id                BigInt            @id @default(autoincrement())
+  userId            String            @unique
+  recruiter_name    String
+  email             String
+  contact_number    String?
+  address           String?
+  designation       String?
+  organisation_name String?
+  website           String?
+  company_domain    String?
+  hiring_for        String?
+  created_at        DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime          @updatedAt @db.Timestamptz(6)
+
+  hirings           RecruiterHiring[]
+
+  @@map("recruiter_profiles")
 }
 
 model RecruiterHiring {
@@ -76,7 +96,7 @@ model RecruiterHiring {
   number_of_applications    BigInt
   educational_requirements  String
   communication_preferences String
-  user_id_recruiter         BigInt
+  recruiter_profile_id      BigInt?
   good_to_have              String?
   key_responsibilities      String?
   what_we_offer             String?
@@ -90,7 +110,7 @@ model RecruiterHiring {
   selection_process         String?
   skill_description         String?
   role                      String?
-  user                      LegacyUser          @relation(fields: [user_id_recruiter], references: [id], onDelete: Cascade)
+  recruiter_profile         RecruiterProfile?   @relation(fields: [recruiter_profile_id], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
 
   @@map("recruiterhiring")

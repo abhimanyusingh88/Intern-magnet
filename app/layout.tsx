@@ -23,6 +23,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { prisma } from "@/lib/prisma";
+
 export const metadata: Metadata = {
   title: "Home | Intern-Magnet",
   description: "A platform to help students find internships and companies find talent.",
@@ -38,29 +40,40 @@ export default async function RootLayout({
   });
 
   let initialProfileData = {};
+  let initialRecruiterData = {};
 
-  if (session?.user?.email) {
+  if (session?.user?.id) {
     try {
-      const { prisma } = await import("@/lib/prisma");
-      const user = await prisma.legacyUser.findFirst({
-        where: { email: session.user.email },
+      // Fetch Seeker Data (using email as lookup key as per existing logic)
+      if (session.user.email) {
+        const user = await prisma.legacyUser.findFirst({
+          where: { email: session.user.email },
+        });
+
+        if (user) {
+          initialProfileData = JSON.parse(JSON.stringify(user, (key, value) =>
+            typeof value === 'bigint' ? value.toString() : value
+          ));
+        } else {
+          initialProfileData = {
+            name: session.user.name || "",
+            email: session.user.email || "",
+          };
+        }
+      }
+
+      // Fetch Recruiter Data
+      const recruiter = await prisma.recruiterProfile.findUnique({
+        where: { userId: session.user.id },
       });
 
-      if (user) {
-        // Convert BigInt and Dates to strings/plains for client components
-        initialProfileData = JSON.parse(JSON.stringify(user, (key, value) =>
+      if (recruiter) {
+        initialRecruiterData = JSON.parse(JSON.stringify(recruiter, (key, value) =>
           typeof value === 'bigint' ? value.toString() : value
         ));
-      } else {
-        // Fallback if DB record doesn't exist yet but session does
-        initialProfileData = {
-          name: session.user.name || "",
-          email: session.user.email || "",
-        };
       }
     } catch (error) {
-      console.error("Failed to fetch user in layout:", error);
-      // Fallback to basic session data
+      console.error("Failed to fetch user/recruiter in layout:", error);
       initialProfileData = {
         name: session?.user?.name || "",
         email: session?.user?.email || "",
@@ -73,7 +86,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >        <Providers>
-          <ProfileProvider initialData={initialProfileData}>
+          <ProfileProvider initialData={initialProfileData} initialRecruiterData={initialRecruiterData}>
             <CustomProvider theme="dark">
               <NavBar />
               <ReactQueryDevtools initialIsOpen={false} />
