@@ -8,13 +8,15 @@ export default function DeleteConfirmationModal({
     openModal,
     setOpenModal,
     title,
-    para
+    para,
+    isDeleting
 }: {
-    handleDelete: () => void;
+    handleDelete: () => Promise<void> | void;
     openModal: boolean;
     setOpenModal: (v: boolean) => void;
     title: string;
     para: string;
+    isDeleting?: boolean;
 }) {
     const [mounted, setMounted] = useState(false);
 
@@ -41,7 +43,7 @@ export default function DeleteConfirmationModal({
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-                onClick={() => setOpenModal(false)}
+                onClick={() => !isDeleting && setOpenModal(false)}
             />
 
             <div
@@ -58,8 +60,9 @@ export default function DeleteConfirmationModal({
             >
                 {/* Close Button */}
                 <button
-                    onClick={() => setOpenModal(false)}
-                    className="absolute right-4 top-4 text-zinc-400 hover:text-white transition"
+                    onClick={() => !isDeleting && setOpenModal(false)}
+                    disabled={isDeleting}
+                    className="absolute right-4 top-4 text-zinc-400 hover:text-white transition disabled:opacity-50"
                 >
                     <X className="w-5 h-5" />
                 </button>
@@ -83,6 +86,7 @@ export default function DeleteConfirmationModal({
                 <div className="mt-8 flex gap-3">
                     <button
                         onClick={() => setOpenModal(false)}
+                        disabled={isDeleting}
                         className="
                             flex-1 rounded-xl
                             cursor-pointer
@@ -94,16 +98,19 @@ export default function DeleteConfirmationModal({
                             hover:bg-white/10
                             hover:text-white
                             transition-all
+                            disabled:opacity-50
+                            disabled:cursor-not-allowed
                         "
                     >
                         Cancel
                     </button>
 
                     <button
-                        onClick={() => {
-                            handleDelete();
+                        onClick={async () => {
+                            await handleDelete();
                             setOpenModal(false);
                         }}
+                        disabled={isDeleting}
                         className="
                             flex-1 rounded-xl
                             cursor-pointer
@@ -115,9 +122,19 @@ export default function DeleteConfirmationModal({
                             shadow-lg shadow-red-900/20
                             transition-all
                             active:scale-[0.98]
+                            disabled:opacity-70
+                            disabled:cursor-not-allowed
+                            flex items-center justify-center gap-2
                         "
                     >
-                        Delete
+                        {isDeleting ? (
+                            <>
+                                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+                                Deleting...
+                            </>
+                        ) : (
+                            "Delete"
+                        )}
                     </button>
                 </div>
             </div>

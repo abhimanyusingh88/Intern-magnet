@@ -3,17 +3,30 @@ import { Pencil, Trash2 } from "lucide-react";
 import DeleteConfirmationModal from "../utils/deleteConfirmationModal";
 import { useState } from "react";
 
-export default function DeleteOrEdit({ onEdit, onDelete }: { onEdit: () => void, onDelete: () => void }) {
-    function handleDelete() {
-        onDelete();
-    }
+export default function DeleteOrEdit({ onEdit, onDelete }: { onEdit: () => void, onDelete: () => Promise<void> | void }) {
     const [openModal, setOpenModal] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    async function handleDelete() {
+        setIsDeleting(true);
+        try {
+            await onDelete();
+        } finally {
+            setIsDeleting(false);
+            setOpenModal(false);
+        }
+    }
 
     return (
-
-
         <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/5">
-            <DeleteConfirmationModal handleDelete={handleDelete} openModal={openModal} setOpenModal={setOpenModal} title="Delete" para="Are you sure you want to delete this item?" />
+            <DeleteConfirmationModal
+                handleDelete={handleDelete}
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                title="Delete"
+                para="Are you sure you want to delete this item?"
+                isDeleting={isDeleting}
+            />
             <button
                 type="button"
                 onClick={onEdit}
@@ -28,7 +41,6 @@ export default function DeleteOrEdit({ onEdit, onDelete }: { onEdit: () => void,
             >
                 <Trash2 size={18} />
             </button>
-
         </div>
     );
 }

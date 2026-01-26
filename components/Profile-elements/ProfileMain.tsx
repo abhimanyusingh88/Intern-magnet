@@ -37,16 +37,13 @@ export default function ProfileMain({ session }: { session: any }) {
         profileFields,
     } = useProfile()
 
+    const [isMounted, setIsMounted] = useState(false);
     const [openImageModal, setImageModal] = useState(false);
-    const [localActiveMode, setLocalActiveMode] = useState<ProfileMode | null>(null);
 
-    // Skip onboarding if mode is already persisted
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            const saved = localStorage.getItem("profileActiveMode") as ProfileMode;
-            if (saved) setLocalActiveMode(saved);
-        }
+        setIsMounted(true);
     }, []);
+
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const queryClient = useQueryClient();
@@ -54,23 +51,11 @@ export default function ProfileMain({ session }: { session: any }) {
 
     // Determine if onboarding is needed
     // Onboarding is needed if both profiles are effectively empty
-    // A skeleton record (id, email, name, created_at, updated_at) has about 5 keys.
-    // Anything with 7 or more keys likely has some actual profile data.
     const hasSeekerData = (userData && typeof userData === 'object' && Object.keys(userData).length > 6);
     const hasRecruiterData = (recruiterData && typeof recruiterData === 'object' && Object.keys(recruiterData).length > 6);
 
-    // If both profiles are strictly missing from the server, it's a fresh account.
-    // We should clear any stale localStorage mode to force onboarding.
-    useEffect(() => {
-        if (userData === null && recruiterData === null) {
-            localStorage.removeItem("profileActiveMode");
-            setLocalActiveMode(null);
-        }
-    }, [userData, recruiterData]);
-
     useEffect(() => {
         // Initialize with default fields if userData is null
-        // Fallback to session email to ensure it's always populated for new users
         const seekerBase = userData || (session?.user?.email ? { email: session.user.email } : null);
         setFields(getInitialProfileData(seekerBase));
 
@@ -78,17 +63,19 @@ export default function ProfileMain({ session }: { session: any }) {
         setRecruiterFields(getInitialRecruiterData(recruiterBase));
     }, [userData, recruiterData, setFields, setRecruiterFields, session]);
 
-    ///////////////////////////////////////////////////////////////////////
-
     if (isUserLoading || isRecruiterLoading) return <SpinnerBig />;
 
-    // Show onboarding if no data exists and no mode has been selected yet
-    // OR if no data exists and we want to force a choice for new accounts
-    const showOnboarding = !hasSeekerData && !hasRecruiterData && !localActiveMode;
+    // Show onboarding ONLY if:
+    // 1. We have finished loading (checked above)
+    // 2. Neither profile has real data
+    // 3. We are on the client side (to avoid hydration mismatch)
+    // 4. No mode preference exists in localStorage (which activeMode handles)
+
+    // However, if we HAVE data on the server, we should NOT show onboarding.
+    const showOnboarding = isMounted && !hasSeekerData && !hasRecruiterData && !localStorage.getItem("profileActiveMode");
 
     if (showOnboarding) {
         return <OnboardingChoice onChoice={(mode) => {
-            setLocalActiveMode(mode);
             setActiveMode(mode);
         }} />;
     }

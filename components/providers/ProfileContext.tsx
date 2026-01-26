@@ -35,25 +35,24 @@ const RECRUITER_TRACKED_FIELDS = [
 ];
 
 export function ProfileProvider({ children, initialData = {}, initialRecruiterData = {} }: { children: React.ReactNode, initialData?: Record<string, any>, initialRecruiterData?: Record<string, any> }) {
-    const [activeMode, setActiveModeState] = useState<ProfileMode>("SEEKER")
+    // Initialize with a smart default based on provided data
+    const [activeMode, setActiveModeState] = useState<ProfileMode>(() => {
+        const hasSeeker = initialData && Object.keys(initialData).length > 2;
+        const hasRecruiter = initialRecruiterData && Object.keys(initialRecruiterData).length > 2;
+        if (hasRecruiter && !hasSeeker) return "RECRUITER";
+        return "SEEKER";
+    })
+
     const [profileFields, setProfileFields] = useState<Record<string, any>>(initialData)
     const [recruiterFields, setRecruiterFieldsState] = useState<Record<string, any>>(initialRecruiterData)
 
-    // Load persisted mode on mount or set smart default
+    // Load persisted mode on mount 
     useEffect(() => {
         const savedMode = localStorage.getItem("profileActiveMode") as ProfileMode;
         if (savedMode === "SEEKER" || savedMode === "RECRUITER") {
             setActiveModeState(savedMode);
-        } else {
-            // Smart default: If user has recruiter data but no seeker data, default to Recruiter
-            const hasSeeker = initialData && Object.keys(initialData).length > 2;
-            const hasRecruiter = initialRecruiterData && Object.keys(initialRecruiterData).length > 2;
-
-            if (hasRecruiter && !hasSeeker) {
-                setActiveModeState("RECRUITER");
-            }
         }
-    }, [initialData, initialRecruiterData]);
+    }, []);
 
     const setActiveMode = useCallback((mode: ProfileMode) => {
         setActiveModeState(mode);

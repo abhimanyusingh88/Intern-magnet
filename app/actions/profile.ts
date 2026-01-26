@@ -35,7 +35,9 @@ export async function updateProfile(formData: FormData): Promise<string | undefi
         const updateData: Record<string, any> = {};
 
         const isItemEmpty = (item: any) => {
-            if (!item || typeof item !== "object") return true;
+            if (item == null) return true;
+            if (typeof item === "string") return item.trim() === "";
+            if (typeof item !== "object") return false;
             return Object.values(item).every(val =>
                 val == null ||
                 (typeof val === "string" && val.trim() === "") ||

@@ -7,15 +7,18 @@ import { startTransition, useState } from "react";
 import DeleteConfirmationModal from "../utils/deleteConfirmationModal";
 
 export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob: any }) {
-    const { mutateAsync } = useDeleteJob();
+    const { mutateAsync, isPending: isDeleting } = useDeleteJob();
     const [openModalDelete, setOpenModalDelete] = useState(false);
 
     const handleDelete = async () => {
-        startTransition(async () => {
+        try {
+            // No need to set isDeleting manually as it's from useDeleteJob
             deleteJob(job.id);
             await mutateAsync(job.id);
-        });
-        setOpenModalDelete(false);
+            setOpenModalDelete(false);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     if (openModalDelete) return <DeleteConfirmationModal
@@ -24,6 +27,7 @@ export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob
         handleDelete={handleDelete}
         openModal={openModalDelete}
         setOpenModal={setOpenModalDelete}
+        isDeleting={isDeleting}
     />
 
     return (

@@ -41,7 +41,11 @@ export default function DraftJobsCard({
     if (openModal) return <DeleteConfirmationModal
         title="Delete job post?"
         para="This action cannot be undone. The job post will be permanently removed."
-        openModal={openModal} setOpenModal={setOpenModal} handleDelete={onDelete} />
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        handleDelete={onDelete}
+        isDeleting={isDeleting}
+    />
 
     return (
         <motion.div
