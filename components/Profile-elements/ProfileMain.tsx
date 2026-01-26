@@ -18,6 +18,7 @@ import DownProfileComponent from "./DownProfileComponent"
 import ProfileModeSwitcher from "./ProfileModeSwitcher"
 
 import { updateProfile } from "@/app/actions/profile"
+import { getInitialProfileData, getInitialRecruiterData } from "@/lib/profile-helpers"
 import ProfileData from "@/lib/data/UserData"
 import RecruiterProfileData from "@/lib/data/RecruiterData"
 import { SpinnerBig } from "../utils/SpinnerBig"
@@ -52,19 +53,37 @@ export default function ProfileMain({ session }: { session: any }) {
     const sessionImage = session?.user?.image;
 
     // Determine if onboarding is needed
-    // Onboarding is needed if neither profile has any substantial data (beyond email/name from session)
-    const hasSeekerData = userData && typeof userData === 'object' ? Object.keys(userData).length > 2 : false;
-    const hasRecruiterData = recruiterData && typeof recruiterData === 'object' ? Object.keys(recruiterData).length > 2 : false;
+    // Onboarding is needed if both profiles are effectively empty
+    // A skeleton record (id, email, name, created_at, updated_at) has about 5 keys.
+    // Anything with 7 or more keys likely has some actual profile data.
+    const hasSeekerData = (userData && typeof userData === 'object' && Object.keys(userData).length > 6);
+    const hasRecruiterData = (recruiterData && typeof recruiterData === 'object' && Object.keys(recruiterData).length > 6);
+
+    // If both profiles are strictly missing from the server, it's a fresh account.
+    // We should clear any stale localStorage mode to force onboarding.
+    useEffect(() => {
+        if (userData === null && recruiterData === null) {
+            localStorage.removeItem("profileActiveMode");
+            setLocalActiveMode(null);
+        }
+    }, [userData, recruiterData]);
 
     useEffect(() => {
-        if (userData) setFields(userData);
-        if (recruiterData) setRecruiterFields(recruiterData);
-    }, [userData, recruiterData, setFields, setRecruiterFields]);
+        // Initialize with default fields if userData is null
+        // Fallback to session email to ensure it's always populated for new users
+        const seekerBase = userData || (session?.user?.email ? { email: session.user.email } : null);
+        setFields(getInitialProfileData(seekerBase));
+
+        const recruiterBase = recruiterData || (session?.user?.email ? { email: session.user.email } : null);
+        setRecruiterFields(getInitialRecruiterData(recruiterBase));
+    }, [userData, recruiterData, setFields, setRecruiterFields, session]);
 
     ///////////////////////////////////////////////////////////////////////
 
     if (isUserLoading || isRecruiterLoading) return <SpinnerBig />;
 
+    // Show onboarding if no data exists and no mode has been selected yet
+    // OR if no data exists and we want to force a choice for new accounts
     const showOnboarding = !hasSeekerData && !hasRecruiterData && !localActiveMode;
 
     if (showOnboarding) {

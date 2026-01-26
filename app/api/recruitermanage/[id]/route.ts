@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { GetUser } from "@/lib/service";
+import { GetRecruiter, GetUser } from "@/lib/service";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -16,7 +16,7 @@ export async function GET(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const user = await GetUser(session.user.email);
+        const user = await GetRecruiter(session.user.email);
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
@@ -25,7 +25,7 @@ export async function GET(
         const job = await prisma.recruiterHiring.findFirst({
             where: {
                 id: BigInt(id),
-                user_id_recruiter: user.id
+                recruiter_profile_id: user.id
             },
             include: {
                 screening_questions: true

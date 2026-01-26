@@ -19,7 +19,8 @@ export async function GET() {
         });
 
         if (!user) {
-            return NextResponse.json({ error: "User not found" }, { status: 404 });
+            // Return null for new users (not an error - they just need onboarding)
+            return NextResponse.json(null);
         }
 
         // Convert BigInt to string for JSON serialization

@@ -1,5 +1,5 @@
 "use client"
-import { authClient } from "@/lib/auth-client"
+import { authClient, useSession } from "@/lib/auth-client"
 import BackGroundGlow from "../BackGroundGlow"
 import Image from "next/image"
 import { motion } from "framer-motion"
@@ -10,6 +10,7 @@ export default function LoginCard({
     callbackUrl: string
 }) {
     const { signIn } = authClient;
+    const { data: session, isPending } = useSession();
 
     const handleSignIn = async () => {
         await signIn.social({
@@ -113,9 +114,10 @@ export default function LoginCard({
                                 <button
                                     onClick={handleSignIn}
                                     type="button"
+                                    disabled={isPending}
                                     className="group cursor-pointer relative flex w-full items-center justify-center gap-3 rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm font-medium text-zinc-100 transition
                                     hover:border-white/40 hover:scale-[1.05] hover:bg-zinc-900/80
-                                    active:scale-[0.97]"
+                                    active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <span className="absolute inset-0 rounded-xl bg-linear-to-r from-indigo-500/20 to-pink-500/20 opacity-0 blur-md transition" />
 
@@ -130,7 +132,7 @@ export default function LoginCard({
                                     </svg>
 
                                     <span className="relative text-shadow-blue-100 font-sans">
-                                        Continue with Google
+                                        {isPending ? "Checking Session..." : "Continue with Google"}
                                     </span>
                                 </button>
                             </div>

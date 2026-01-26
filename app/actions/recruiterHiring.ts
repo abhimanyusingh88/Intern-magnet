@@ -2,6 +2,7 @@
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
 import { prisma } from "@/lib/prisma"
+import { JobPostingSchema } from "@/lib/validationschema/zodvalidate"
 import { FormData } from "@/lib/types/types"
 
 export async function recruiterHiring(formData: FormData) {
@@ -13,12 +14,13 @@ export async function recruiterHiring(formData: FormData) {
         throw new Error("Unauthorized: You must be logged in to post a job.");
     }
     try {
-        // Find the user ID from the email
-        const user = await prisma.legacyUser.findUnique({
-            where: { email: session.user.email },
+        // Find the recruiter profile associated with this user
+        const recruiterProfile = await prisma.recruiterProfile.findUnique({
+            where: { userId: session.user.id },
         });
-        if (!user) {
-            throw new Error("User not found.");
+
+        if (!recruiterProfile) {
+            throw new Error("Recruiter profile not found. Please create a recruiter profile first.");
         }
 
         // Create or update the recruiter hiring record and its screening questions in a transaction
@@ -49,21 +51,23 @@ export async function recruiterHiring(formData: FormData) {
                 why_join: formData.why_join,
                 required_qualifications: formData.required_qualifications,
                 preferred_qualifications: formData.preferred_qualifications,
-                user_id_recruiter: user.id,
+                recruiter_profile_id: recruiterProfile.id,
                 draft: formData.draft ?? false,
                 created_at: formData.created_at,
             };
+
+            const validatedCommonData = JobPostingSchema.partial().parse(commonData);
 
             // Check if we should update an existing record
             let shouldUpdate = false;
             if (formData.id && formData.id.trim() !== "") {
                 try {
                     const idBigInt = BigInt(formData.id);
-                    // Verify the record exists AND belongs to this user
+                    // Verify the record exists AND belongs to this recruiter
                     const existing = await tx.recruiterHiring.findFirst({
                         where: {
                             id: idBigInt,
-                            user_id_recruiter: user.id
+                            recruiter_profile_id: recruiterProfile.id
                         }
                     });
                     if (existing) {
@@ -78,7 +82,7 @@ export async function recruiterHiring(formData: FormData) {
                 const existingdata = await tx.recruiterHiring.findFirst({
                     where: {
                         id: BigInt(formData.id),
-                        user_id_recruiter: user.id
+                        recruiter_profile_id: recruiterProfile.id
                     }
                 })
                 const updatedData = {
@@ -91,7 +95,7 @@ export async function recruiterHiring(formData: FormData) {
                 // Update existing record
                 hiringRecord = await tx.recruiterHiring.update({
                     where: { id: BigInt(formData.id) },
-                    data: updatedData,
+                    data: validatedCommonData as any,
                 });
 
                 // Clear existing screening questions
@@ -101,7 +105,7 @@ export async function recruiterHiring(formData: FormData) {
             } else {
                 // Create new record
                 hiringRecord = await tx.recruiterHiring.create({
-                    data: commonData,
+                    data: validatedCommonData as any,
                 });
             }
 

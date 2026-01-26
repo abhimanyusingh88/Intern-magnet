@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { RecruiterProfileSchema } from "@/lib/validationschema/zodvalidate";
 
 export async function updateRecruiterProfile(formData: FormData) {
     const session = await auth.api.getSession({
@@ -36,12 +37,14 @@ export async function updateRecruiterProfile(formData: FormData) {
             hiring_for: hiringFor,
         };
 
+        const validatedUpdateData = RecruiterProfileSchema.partial().parse(updateData);
+
         const profile = await prisma.recruiterProfile.upsert({
             where: { userId },
-            update: updateData,
+            update: validatedUpdateData,
             create: {
                 userId,
-                ...updateData,
+                ...validatedUpdateData as any,
             },
         });
 

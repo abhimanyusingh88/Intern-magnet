@@ -30,12 +30,12 @@ export default function EditableField({
     margin = ""
 }: EditableFieldProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [tempValue, setTempValue] = useState(value);
+    const [tempValue, setTempValue] = useState(value || "");
     const [isSaving, setIsSaving] = useState(false);
 
     // Initialize temp value when modal opens
     const handleOpen = () => {
-        setTempValue(value);
+        setTempValue(value || "");
         setIsModalOpen(true);
     };
 
@@ -97,7 +97,7 @@ export default function EditableField({
                     <label className="mb-2 block text-xs font-medium text-zinc-400">{label}</label>
                     {options ? (
                         <select
-                            value={tempValue}
+                            value={tempValue || ""}
                             onChange={(e) => setTempValue(e.target.value)}
                             className="input-profile w-full filled appearance-none"
                             autoFocus
@@ -109,7 +109,7 @@ export default function EditableField({
                         </select>
                     ) : isTextarea ? (
                         <textarea
-                            value={tempValue}
+                            value={tempValue || ""}
                             onChange={(e) => setTempValue(e.target.value)}
                             placeholder={placeholder}
                             className="input-profile min-h-[150px] w-full resize-none filled"
@@ -118,7 +118,7 @@ export default function EditableField({
                     ) : (
                         <input
                             type={type}
-                            value={tempValue}
+                            value={tempValue || ""}
                             onChange={(e) => setTempValue(e.target.value)}
                             placeholder={placeholder}
                             className="input-profile w-full filled"

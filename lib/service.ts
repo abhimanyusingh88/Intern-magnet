@@ -12,6 +12,18 @@ export async function GetUser(email: string) {
   }
   return user;
 }
+export async function GetRecruiter(email: string) {
+
+  const { data: user, error } = await supabase
+    .from('recruiter_profiles')
+    .select("*")
+    .eq("email", email)
+    .single()
+  if (error) {
+    return null;
+  }
+  return user;
+}
 export async function InsertUser(newUser: any) {
   const { data, error } = await supabase.from('users').insert([newUser]).select().single();
 

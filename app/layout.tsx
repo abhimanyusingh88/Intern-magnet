@@ -24,6 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 import { prisma } from "@/lib/prisma";
+import { getInitialProfileData, getInitialRecruiterData } from "@/lib/profile-helpers";
 
 export const metadata: Metadata = {
   title: "Home | Intern-Magnet",
@@ -39,7 +40,7 @@ export default async function RootLayout({
     headers: await headers()
   });
 
-  let initialProfileData = {};
+  let initialProfileData = getInitialProfileData();
   let initialRecruiterData = {};
 
   if (session?.user?.id) {
@@ -50,16 +51,12 @@ export default async function RootLayout({
           where: { email: session.user.email },
         });
 
-        if (user) {
-          initialProfileData = JSON.parse(JSON.stringify(user, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-          ));
-        } else {
-          initialProfileData = {
-            name: session.user.name || "",
-            email: session.user.email || "",
-          };
-        }
+        initialProfileData = getInitialProfileData(user || {
+          email: session.user.email || "",
+        });
+
+        // Ensure it's serializable if needed
+        initialProfileData = JSON.parse(JSON.stringify(initialProfileData));
       }
 
       // Fetch Recruiter Data
@@ -67,17 +64,20 @@ export default async function RootLayout({
         where: { userId: session.user.id },
       });
 
-      if (recruiter) {
-        initialRecruiterData = JSON.parse(JSON.stringify(recruiter, (key, value) =>
-          typeof value === 'bigint' ? value.toString() : value
-        ));
-      }
+      initialRecruiterData = getInitialRecruiterData(recruiter || {
+        email: session.user.email || "",
+      });
+
+      // Ensure it's serializable
+      initialRecruiterData = JSON.parse(JSON.stringify(initialRecruiterData, (key, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+      ));
     } catch (error) {
       console.error("Failed to fetch user/recruiter in layout:", error);
-      initialProfileData = {
+      initialProfileData = getInitialProfileData({
         name: session?.user?.name || "",
         email: session?.user?.email || "",
-      };
+      });
     }
   }
 

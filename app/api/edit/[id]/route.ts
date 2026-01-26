@@ -21,7 +21,7 @@ export async function PATCH(
         const { id } = await params;
         const body = await request.json();
 
-        const user = await prisma.legacyUser.findUnique({
+        const user = await prisma.recruiterProfile.findFirst({
             where: { email: session.user.email },
         });
 

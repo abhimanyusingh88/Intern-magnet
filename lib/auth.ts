@@ -22,22 +22,22 @@ export const auth = betterAuth({
       try {
         const newSession = ctx.context.newSession;
         if (newSession && newSession.user) {
-          const userId = newSession.user.id;
+          // const userId = newSession.user.id;
 
-          const authUser = await prisma.user.findUnique({
-            where: { id: userId }
-          });
+          // const authUser = await prisma.user.findUnique({
+          //   where: { id: userId }
+          // });
 
-          if (authUser && authUser.email) {
-            const existingLegacyUser = await GetUser(authUser.email);
-            if (!existingLegacyUser) {
-              await InsertUser({
-                name: authUser.name,
-                email: authUser.email
-              });
-              console.log(`[Auth Sync] Created legacy user for ${authUser.email}`);
-            }
-          }
+          // if (authUser && authUser.email) {
+          //   const existingLegacyUser = await GetUser(authUser.email);
+          //   if (!existingLegacyUser) {
+          //     await InsertUser({
+          //       name: authUser.name,
+          //       email: authUser.email
+          //     });
+          //     console.log(`[Auth Sync] Created legacy user for ${authUser.email}`);
+          //   }
+          // }
         }
       } catch (error) {
         console.error("[Auth Sync] Error syncing user to legacy table:", error);

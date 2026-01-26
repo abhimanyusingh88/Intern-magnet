@@ -5,7 +5,9 @@ export const fetchProfileData = async () => {
         throw new Error("Failed to fetch profile data");
     }
 
-    return res.json();
+    const data = await res.json();
+    // API returns null for new users (not an error)
+    return data;
 };
 
 export const fetchRecruiterProfileData = async () => {
@@ -15,5 +17,7 @@ export const fetchRecruiterProfileData = async () => {
         throw new Error("Failed to fetch recruiter profile data");
     }
 
-    return res.json();
+    const data = await res.json();
+    // API returns null for new recruiters (not an error)
+    return data;
 };

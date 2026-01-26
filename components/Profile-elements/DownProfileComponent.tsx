@@ -28,9 +28,10 @@ export default function DownProfileComponent() {
 
     // Update form data when userData becomes available
     useEffect(() => {
+        // Even if userData is null (new user), we initialize formData with empty fields
+        const initial = getInitialDownProfileData(userData || null);
+        setFormData(initial);
         if (userData) {
-            const initial = getInitialDownProfileData(userData);
-            setFormData(initial);
             setFields(userData);
         }
     }, [userData, setFields]);
@@ -44,8 +45,12 @@ export default function DownProfileComponent() {
         }
     }
 
-    if (isLoading || !formData) {
+    if (isLoading) {
         return <SpinnerBig />
+    }
+
+    if (!formData) {
+        return null; // Should not happen with the useEffect above, but for type safety
     }
 
     return (

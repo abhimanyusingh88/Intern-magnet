@@ -16,16 +16,16 @@ interface ProfileEditFormProps {
 
 export default function ProfileEditForm({ editFormData, handleEditChange }: ProfileEditFormProps) {
     // Simplified date converters using one-liners
-    const dobForInput = editFormData.dob?.includes("/")
-        ? editFormData.dob.split("/").reverse().join("-")
-        : editFormData.dob;
+    const dobValue = editFormData.dob || "";
+    const dobForInput = dobValue.includes("/")
+        ? dobValue.split("/").reverse().join("-")
+        : dobValue;
 
     const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // Convert yyyy-mm-dd -> dd/mm/yyyy directly
         const value = e.target.value.split("-").reverse().join("/");
 
         // Create a synthetic event matching the expected signature
-        // We need to cast it to match React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
         const syntheticEvent = {
             target: {
                 name: e.target.name,
@@ -43,7 +43,7 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
                     <label className="text-xs font-medium text-zinc-400 uppercase">First Name</label>
                     <input
                         name="name"
-                        value={editFormData.name}
+                        value={editFormData.name || ""}
                         onChange={handleEditChange}
                         className="input-profile w-full filled"
                         placeholder="Your Name"
@@ -53,7 +53,7 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
                     <label className="text-xs font-medium text-zinc-400 uppercase">Email</label>
                     <input
                         name="email"
-                        value={editFormData.email}
+                        value={editFormData.email || ""}
                         disabled
                         className="input-profile w-full filled opacity-50 cursor-not-allowed"
                     />
@@ -64,7 +64,7 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
                 <label className="text-xs font-medium text-zinc-400 uppercase">College</label>
                 <input
                     name="college"
-                    value={editFormData.college}
+                    value={editFormData.college || ""}
                     onChange={handleEditChange}
                     className="input-profile w-full filled"
                     placeholder="College Name"
@@ -75,7 +75,7 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
                 <label className="text-xs font-medium text-zinc-400 uppercase">Course</label>
                 <input
                     name="course"
-                    value={editFormData.course}
+                    value={editFormData.course || ""}
                     onChange={handleEditChange}
                     className="input-profile w-full filled"
                     placeholder="Course Name"
@@ -87,7 +87,7 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
                     <label className="text-xs font-medium text-zinc-400 uppercase">Phone</label>
                     <input
                         name="phone"
-                        value={editFormData.phone}
+                        value={editFormData.phone || ""}
                         onChange={handleEditChange}
                         className="input-profile w-full filled"
                         placeholder="Phone Number"
@@ -98,7 +98,7 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
                     <input
                         type="date"
                         name="dob"
-                        value={dobForInput}
+                        value={dobForInput || ""}
                         onChange={handleDateChange}
                         className="input-profile w-full filled"
                     />
@@ -110,7 +110,7 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
                     <label className="text-xs font-medium text-zinc-400 uppercase">Gender</label>
                     <select
                         name="gender"
-                        value={editFormData.gender}
+                        value={editFormData.gender || ""}
                         onChange={handleEditChange}
                         className="input-profile w-full filled appearance-none"
                     >
@@ -124,7 +124,7 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
                     <label className="text-xs font-medium text-zinc-400 uppercase">Address</label>
                     <input
                         name="address"
-                        value={editFormData.address}
+                        value={editFormData.address || ""}
                         onChange={handleEditChange}
                         className="input-profile w-full filled"
                         placeholder="Address"

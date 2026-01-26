@@ -36,8 +36,8 @@ export default function RecruiterEditForm({ editFormData, handleEditChange }: Re
                     <input
                         name="email"
                         value={editFormData.email || ""}
-                        onChange={handleEditChange}
-                        className="input-profile w-full filled"
+                        disabled
+                        className="input-profile w-full filled opacity-50 cursor-not-allowed"
                         placeholder="company@email.com"
                     />
                 </div>
