@@ -21,7 +21,7 @@ export default function PostJobIndicator() {
             variants={container}
             initial="hidden"
             animate="show"
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-4"
         >
             <motion.div variants={item} className="w-full flex justify-center">
                 <p className="bg-linear-to-r text-xl flex items-center font-sans font-semibold p-2 from-indigo-500 to-pink-600 text-transparent bg-clip-text sm:text-2xl md:text-3xl lg:text-4xl gap-2">
@@ -85,7 +85,7 @@ export default function PostJobIndicator() {
                         <motion.div
                             key={i}
                             whileHover={{ y: -5, backgroundColor: "rgba(39, 39, 42, 0.9)" }}
-                            className="flex-1 bg-zinc-800/40 border border-zinc-700/50 rounded-2xl p-4 flex flex-col items-center gap-2 blur-[3.5px] transition-colors"
+                            className="flex-1 bg-zinc-800/40 border border-zinc-700/50 rounded-2xl p-4 flex flex-col items-center gap-2 blur-[1.5px] transition-colors"
                         >
                             <span className="text-2xl">{stat.icon}</span>
                             <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">{stat.label}</span>

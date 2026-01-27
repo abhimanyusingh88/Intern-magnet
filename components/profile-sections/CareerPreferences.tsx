@@ -6,6 +6,7 @@ import EditableField from "../EditableField";
 import { joiningDurationData } from "../JoiningDurationData";
 import { INDIAN_CITIES } from "@/lib/Cities";
 import { updateProfile } from "@/app/actions/profile";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface CareerPreferencesProps {
     data: any;
@@ -13,11 +14,14 @@ interface CareerPreferencesProps {
 }
 
 export default function CareerPreferences({ data, setFormData }: CareerPreferencesProps) {
+    const queryClient = useQueryClient();
+
     const handleSave = async (name: string, val: string) => {
         const formData = new FormData();
         formData.append(name, val);
         await updateProfile(formData);
         setFormData((prev: any) => ({ ...prev!, [name]: val }));
+        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
     };
 
     return (
@@ -50,7 +54,8 @@ export default function CareerPreferences({ data, setFormData }: CareerPreferenc
                 value={data.preferred_location || ""}
                 onSave={handleSave}
                 options={INDIAN_CITIES}
-                placeholder="Select location"
+                isMulti={true}
+                placeholder="Search and select multiple cities"
             />
         </Card>
     );

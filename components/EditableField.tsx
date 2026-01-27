@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Pencil } from "lucide-react"
 import FieldEditModal from "./FieldEditModal"
+import MultiSelect from "./utils/MultiSelect"
 
 interface EditableFieldProps {
     label: string
@@ -10,6 +11,7 @@ interface EditableFieldProps {
     value: string
     placeholder?: string
     isTextarea?: boolean
+    isMulti?: boolean
     options?: { value: string; label: string }[]
     onSave: (name: string, value: string) => Promise<void>
     className?: string
@@ -23,6 +25,7 @@ export default function EditableField({
     value,
     placeholder = "",
     isTextarea = false,
+    isMulti = false,
     options,
     onSave,
     className = "",
@@ -52,7 +55,20 @@ export default function EditableField({
     };
 
     const hasValue = value && value.length > 0;
-    const key = options ? options.find(o => o.value === value)?.label : value;
+
+    // For display: find labels for comma-separated values if options are provided
+    const getDisplayValue = () => {
+        if (!hasValue) return placeholder || "Click to add...";
+        if (!options) return value;
+
+        if (isMulti) {
+            return value.split(",")
+                .map(val => options.find(o => o.value === val.trim())?.label || val.trim())
+                .join(", ");
+        }
+
+        return options.find(o => o.value === value)?.label || value;
+    };
 
     return (
         <>
@@ -72,15 +88,15 @@ export default function EditableField({
                         }
                     `}
                 >
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                         {hasValue ? (
-                            <div className="whitespace-pre-wrap  text-[13px] sm:text-sm md:text-base ">{key}</div>
+                            <div className="whitespace-pre-wrap text-[13px] sm:text-sm md:text-base line-clamp-2 break-words">{getDisplayValue()}</div>
                         ) : (
                             <span className="italic opacity-50">{placeholder || "Click to add..."}</span>
                         )}
                     </div>
 
-                    <div className={`ml-3 rounded-lg p-1.5 transition-colors ${hasValue ? "text-zinc-500 group-hover:text-indigo-400" : "text-indigo-400/50"}`}>
+                    <div className={`ml-3 shrink-0 rounded-lg p-1.5 transition-colors ${hasValue ? "text-zinc-500 group-hover:text-indigo-400" : "text-indigo-400/50"}`}>
                         <Pencil size={16} />
                     </div>
                 </div>
@@ -93,9 +109,16 @@ export default function EditableField({
                 onSave={handleSave}
                 isSaving={isSaving}
             >
-                <div>
-                    <label className="mb-2 block text-xs font-medium text-zinc-400">{label}</label>
-                    {options ? (
+                <div className="space-y-2">
+                    <label className="block text-xs font-medium text-zinc-400 uppercase tracking-widest">{label}</label>
+                    {isMulti && options ? (
+                        <MultiSelect
+                            options={options}
+                            value={tempValue ? tempValue.split(",").map(v => v.trim()).filter(Boolean) : []}
+                            onChange={(newValue) => setTempValue(newValue.join(","))}
+                            placeholder={`Select ${label.toLowerCase()}...`}
+                        />
+                    ) : options ? (
                         <select
                             value={tempValue || ""}
                             onChange={(e) => setTempValue(e.target.value)}

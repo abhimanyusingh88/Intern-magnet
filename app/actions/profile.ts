@@ -70,9 +70,9 @@ export async function updateProfile(formData: FormData): Promise<string | undefi
         const textFields = [
             "name", "phone", "college", "course", "dob", "gender", "address",
             "preferred_job_type", "availability", "preferred_location",
-            "degree", "college_edu", "education_duration_start", "education_duration_end",
-            "class_xii", "class_xii_board", "class_xii_details_start", "class_xii_details_end",
-            "class_x", "class_x_board", "class_x_details_start", "class_x_details_end",
+            "degree", "college_edu", "college_grade", "education_duration_start", "education_duration_end",
+            "class_xii", "class_xii_board", "class_xii_grade", "class_xii_details_start", "class_xii_details_end",
+            "class_x", "class_x_board", "class_x_grade", "class_x_details_start", "class_x_details_end",
             "language_1_name", "language_1_proficiency", "language_2_name", "language_2_proficiency",
             "profile_summary", "awards", "clubs"
         ];

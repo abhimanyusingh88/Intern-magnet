@@ -1,13 +1,37 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
-import NormalButton from "@/components/utils/normalButton";
 import PlatformInfoCard from "@/components/homepage/HomepageInfo";
 
 import { Rocket } from "lucide-react";
 import HeroSlider from "@/components/homepage/HomeImageSlider";
-import { MinimalView } from "@/components/homepage/minimalview";
 import TrustSection from "@/components/homepage/TrustSection";
 import NetBg from "@/components/utils/netBg";
 import HowItWorks from "@/components/homepage/howitworks";
+
+import { Suspense } from "react";
+import { MinimalView, MinimalViewLoading } from "@/components/homepage/minimalview";
+
+async function MinimalJobsFetcher() {
+  let serializedJobs = [];
+  try {
+    const apiUrl = `${process.env.NEXTAUTH_URL}/api/minimaljobs`;
+    const res = await fetch(apiUrl, {
+      next: {
+        revalidate: 300
+      },
+    });
+
+
+    if (res.ok) {
+      serializedJobs = await res.json();
+    } else {
+      const text = await res.text();
+    }
+  } catch (error) {
+    console.error("Fetcher: Failed to fetch jobs:", error);
+  }
+
+  return <MinimalView initialJobs={serializedJobs} />;
+}
 
 export default function HomePage() {
   return (
@@ -37,24 +61,20 @@ export default function HomePage() {
           >
             Skyrocket your career with us
           </h1>
-          {/* <p className="text-zinc-300 text-xs sm:text-xl">Post and hunt at same place</p> */}
           <Rocket className="h-6 w-6 sm:h-7 animate-float sm:w-7 md:h-9 md:w-9 lg:h-10 lg:w-10 text-indigo-500" />
-
         </div>
-
       </section>
       <div className="w-full flex justify-center">
         <h2 className="text-zinc-300 text-xs font-thin sm:text-lg font-sans">One stop destination for both recruiters and job seekers</h2>
       </div>
 
-
-
-      {/* SLIDER */}
-
       <HeroSlider />
       <PlatformInfoCard />
 
-      <MinimalView />
+      <Suspense fallback={<MinimalViewLoading />}>
+        <MinimalJobsFetcher />
+      </Suspense>
+
       <TrustSection />
       <HowItWorks />
     </main>

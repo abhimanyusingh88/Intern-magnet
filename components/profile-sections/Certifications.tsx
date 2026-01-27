@@ -105,7 +105,7 @@ export default function Certifications({ data, setFormData }: any) {
                         value={i.validity}
                         onChange={(e) => onChange({ ...i, validity: e.target.value })}
                         className="input-profile filled"
-                        placeholder="Validity"
+                        placeholder="Validity (dd-mm-yyyy)"
                     />
                 </div>
             )}

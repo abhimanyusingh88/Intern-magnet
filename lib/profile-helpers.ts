@@ -20,16 +20,19 @@ export function getInitialProfileData(userData: any = null) {
         // Education
         degree: userData?.degree || "",
         college_edu: userData?.college_edu || "",
+        college_grade: userData?.college_grade || "",
         education_duration_start: userData?.education_duration_start || "",
         education_duration_end: userData?.education_duration_end || "",
 
         class_xii: userData?.class_xii || "",
         class_xii_board: userData?.class_xii_board || "",
+        class_xii_grade: userData?.class_xii_grade || "",
         class_xii_details_start: userData?.class_xii_details_start || "",
         class_xii_details_end: userData?.class_xii_details_end || "",
 
         class_x: userData?.class_x || "",
         class_x_board: userData?.class_x_board || "",
+        class_x_grade: userData?.class_x_grade || "",
         class_x_details_start: userData?.class_x_details_start || "",
         class_x_details_end: userData?.class_x_details_end || "",
 

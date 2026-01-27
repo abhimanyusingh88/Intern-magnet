@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Pencil, Briefcase, User as UserIcon } from "lucide-react"
 import Image from "next/image"
-import { useProfile, ProfileMode } from "../providers/ProfileContext"
+import { useProfile } from "../providers/ProfileContext"
 import { useQueryClient } from "@tanstack/react-query"
 import { motion, AnimatePresence } from "framer-motion"
 import FieldEditModal from "../FieldEditModal"

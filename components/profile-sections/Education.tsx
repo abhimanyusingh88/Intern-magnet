@@ -20,6 +20,7 @@ export default function Education({ data, onChange }: EducationProps) {
                     degree="degree"
                     college="college_edu"
                     duration="education_duration"
+                    grade="college_grade"
                 />
                 <Divider />
                 <EducationBlock
@@ -29,6 +30,7 @@ export default function Education({ data, onChange }: EducationProps) {
                     degree="class_xii"
                     college="class_xii_board"
                     duration="class_xii_details"
+                    grade="class_xii_grade"
                 />
                 <Divider />
                 <EducationBlock
@@ -38,6 +40,7 @@ export default function Education({ data, onChange }: EducationProps) {
                     degree="class_x"
                     college="class_x_board"
                     duration="class_x_details"
+                    grade="class_x_grade"
                 />
             </div>
         </Card>

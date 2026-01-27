@@ -28,11 +28,14 @@ export default function DownProfileComponent() {
 
     // Update form data when userData becomes available
     useEffect(() => {
-        // Even if userData is null (new user), we initialize formData with empty fields
-        const initial = getInitialDownProfileData(userData || null);
-        setFormData(initial);
+        // Only initialize/sync if we have fresh userData
         if (userData) {
+            const initial = getInitialDownProfileData(userData);
+            setFormData(initial);
             setFields(userData);
+        } else {
+            // New user case: initialize with defaults once
+            setFormData(prev => prev || getInitialDownProfileData(null));
         }
     }, [userData, setFields]);
 

@@ -7,34 +7,21 @@ import Link from "next/link";
 import { UnifiedJob } from "@/lib/types/types";
 import JobContent from "./jobContent";
 import JobCardSmall from "./jobsCard";
-import { SpinnerMini } from "../utils/SpinnerMini";
 import BrowsMore from "./browsMore";
+import { SpinnerMini } from "../utils/SpinnerMini";
 
-export function MinimalView() {
-    const [jobs, setJobs] = useState<UnifiedJob[]>([]);
-    const [loading, setLoading] = useState(true);
+export function MinimalViewLoading() {
+    return (
+        <div className="w-full gap-2 flex justify-center mt-4">
+            <span className="text-zinc-400 text-md inline">Loading...</span>
+            <SpinnerMini />
+        </div>
+    );
+}
+
+export function MinimalView({ initialJobs }: { initialJobs: UnifiedJob[] }) {
+    const [jobs] = useState<UnifiedJob[]>(initialJobs || []);
     const [currentIndex, setCurrentIndex] = useState(0);
-    // yha bas 4 hi fetch karna hai toh use effect se hi kar lete hai
-
-    useEffect(() => {
-        async function fetchJobs() {
-            try {
-                const res = await fetch("http://localhost:3000/api/minimaljobs", {
-                    next: { revalidate: 300 }
-                });
-                ;
-                if (res.ok) {
-                    const data = await res.json();
-                    setJobs(data);
-                }
-            } catch (err) {
-                console.error("Failed to fetch jobs:", err);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchJobs();
-    }, []);
 
     const nextSlide = useCallback(() => {
         if (jobs.length === 0) return;
@@ -55,13 +42,6 @@ export function MinimalView() {
         return () => clearInterval(interval);
     }, [jobs.length, nextSlide]);
 
-    if (loading) return (
-        <div className="w-full gap-2 flex justify-center mt-4">
-            <span className="text-zinc-400 text-md inline">Loading...</span>
-            <SpinnerMini />
-        </div>
-    );
-
     if (jobs.length === 0) return null;
 
     return (
@@ -75,7 +55,7 @@ export function MinimalView() {
                     href="/jobspage"
                     className="lg:hidden flex items-center gap-1.5 text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
                 >
-                    Browse more
+                    Browse here
                     <ArrowRight size={14} />
                 </Link>
             </div>

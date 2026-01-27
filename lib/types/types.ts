@@ -5,16 +5,19 @@ export interface UserProfileData {
 
     degree?: string;
     college_edu?: string;
+    college_grade?: string;
     education_duration_start?: string;
     education_duration_end?: string;
 
     class_xii?: string;
     class_xii_board?: string;
+    class_xii_grade?: string;
     class_xii_details_start?: string;
     class_xii_details_end?: string;
 
     class_x?: string;
     class_x_board?: string;
+    class_x_grade?: string;
     class_x_details_start?: string;
     class_x_details_end?: string;
 

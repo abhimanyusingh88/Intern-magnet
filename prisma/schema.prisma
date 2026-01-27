@@ -24,14 +24,17 @@ model LegacyUser {
   preferred_location        String?
   degree                    String?
   college_edu               String?
+  college_grade             String?
   education_duration_start  String?
   education_duration_end    String?
   class_xii                 String?
   class_xii_board           String?
+  class_xii_grade           String?
   class_xii_details_start   String?
   class_xii_details_end     String?
   class_x                   String?
   class_x_board             String?
+  class_x_grade             String?
   class_x_details_start     String?
   class_x_details_end       String?
   skills                    String[]          @default([])
@@ -39,9 +42,6 @@ model LegacyUser {
   language_1_proficiency    String?
   language_2_name           String?
   language_2_proficiency    String?
-  internship_company        String?
-  internship_duration_start String?
-  internship_duration_end   String?
   internships               Json?
   projects                  Json?
   profile_summary           String?

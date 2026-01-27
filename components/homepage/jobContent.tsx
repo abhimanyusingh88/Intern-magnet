@@ -56,9 +56,6 @@ export default function JobContent({ job }: { job: UnifiedJob }) {
                 </div>
             </div>
 
-            <div className="mt-4 pt-4 border-t border-zinc-800/50 grow flex items-end">
-                <LinkButtons isExternal={isExternal} job={job} />
-            </div>
         </>
     );
 }

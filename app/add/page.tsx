@@ -18,28 +18,10 @@ export default async function AddPage() {
     const session = await auth.api.getSession({
         headers: await headers()
     });
-    const sessionName = session?.user?.name;
+
 
     // Fetch user profile data from database
-    let userName = session?.user?.name || "Guest";
 
-    if (session?.user?.email) {
-        try {
-            const user = await prisma.legacyUser.findFirst({
-                where: {
-                    email: session.user.email,
-                },
-                select: {
-                    name: true,
-                },
-            });
-            if (user?.name) {
-                userName = user.name;
-            }
-        } catch (error) {
-            console.error("Error fetching user profile:", error);
-        }
-    }
 
     return (
         <main
@@ -52,12 +34,10 @@ export default async function AddPage() {
         lg:px-36
       "
         >
-
-
             <BackGroundGlow />
             <div className="w-full flex flex-col gap-2 items-center justify-center mb-4">
                 <div className="flex justify-center gap-2">
-                    <p className=" text-[18px] text-center sm:text-xl md:text-2xl lg:text-3xl font-bold bg-linear-to-r from-indigo-600 to-pink-500 bg-clip-text  text-transparent">Hello {userName || sessionName}, Welcome to our hiring platform</p>
+                    <p className=" text-[18px] text-center sm:text-xl md:text-2xl lg:text-3xl font-bold bg-linear-to-r from-indigo-600 to-pink-500 bg-clip-text  text-transparent">Hello, Welcome to our hiring platform</p>
                     <Rocket className="w-10 h-10 sm:w-11 sm:h-11 text-indigo-500 animate-float" />
                 </div>
                 <p className="text-xs sm:text-[15px] font-thin text-zinc-300">Make your hiring process easy and smooth</p>

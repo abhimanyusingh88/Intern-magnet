@@ -1,16 +1,15 @@
-import Card from "../Profile-elements/ProfileCard";
 import { updateProfile } from "@/app/actions/profile";
-import { Trash2, Pencil, Calendar, Building2 } from "lucide-react";
+import { Calendar, Building2 } from "lucide-react";
 import YearRangePicker from "../utils/YearRangePicker";
 import { UpdateCommand } from "@/lib/types/types";
 import DynamicProfileSection from "./DynamicProfileSection";
-import DeleteOrEdit from "./deleteoredit";
 import ProfileItemCard from "./ProfileItemCard";
 // import DynamicProfileSection, { UpdateCommand } from "./DynamicProfileSection";
 
 interface Internship {
     company: string;
     role: string;
+    description: string;
     duration_start: string;
     duration_end: string;
 }
@@ -47,13 +46,14 @@ export default function Internships({ data, setFormData }: InternshipsProps) {
             limit={3}
             itemLabel="Internship"
             emptyMessage="No internship experiences added yet."
-            initialItem={{ company: "", role: "", duration_start: "", duration_end: "" }}
+            initialItem={{ company: "", role: "", description: "", duration_start: "", duration_end: "" }}
             onSave={handleSave}
             gridClassName="grid grid-cols-1 md:grid-cols-2 gap-4"
             renderItem={(intern, onEdit, onDelete) => (
                 <ProfileItemCard
                     title={intern.company}
                     subtitle={intern.role}
+                    description={intern.description}
                     icon={Building2}
                     onEdit={onEdit}
                     onDelete={onDelete}
@@ -85,6 +85,16 @@ export default function Internships({ data, setFormData }: InternshipsProps) {
                             placeholder="e.g. Frontend Developer Intern"
                         />
                     </div>
+                    <div className="space-y-2">
+                        <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Role/Position</label>
+                        <textarea
+                            value={item.description}
+                            onChange={(e) => onChange({ ...item, description: e.target.value })}
+                            className="input-profile w-full filled"
+                            placeholder="Description"
+                        />
+                    </div>
+
                     <div className="space-y-2">
                         <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Duration</label>
                         <YearRangePicker
