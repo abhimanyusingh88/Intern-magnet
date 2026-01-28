@@ -50,6 +50,7 @@ export default function EditForm({ job, setOpen }: editJOb) {
         skill_description: job.skill_description || "",
         role: job.role || "",
         selection_process: job.selection_process || "",
+        job_form_link: job.job_form_link || "",
     };
     const updateField = (field: keyof FormData, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -123,6 +124,12 @@ export default function EditForm({ job, setOpen }: editJOb) {
                         name="role"
                         value={formData.role}
                         onChange={(val) => updateField("role", val)}
+                    />
+                    <FormInput
+                        label="Job Form Link"
+                        name="job_form_link"
+                        value={formData.job_form_link}
+                        onChange={(val) => updateField("job_form_link", val)}
                     />
                     <FormInput
                         label="Work Experience Minimum"

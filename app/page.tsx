@@ -38,7 +38,7 @@ export default function HomePage() {
     <main
       className="
         relative min-h-screen flex flex-col
-        px-6 pt-20 pb-12
+        px-4 pt-20 pb-12
         sm:px-10 sm:pt-28
         md:px-20 md:pt-20
         lg:px-36

@@ -72,6 +72,7 @@ export default function JobDetailsRecruiter({
                 />
                 <FormInput
                     label="Job Form Link"
+                    hint="(eg. Google form)"
                     name="job_form_link"
                     placeholder="Job Form Link"
                     required

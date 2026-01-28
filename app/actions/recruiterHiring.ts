@@ -54,6 +54,7 @@ export async function recruiterHiring(formData: FormData) {
                 recruiter_profile_id: recruiterProfile.id,
                 draft: formData.draft ?? false,
                 created_at: formData.created_at,
+                job_form_link: formData.job_form_link,
             };
 
             const validatedCommonData = JobPostingSchema.partial().parse(commonData);

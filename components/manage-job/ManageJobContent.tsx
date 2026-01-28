@@ -9,7 +9,6 @@ import { SidebarFinancials } from "@/components/manage-job/SidebarFinancials";
 import BackGroundGlow from "../BackGroundGlow";
 import EditForm from "./EditForm";
 import { useState } from "react";
-import BackButton from "../utils/BackButton";
 import {
     Calendar,
     GraduationCap,
@@ -42,7 +41,7 @@ export default function ManageJobContent({ id }: { id: string }) {
     return (
         <main className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30">
             {/* <BackgroundDecoration /> */}
-            <div className="sticky top-10">
+            <div className="sticky top-20">
                 <NetBg />
             </div>
             <BackGroundGlow />
@@ -80,60 +79,58 @@ export default function ManageJobContent({ id }: { id: string }) {
                                 <p className="text-zinc-300 leading-relaxed whitespace-pre-wrap">{job.job_description}</p>
                             </Section>
 
-                            {job.key_responsibilities && (
-                                <Section title="Key Responsibilities">
-                                    <BulletList color="bg-indigo-500" text={job.key_responsibilities} />
-                                </Section>
-                            )}
+                            <Section title="Job Form Link">
+                                <a href={job.job_form_link} className="text-indigo-400 hover:text-indigo-300">{job.job_form_link}</a>
+                            </Section>
 
-                            {job.good_to_have && (
-                                <Section title="Good to Have">
-                                    <div className="flex flex-wrap gap-2">
-                                        {job.good_to_have.split(",").map((skill: string) => (
-                                            <p
-                                                key={skill.trim()}
-                                                className="bg-zinc-800 px-3 py-1 rounded-xl text-xs"
-                                            >
-                                                {skill.trim()}
-                                            </p>
-                                        ))}
-                                    </div>
-                                </Section>
-                            )}
 
-                            {job.what_we_offer && (
-                                <Section title="What We Offer">
-                                    <BulletList color="bg-indigo-500" text={job.what_we_offer} />
-                                </Section>
-                            )}
-                            {
-                                job.why_join && (
-                                    <Section title="Why Join Us">
-                                        <BulletList color="bg-indigo-500" text={job.why_join} />
-                                    </Section>
-                                )
-                            }
-                            {
-                                job.required_qualifications && (
-                                    <Section title="Required Qualifications">
-                                        <BulletList color="bg-indigo-500" text={job.required_qualifications} />
-                                    </Section>
-                                )
-                            }
-                            {
-                                job.preferred_qualifications && (
-                                    <Section title="Preferred Qualifications">
-                                        <BulletList color="bg-indigo-500" text={job.preferred_qualifications} />
-                                    </Section>
-                                )
-                            }
-                            {
-                                job.skill_description && (
-                                    <Section title="Skill Description">
-                                        <BulletList color="bg-indigo-500" text={job.skill_description} />
-                                    </Section>
-                                )
-                            }
+
+                            <Section title="Key Responsibilities">
+                                <BulletList color="bg-indigo-500" text={job.key_responsibilities} />
+                            </Section>
+
+
+
+                            <Section title="Good to Have">
+                                <div className="flex flex-wrap gap-2">
+                                    {job.good_to_have.split(",").map((skill: string) => (
+                                        <p
+                                            key={skill.trim()}
+                                            className="bg-zinc-800 px-3 py-1 rounded-xl text-xs"
+                                        >
+                                            {skill.trim()}
+                                        </p>
+                                    ))}
+                                </div>
+                            </Section>
+
+
+
+                            <Section title="What We Offer">
+                                <BulletList color="bg-indigo-500" text={job.what_we_offer} />
+                            </Section>
+
+
+                            <Section title="Why Join Us">
+                                <BulletList color="bg-indigo-500" text={job.why_join} />
+                            </Section>
+
+
+                            <Section title="Required Qualifications">
+                                <BulletList color="bg-indigo-500" text={job.required_qualifications} />
+                            </Section>
+
+                            job.preferred_qualifications && (
+                            <Section title="Preferred Qualifications">
+                                <BulletList color="bg-indigo-500" text={job.preferred_qualifications} />
+                            </Section>
+
+                            job.skill_description && (
+                            <Section title="Skill Description">
+                                <BulletList color="bg-indigo-500" text={job.skill_description} />
+                            </Section>
+
+
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <Section title="Educational Requirements" icon={<GraduationCap className="w-5 h-5 text-indigo-400" />}>

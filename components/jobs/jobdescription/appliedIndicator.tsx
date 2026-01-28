@@ -53,9 +53,11 @@ export default function AppliedIndicator({ jobData }: { jobData: JobDetail }) {
 
 
             {/* Visit Website Button below success message */}
-            <div className="flex justify-center mt-6">
-                <ButtonJob title="Visit website" variant="outline" anch={true} link={jobData.website_link} />
-            </div>
+            {jobData.website_link !== "" && jobData.website_link !== null &&
+                <div className="flex justify-center mt-6">
+                    <ButtonJob title="Visit website" variant="outline" anch={true} link={jobData.website_link} />
+                </div>
+            }
         </>
     )
 }

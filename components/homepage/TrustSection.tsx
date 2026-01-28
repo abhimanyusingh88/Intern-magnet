@@ -16,7 +16,7 @@ export default function TrustSection() {
                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-clip-text text-transparent bg-linear-to-r from-indigo-500 to-pink-500">
                                 Trusted by Thousands
                             </h2>
-                            <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                            <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                                 We prioritize quality over quantity. Our rigorous verification process ensures you only apply to legitimate opportunities that match your career goals.
                             </p>
                         </div>

@@ -1,9 +1,6 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
 import RecruiterCard from "@/components/Recruiter-hiring/recruiterCard";
 import RecruiterHeaderImage from "@/components/Recruiter-hiring/RecruiterHeaderImage";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { prisma } from "@/lib/prisma";
 import { Briefcase, Building, Crown, Filter, MessageCircle, Rocket, Users } from "lucide-react";
 import type { Metadata } from "next";
 import { addPageMenu } from "@/components/Recruiter-hiring/constants";
@@ -15,9 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default async function AddPage() {
-    const session = await auth.api.getSession({
-        headers: await headers()
-    });
+    // const session = await auth.api.getSession({
+    //     headers: await headers()
+    // });
 
 
     // Fetch user profile data from database

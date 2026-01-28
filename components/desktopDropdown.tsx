@@ -16,7 +16,6 @@ export default function DesktopDropdown({ classApply, className = "", session }:
   const { completionPercentage } = useProfile()
   const pathname = usePathname()
   const isProfilePage = pathname === "/profile"
-
   const user = session?.user || Usersession?.user
   const isLoggedIn = !!user
   const img = user?.image
@@ -32,7 +31,7 @@ export default function DesktopDropdown({ classApply, className = "", session }:
       </Link>
 
       <div className="absolute right-0 top-full pt-2 w-80 origin-top-right transition-all duration-200 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto">
-        <div className="rounded-xl border border-white/10 bg-zinc-900/70 backdrop-blur-xl shadow-xl overflow-hidden">
+        <div className="rounded-xl border border-white/10 bg-zinc-900/90 backdrop-blur-xl shadow-xl overflow-hidden">
           <div className="flex flex-col p-1 text-sm text-zinc-300">
             <Link className="p-4" href="/profile">
               {img &&

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 // import AdditionalBenefits from "./additionalBenefits";
 
-export default function JobPage({ companyname, slug, session }: { companyname: string, slug: string, session: any }) {
+export default function JobPage({ companyname, slug, session, numApplied }: { companyname: string, slug: string, session: any, numApplied: number }) {
 
 
     const arr: string[] = slug.split("-");
@@ -49,6 +49,7 @@ export default function JobPage({ companyname, slug, session }: { companyname: s
         skill_description: data?.skill_description,
         role: data?.role,
         selection_process: data?.selection_process,
+        job_form_link: data?.job_form_link,
     }
 
 
@@ -64,7 +65,7 @@ export default function JobPage({ companyname, slug, session }: { companyname: s
         <section className="w-full md:w-2/3 rounded-xl ">
 
             {/* main card waala div */}
-            <MainHeaderJob jobData={jobData} />
+            <MainHeaderJob numApplied={numApplied} jobData={jobData} />
             {/* pura description waala div */}
             <JobDescription jobData={jobData} />
             <CompanyDescription jobData={jobData} />

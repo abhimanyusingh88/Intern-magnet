@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import LoginRequiredPage from "@/components/login/LoginReminderPage";
+import SideArrowMenu from "@/components/Recruiter-hiring/sliderOption";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const { id } = await params;
@@ -25,18 +26,43 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     }
 }
 
+
 export default async function ManageJobPage({ params }: { params: Promise<{ id: string }> }) {
     const session = await auth.api.getSession({
         headers: await headers()
     });
+
 
     if (!session) {
         return <LoginRequiredPage />
     }
 
     const { id } = await params;
+    const managePageMenu = [
+        {
+            title: "Manage Applications",
+            href: `applications/${id}`,
+            icon: "Briefcase",
+            color: "border border-zinc-700 text-amber-200 bg-indigo-500 hover:bg-indigo-600 hover:border-indigo-500",
+        },
+        {
+            title: "Saved drafts",
+            href: "/recruiterdrafts",
+            icon: "FileText",
+            color: "bg-zinc-800 border border-indigo-500 hover:border-indigo-400",
+        },
+        {
+            title: "View applicants",
+            href: `applicants/${id}`,
+            icon: "Users",
+            color: "bg-zinc-800 border border-indigo-500 hover:border-indigo-400",
+        }
+    ];
 
     return (
-        <ManageJobContent id={id} />
+        <>
+            <SideArrowMenu menuItems={managePageMenu} />
+            <ManageJobContent id={id} />
+        </>
     );
 }

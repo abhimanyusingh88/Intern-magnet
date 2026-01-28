@@ -90,6 +90,7 @@ export const JobPostingSchema = z.object({
     selection_process: z.string().optional().nullable(),
     skill_description: z.string().optional().nullable(),
     role: z.string().optional().nullable(),
+    job_form_link: z.string().optional().nullable(),
     screening_questions: z.array(z.object({
         question: z.string(),
         type: z.string(),

@@ -5,13 +5,17 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import BoxPoints from "./boxPoints";
 import TrackIndicator from "@/components/utils/trackIndicator";
-import { Reply } from "lucide-react";
+import { Link, Reply } from "lucide-react";
 import ScreeningQuestionsModal from "./screeningQuestions";
 import ButtonJob from "./buttonJob";
 import { Slugify } from "../slugify";
 import AppliedIndicator from "./appliedIndicator";
 
 export default function SideJobDescView({ jobData, session }: { jobData: JobDetail, session: any }) {
+    const formLink = jobData.job_form_link?.startsWith("http")
+        ? jobData.job_form_link
+        : `https://${jobData.job_form_link}`;
+
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [step, setStep] = useState(0);
@@ -127,66 +131,86 @@ export default function SideJobDescView({ jobData, session }: { jobData: JobDeta
                 <TrackIndicator steps={arrayOfSelectionProcess} />
             </div>
         }
+        {jobData.job_form_link && (
+            <div className="space-y-2">
+                <h1 className="text-amber-100 text-sm sm:text-lg md:text-xl font-semibold">
+                    Filling out this google form
+                </h1>
+
+                <a
+                    href={formLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-400 flex gap-1 text-justify font-light leading-relaxed text-xs sm:text-sm md:text-[14px]"
+                >
+                    <Link className="w-5 h-5 text-indigo-400" />
+                    {jobData.job_form_link}
+                </a>
+            </div>
+        )}
+
 
         {/* Dynamic Action Area */}
-        {hasApplied ? (
-            <>
-                <AppliedIndicator jobData={jobData} />
-            </>
-        ) : checkingApplication ? (
-            <div className="flex gap-4 items-center justify-center mt-6">
-                <ButtonJob title="Visit website" variant="outline" anch={true} link={jobData.website_link} />
-                <ButtonJob
-                    saving={true}
-                    disabled={true}
-                    title="Checking..."
-                    link=""
-                />
-            </div>
-        ) : (
-            <>
-                {questions.length > 0 && <div className="flex items-start">
-                    <button
-                        type="button"
-                        onClick={() => setOpen(!open)}
-                        className="
-                    flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-all duration-150 ease-in-out mt-2 text-xs  md:text-sm cursor-pointer 
-                "
-                    >
-                        <Reply className="h-4 w-4 shrink-0" />
-                        <span className="leading-tight">
-                            Answer the recruiter's questions before applying
-                        </span>
-                    </button>
-                </div>}
-
-                {open && questions.length > 0 && (
-                    <ScreeningQuestionsModal
-                        key={step}
-                        question={questions[step].question}
-                        id={Number(questions[step].id)}
-                        type={questions[step].type}
-                        step={step}
-                        total={questions.length}
-                        isLast={step === questions.length - 1}
-                        onNext={handleNext}
-                        onClose={handleClose}
-                        submitDisabled={submitDisable}
-                    />
-                )}
-
-                <div className="flex gap-4 items-center justify-center mt-4">
+        {
+            hasApplied ? (
+                <>
+                    <AppliedIndicator jobData={jobData} />
+                </>
+            ) : checkingApplication ? (
+                <div className="flex gap-4 items-center justify-center mt-6">
                     <ButtonJob title="Visit website" variant="outline" anch={true} link={jobData.website_link} />
-
                     <ButtonJob
-                        onClick={() => handleSubmitAnswers(answers)}
-                        saving={loading}
-                        disabled={disabled}
-                        title={!session ? "Login to Apply" : "Apply"}
-                        link={session ? "" : `/login?callbackUrl=/jobspage/${Slugify(jobData.job_title)}/${Slugify(jobData.job_title)}-${jobData.id}`}
+                        saving={true}
+                        disabled={true}
+                        title="Checking..."
+                        link=""
                     />
                 </div>
-            </>
-        )}
+            ) : (
+                <>
+                    {questions.length > 0 && <div className="flex items-start">
+                        <button
+                            type="button"
+                            onClick={() => setOpen(!open)}
+                            className="
+                    flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-all duration-150 ease-in-out mt-2 text-xs  md:text-sm cursor-pointer 
+                "
+                        >
+                            <Reply className="h-4 w-4 shrink-0" />
+                            <span className="leading-tight">
+                                Answer the recruiter's questions before applying
+                            </span>
+                        </button>
+                    </div>}
+
+                    {open && questions.length > 0 && (
+                        <ScreeningQuestionsModal
+                            key={step}
+                            question={questions[step].question}
+                            id={Number(questions[step].id)}
+                            type={questions[step].type}
+                            step={step}
+                            total={questions.length}
+                            isLast={step === questions.length - 1}
+                            onNext={handleNext}
+                            onClose={handleClose}
+                            submitDisabled={submitDisable}
+                        />
+                    )}
+
+                    <div className="flex gap-4 items-center justify-center mt-4">
+                        <ButtonJob title="Visit website" variant="outline" anch={true} link={jobData.website_link} />
+
+                        <ButtonJob
+                            onClick={() => handleSubmitAnswers(answers)}
+                            saving={loading}
+                            disabled={disabled}
+                            title={!session ? "Login to Apply" : "Apply"}
+                            link={session ? "" : `/login?callbackUrl=/jobspage/${Slugify(jobData.job_title)}/${Slugify(jobData.job_title)}-${jobData.id}`}
+                        />
+                    </div>
+                </>
+            )
+        }
     </div >
 }

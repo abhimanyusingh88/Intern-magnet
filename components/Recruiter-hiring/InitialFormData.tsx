@@ -29,6 +29,7 @@ export const initialFormData: FormData = {
     skill_description: "",
     role: "",
     selection_process: "",
-    draft: false
+    draft: false,
+    job_form_link: ""
 
 };

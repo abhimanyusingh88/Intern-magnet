@@ -58,6 +58,7 @@ export async function PATCH(
                 skill_description: body.skill_description,
                 role: body.role,
                 selection_process: body.selection_process,
+                job_form_link: body.job_form_link,
             },
         });
 

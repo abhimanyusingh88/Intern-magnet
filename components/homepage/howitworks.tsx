@@ -26,7 +26,7 @@ export default function HowItWorks() {
                 <div className="relative flex items-center justify-between">
                     {/* Animated dotted line */}
                     <motion.div
-                        className="absolute left-[5%] right-[5%] top-1/2 h-[2px] text-zinc-300 dark:text-zinc-700"
+                        className="absolute translate-y-[-28px] left-[5%] right-[5%] top-1/2 h-[2px] text-zinc-300 dark:text-zinc-700"
                         style={{
                             backgroundImage:
                                 "linear-gradient(to right, currentColor 40%, transparent 0%)",

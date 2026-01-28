@@ -151,6 +151,7 @@ export interface JobDetail {
     skill_description?: string;
     role?: string;
     selection_process?: string;
+    job_form_link?: string;
 
 }
 export type FormInputProps = {

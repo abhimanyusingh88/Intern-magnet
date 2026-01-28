@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { GetRecruiter, GetUser } from "@/lib/service";
+import { GetRecruiter } from "@/lib/service";
 import { NextResponse } from "next/server";
 
 export async function GET() {

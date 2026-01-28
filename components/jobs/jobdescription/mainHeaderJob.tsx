@@ -2,7 +2,7 @@ import { JobDetail } from "@/lib/types/types"
 import { Briefcase, Clock4, IndianRupee, MapPin } from "lucide-react"
 import Image from "next/image"
 
-export default function MainHeaderJob({ jobData }: { jobData: JobDetail }) {
+export default function MainHeaderJob({ jobData, numApplied }: { jobData: JobDetail, numApplied: number }) {
     return (
         <div className="w-full p-6 flex flex-col gap-5 rounded-2xl bg-zinc-900/60 border border-zinc-900 shadow-xl">
             {/* Header */}
@@ -86,7 +86,7 @@ export default function MainHeaderJob({ jobData }: { jobData: JobDetail }) {
                 <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-zinc-800/50 bg-zinc-900/40 backdrop-blur-sm shrink-0">
                     <span className="text-zinc-400 font-medium text-xs sm:text-sm">
                         <span className="text-zinc-500 font-thin">Applicants:</span>{" "}
-                        0
+                        {numApplied}+
                     </span>
                 </div>
 
