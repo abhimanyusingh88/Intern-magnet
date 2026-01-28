@@ -43,7 +43,7 @@ export default function EducationBlock({ value, onChange, label, degree, college
                                     {value?.[grade] && (
                                         <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-zinc-800/50 border border-white/5 shadow-inner">
                                             <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-tight">Grade</span>
-                                            <span className="text-xs font-semibold text-emerald-400">{value?.[grade]}</span>
+                                            <span className="text-xs font-semibold translate-y-[-0.6px] text-emerald-400">{value?.[grade]}</span>
                                         </div>
                                     )}
                                 </div>

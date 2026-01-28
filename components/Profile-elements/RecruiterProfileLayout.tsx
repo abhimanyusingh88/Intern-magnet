@@ -128,7 +128,7 @@ export default function RecruiterProfileLayout() {
                 {/* Additional Info */}
                 <div className="space-y-4 border-t border-white/5 pt-8">
                     <h4 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider">Hiring for?</h4>
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-zinc-300">
+                    <div className="p-4 rounded-xl  bg-white/5 border border-indigo-500/50 text-zinc-300">
                         {recruiterFields.hiring_for || "No hiring information specified yet."}
                     </div>
                 </div>

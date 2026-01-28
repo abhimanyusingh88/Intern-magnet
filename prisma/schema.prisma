@@ -110,6 +110,7 @@ model RecruiterHiring {
   selection_process         String?
   skill_description         String?
   role                      String?
+  job_form_link             String?
   recruiter_profile         RecruiterProfile?   @relation(fields: [recruiter_profile_id], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
 

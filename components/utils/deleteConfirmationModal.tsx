@@ -62,7 +62,7 @@ export default function DeleteConfirmationModal({
                 <button
                     onClick={() => !isDeleting && setOpenModal(false)}
                     disabled={isDeleting}
-                    className="absolute right-4 top-4 text-zinc-400 hover:text-white transition disabled:opacity-50"
+                    className="absolute right-4 top-4 cursor-pointer text-zinc-400 hover:text-white transition disabled:opacity-50"
                 >
                     <X className="w-5 h-5" />
                 </button>

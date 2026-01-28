@@ -70,6 +70,14 @@ export default function JobDetailsRecruiter({
                     value={formData.website_link}
                     onChange={(val) => updateField("website_link", val)}
                 />
+                <FormInput
+                    label="Job Form Link"
+                    name="job_form_link"
+                    placeholder="Job Form Link"
+                    required
+                    value={formData.job_form_link}
+                    onChange={(val) => updateField("job_form_link", val)}
+                />
 
                 <FormInput
                     label="Job Title"

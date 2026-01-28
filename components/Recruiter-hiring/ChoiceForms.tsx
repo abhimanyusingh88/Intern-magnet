@@ -6,7 +6,6 @@ import JobDescriptionRecruiter from "./JobDescriptionRecruiter";
 import JobDetailsRecruiter from "./JobDetailsRecruiter";
 import ScreeningQuestionsRecruiter from "./ScreeningQuestionsRecruiter";
 import { FormData } from "@/lib/types/types";
-import CompanyLogo from "./companyLogo";
 
 export default function ChoiceForms({
     count,
@@ -14,7 +13,6 @@ export default function ChoiceForms({
     formData,
     setFormData,
     saving,
-    user
 }: {
     count: number;
     setCount: React.Dispatch<React.SetStateAction<number>>;

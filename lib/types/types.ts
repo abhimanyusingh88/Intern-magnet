@@ -111,6 +111,7 @@ export type FormData = {
     skill_description?: string;
     role?: string;
     selection_process?: string;
+    job_form_link?: string;
 };
 
 export interface ScreeningQuestion {
