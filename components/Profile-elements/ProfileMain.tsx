@@ -71,7 +71,6 @@ export default function ProfileMain({ session }: { session: any }) {
     // 3. We are on the client side (to avoid hydration mismatch)
     // 4. No mode preference exists in localStorage (which activeMode handles)
 
-    // However, if we HAVE data on the server, we should NOT show onboarding.
     const showOnboarding = isMounted && !hasSeekerData && !hasRecruiterData && !localStorage.getItem("profileActiveMode");
 
     if (showOnboarding) {

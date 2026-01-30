@@ -1,6 +1,6 @@
 import { updateProfile } from "@/app/actions/profile";
 import { UpdateCommand } from "@/lib/types/types";
-import { Trash2, Pencil, Briefcase } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import DynamicProfileSection from "./DynamicProfileSection";
 import DeleteOrEdit from "./deleteoredit";
 import ProfileItemCard from "./ProfileItemCard";

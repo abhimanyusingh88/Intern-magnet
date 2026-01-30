@@ -21,7 +21,7 @@ export async function GET() {
         });
 
         if (!profile) {
-            return NextResponse.json(null); // Return null if profile doesn't exist yet
+            return NextResponse.json(null); // Return null because they need onboarding
         }
 
         // Convert BigInt to string for JSON serialization

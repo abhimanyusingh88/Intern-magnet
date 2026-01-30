@@ -6,7 +6,7 @@ import { features } from "./constants";
 export default function TrustSection() {
 
     return (
-        <section className="w-full mt-4 py-10 rounded-2xl  sm:py-12 lg:py-16 bg-white dark:bg-zinc-900/50 border-y border-gray-100 dark:border-zinc-800">
+        <section className="w-full mt-4 py-10 rounded-2xl  sm:py-12 lg:py-16 bg-white dark:bg-zinc-900/50 border-y border-indigo-500/30">
             <div className="container mx-auto px-4 max-w-7xl">
                 <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
 

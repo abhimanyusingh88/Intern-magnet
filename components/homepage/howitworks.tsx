@@ -1,5 +1,4 @@
 "use client";
-
 import { motion } from "framer-motion";
 import Node from "./node";
 
@@ -10,11 +9,11 @@ export default function HowItWorks() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
 
-            className="w-full mt-4 py-10 rounded-xl bg-white dark:bg-zinc-900/50 border border-gray-100 dark:border-zinc-800">
+            className="w-full mt-4 py-10 rounded-xl bg-zinc-900/50 border  border-indigo-500/30">
             <div className="max-w-5xl mx-auto px-4">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <h2 className="text-lg sm:text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+                    <h2 className="text-lg sm:text-xl font-semibold text-zinc-100">
                         How it works
                     </h2>
                     <p className="mt-1 text-xs sm:text-sm text-zinc-500">
@@ -26,7 +25,7 @@ export default function HowItWorks() {
                 <div className="relative flex items-center justify-between">
                     {/* Animated dotted line */}
                     <motion.div
-                        className="absolute translate-y-[-28px] left-[5%] right-[5%] top-1/2 h-[2px] text-zinc-300 dark:text-zinc-700"
+                        className="absolute translate-y-[-28px] left-[5%] right-[5%] top-1/2 h-[2px] text-zinc-700"
                         style={{
                             backgroundImage:
                                 "linear-gradient(to right, currentColor 40%, transparent 0%)",

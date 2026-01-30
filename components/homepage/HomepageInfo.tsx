@@ -10,7 +10,7 @@ export default function PlatformInfoCard() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className="relative overflow-hidden mt-8 rounded-3xl border border-zinc-800/80 bg-zinc-900/60 p-6 sm:p-8"
+            className="relative overflow-hidden mt-8 rounded-3xl border border-indigo-500/30 bg-zinc-900/60 p-6 sm:p-8"
         >
             {/* Ambient glow */}
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_circle_at_20%_-10%,rgba(99,102,241,0.12),transparent_40%)]" />

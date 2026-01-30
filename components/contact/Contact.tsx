@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Mail, MapPin, Phone, ChevronDown } from "lucide-react"
-// import ContactForm from "../ContactForm"
 import BackGroundGlow from "../BackGroundGlow"
 import ContactForm from "./ContactForm"
 

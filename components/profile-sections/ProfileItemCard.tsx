@@ -29,7 +29,7 @@ export default function ProfileItemCard({
     description
 }: ProfileItemCardProps) {
     return (
-        <div className={`group relative h-full rounded-2xl border border-white/15 ${bgClass} p-4 transition-all hover:bg-zinc-900/80 shadow-lg`}>
+        <div className={`group relative h-full rounded-2xl border border-indigo-400/50 ${bgClass} px-4 py-2 transition-all hover:bg-zinc-900/80 shadow-lg`}>
             <div className="flex flex-col h-full justify-between gap-4">
                 <div className="space-y-3">
                     <div className="flex items-center gap-3">
