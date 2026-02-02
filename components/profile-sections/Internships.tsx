@@ -86,11 +86,12 @@ export default function Internships({ data, setFormData }: InternshipsProps) {
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Role/Position</label>
+                        <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Description</label>
                         <textarea
+                            rows={6}
                             value={item.description}
                             onChange={(e) => onChange({ ...item, description: e.target.value })}
-                            className="input-profile w-full filled"
+                            className="input-profile resize-none w-full filled"
                             placeholder="Description"
                         />
                     </div>

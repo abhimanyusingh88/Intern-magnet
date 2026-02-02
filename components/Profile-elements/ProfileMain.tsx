@@ -37,7 +37,7 @@ export default function ProfileMain({ session }: { session: any }) {
     const [isMounted, setIsMounted] = useState(false);
     const [openImageModal, setImageModal] = useState(false);
     const [error, setError] = useState<String>("");
-    console.log(error);
+    // console.log(error);
 
     useEffect(() => {
         setIsMounted(true);

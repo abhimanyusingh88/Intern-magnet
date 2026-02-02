@@ -1,5 +1,3 @@
-
-
 export function getInitialProfileData(userData: any = null) {
     return {
         // Main Details

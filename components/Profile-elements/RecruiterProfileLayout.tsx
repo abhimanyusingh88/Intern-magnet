@@ -5,16 +5,17 @@ import { Pencil, Building2, Globe, Mail, MapPin, Briefcase, User } from "lucide-
 import { useProfile } from "../providers/ProfileContext"
 import DisplayField from "../DisplayField"
 import FieldEditModal from "../FieldEditModal"
-
 import { updateRecruiterProfile } from "@/app/actions/recruiter"
 import { useQueryClient } from "@tanstack/react-query"
 import RecruiterEditForm from "./RecruiterEditForm"
+import ErrorIndicator from "./errorIndicator"
 
 export default function RecruiterProfileLayout() {
     const { recruiterFields, setRecruiterFields, recruiterCompletionPercentage, getProgressColor } = useProfile()
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isSaving, setIsSaving] = useState(false)
     const [editFormData, setEditFormData] = useState(recruiterFields)
+    const [error, setError] = useState("")
     const queryClient = useQueryClient()
 
     const handleEditOpen = () => {
@@ -29,6 +30,7 @@ export default function RecruiterProfileLayout() {
     const handleSave = async () => {
         setIsSaving(true)
         try {
+            setError("");
             const formData = new FormData()
             Object.entries(editFormData).forEach(([k, v]) => {
                 if (v !== null && v !== undefined) formData.append(k, String(v))
@@ -38,8 +40,22 @@ export default function RecruiterProfileLayout() {
             setRecruiterFields(editFormData)
             await queryClient.invalidateQueries({ queryKey: ["recruiterProfileData"] })
             setIsEditModalOpen(false)
-        } catch (error) {
-            console.error("Failed to save recruiter profile:", error)
+        } catch (error: any) {
+            try {
+                // remove "Error: " part
+                const clean = error.message.replace("Error: ", "");
+
+                const issues = JSON.parse(clean);
+
+                if (Array.isArray(issues) && issues.length > 0) {
+                    setError(issues[0].message);
+                } else {
+                    setError("Invalid input");
+                }
+
+            } catch {
+                setError("Something went wrong");
+            }
         } finally {
             setIsSaving(false)
         }
@@ -136,11 +152,12 @@ export default function RecruiterProfileLayout() {
 
             <FieldEditModal
                 isOpen={isEditModalOpen}
-                onClose={() => setIsEditModalOpen(false)}
+                onClose={() => { setIsEditModalOpen(false), setError("") }}
                 title="Edit Recruiter Profile"
                 onSave={handleSave}
                 isSaving={isSaving}
             >
+                <ErrorIndicator error={error} />
                 <RecruiterEditForm editFormData={editFormData} handleEditChange={handleEditChange} />
             </FieldEditModal>
         </section>
