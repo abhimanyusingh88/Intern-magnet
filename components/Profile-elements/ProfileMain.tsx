@@ -1,27 +1,24 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Pencil, Briefcase, User as UserIcon } from "lucide-react"
-import Image from "next/image"
+import { Pencil } from "lucide-react"
 import { useProfile } from "../providers/ProfileContext"
 import { useQueryClient } from "@tanstack/react-query"
 import { motion, AnimatePresence } from "framer-motion"
 import FieldEditModal from "../FieldEditModal"
-import ProfileAdditionalDetails from "./ProfileAdditional"
-import MainDetails from "../MainDetails"
 import ImageModal from "../utils/ImageModal"
 import ProfileEditForm from "./ProfileEditForm"
-import ProfileIndicatorText from "./ProfileIndicatorText"
 import OnboardingChoice from "./OnboardingChoice"
 import RecruiterProfileLayout from "./RecruiterProfileLayout"
 import DownProfileComponent from "./DownProfileComponent"
 import ProfileModeSwitcher from "./ProfileModeSwitcher"
-
-import { updateProfile } from "@/app/actions/profile"
 import { getInitialProfileData, getInitialRecruiterData } from "@/lib/profile-helpers"
 import ProfileData from "@/lib/data/UserData"
 import RecruiterProfileData from "@/lib/data/RecruiterData"
 import { SpinnerBig } from "../utils/SpinnerBig"
+import ErrorIndicator from "./errorIndicator"
+import MainProfilePart from "./mainProfilePart"
+import { UpdateProfile } from "./operations"
 
 export default function ProfileMain({ session }: { session: any }) {
     const { data: userData, isLoading: isUserLoading } = ProfileData();
@@ -39,6 +36,8 @@ export default function ProfileMain({ session }: { session: any }) {
 
     const [isMounted, setIsMounted] = useState(false);
     const [openImageModal, setImageModal] = useState(false);
+    const [error, setError] = useState<String>("");
+    console.log(error);
 
     useEffect(() => {
         setIsMounted(true);
@@ -80,10 +79,8 @@ export default function ProfileMain({ session }: { session: any }) {
     }
 
     const currentCompletion = activeMode === "SEEKER" ? completionPercentage : recruiterCompletionPercentage;
-
     return (
         <div className="space-y-6">
-            {/* Mode Switcher */}
             <ProfileModeSwitcher activeMode={activeMode} setActiveMode={setActiveMode} />
 
             <AnimatePresence mode="wait">
@@ -109,43 +106,7 @@ export default function ProfileMain({ session }: { session: any }) {
                                     <ImageModal open={openImageModal} setOpen={setImageModal} sessionImage={sessionImage} />
                                 }
 
-                                <div className="space-y-6">
-                                    <div className="flex flex-col sm:flex-row items-start gap-6">
-                                        <div className="relative shrink-0 h-28 w-28 group/avatar">
-                                            <svg className="absolute -inset-2 h-32 w-32 -rotate-90 transform" viewBox="0 0 128 128">
-                                                <circle cx="64" cy="64" r="58" fill="transparent" stroke="currentColor" strokeWidth="4" className="text-white/5" />
-                                                <circle
-                                                    cx="64" cy="64" r="58" fill="transparent" stroke="currentColor" strokeWidth="4"
-                                                    strokeDasharray={364.4}
-                                                    strokeDashoffset={364.4 - (364.4 * completionPercentage) / 100}
-                                                    className={`${getProgressColor(completionPercentage)} transition-all duration-1000 ease-out`}
-                                                    strokeLinecap="round"
-                                                />
-                                            </svg>
-
-                                            <div className="relative h-full w-full rounded-full border border-white/10 bg-zinc-950 p-1 transition-transform group-hover/avatar:scale-95 duration-500">
-                                                <Image
-                                                    onClick={() => setImageModal(true)}
-                                                    src={sessionImage || "/avatar-placeholder.png"}
-                                                    width={112}
-                                                    height={112}
-                                                    className="h-full cursor-pointer w-full rounded-full object-cover"
-                                                    alt="profile"
-                                                />
-                                            </div>
-
-                                            <div className="absolute -bottom-1 -right-1 bg-zinc-900 border border-white/10 px-2 py-0.5 rounded-full shadow-xl">
-                                                <span className={`text-[10px] font-bold ${getProgressColor(completionPercentage)}`}>{completionPercentage}%</span>
-                                            </div>
-                                        </div>
-
-                                        <MainDetails currentData={profileFields} />
-                                    </div>
-
-                                    <ProfileIndicatorText globalCompletionPercentage={completionPercentage} getProgressColor={getProgressColor} />
-
-                                    <ProfileAdditionalDetails currentData={profileFields} />
-                                </div>
+                                <MainProfilePart profileFields={profileFields} completionPercentage={completionPercentage} getProgressColor={getProgressColor} sessionImage={sessionImage} setImageModal={setImageModal} />
                             </section>
                             <div className="mt-8">
                                 <DownProfileComponent />
@@ -160,26 +121,16 @@ export default function ProfileMain({ session }: { session: any }) {
             {/* Seeker Edit Modal */}
             <FieldEditModal
                 isOpen={isEditModalOpen && activeMode === "SEEKER"}
-                onClose={() => setIsEditModalOpen(false)}
-                title="Edit Profile Details"
-                onSave={async () => {
-                    setIsSaving(true);
-                    try {
-                        const formData = new FormData();
-                        Object.entries(profileFields).forEach(([k, v]) => {
-                            if (v !== null && v !== undefined) formData.append(k, String(v));
-                        });
-                        await updateProfile(formData);
-                        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
-                        setIsEditModalOpen(false);
-                    } catch (error) {
-                        console.error(error);
-                    } finally {
-                        setIsSaving(false);
-                    }
+                onClose={() => {
+                    setIsEditModalOpen(false);
+                    setError("");
                 }}
+                title="Edit Profile Details"
+                onSave={() => UpdateProfile({ profileFields, setIsSaving, setError, queryClient, setIsEditModalOpen })}
+
                 isSaving={isSaving}
             >
+                <ErrorIndicator error={error} />
                 <ProfileEditForm editFormData={profileFields as any} handleEditChange={(e) => {
                     const { name, value } = e.target;
                     setFields({ [name]: value });

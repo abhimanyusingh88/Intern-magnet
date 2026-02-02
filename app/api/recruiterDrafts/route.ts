@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { GetUser } from "@/lib/service";
+import { GetRecruiter, GetUser } from "@/lib/service";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -13,7 +13,7 @@ export async function GET() {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
         }
 
-        const user = await GetUser(session.user.email);
+        const user = await GetRecruiter(session.user.email);
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }

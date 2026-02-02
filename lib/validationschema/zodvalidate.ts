@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // --- Seeker Profile Schema ---
 export const SeekerProfileSchema = z.object({
-    name: z.string().min(1, "Name is required").max(100).optional(),
+    name: z.string().min(3, "Name is required").max(100).optional(),
     phone: z.string().min(10, "Phone number must be 10 digits").max(10).optional().nullable(),
     college: z.string().max(200).optional().nullable(),
     course: z.string().max(200).optional().nullable(),
@@ -10,9 +10,9 @@ export const SeekerProfileSchema = z.object({
     gender: z.string().max(20).optional().nullable(),
     address: z.string().max(500).optional().nullable(),
     preferred_job_type: z.string().max(50).optional().nullable(),
-    availability: z.string().max(100).optional().nullable(),
-    preferred_location: z.string().max(100).optional().nullable(),
-    degree: z.string().max(100).optional().nullable(),
+    availability: z.string().max(50).optional().nullable(),
+    preferred_location: z.string().max(50).optional().nullable(),
+    degree: z.string().max(50).optional().nullable(),
     college_edu: z.string().max(200).optional().nullable(),
     college_grade: z.string().max(50).optional().nullable(),
     education_duration_start: z.string().max(10).optional().nullable(),
@@ -60,8 +60,8 @@ export const RecruiterProfileSchema = z.object({
 // --- Job Posting Schema ---
 export const JobPostingSchema = z.object({
     id: z.string().optional(),
-    company_name: z.string().min(1, "Company name is required").max(200),
-    job_title: z.string().min(1, "Job title is required").max(200),
+    company_name: z.string().min(1, "Company name is required").max(200).optional(),
+    job_title: z.string().min(1, "Job title is required").max(200).optional(),
     work_experience_min: z.union([z.string(), z.number(), z.bigint()]).optional(),
     work_experience_max: z.union([z.string(), z.number(), z.bigint()]).optional(),
     salary_per_month_from: z.union([z.string(), z.number(), z.bigint()]).optional(),
