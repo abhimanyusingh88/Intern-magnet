@@ -18,10 +18,12 @@ import Summary from "../profile-sections/Summary"
 import Accomplishments from "../profile-sections/Accomplishments"
 import Exams from "../profile-sections/Exams"
 import Resume from "../profile-sections/Resume"
+import { useQueryClient } from "@tanstack/react-query"
 
 export default function DownProfileComponent() {
     const { data: userData, isLoading } = ProfileData();
     const { setFields } = useProfile();
+    const queryClient = useQueryClient();
     const [formData, setFormData] = useState<Record<string, any> | null>(null);
     const [resumeFile, setResumeFile] = useState<File | null>(null);
     const [isUploadingResume, setIsUploadingResume] = useState(false);
@@ -82,8 +84,9 @@ export default function DownProfileComponent() {
 
                     if (newPath) {
                         setFormData(prev => ({ ...prev!, resume_path: newPath }));
-                        // setLastSavedData(prev => ({ ...prev!, resume_path: newPath }));
                     }
+
+                    await queryClient.invalidateQueries({ queryKey: ["profileData"] });
                     // else {
                     //     // setLastSavedData(formData);
                     // }

@@ -1,6 +1,7 @@
 import { updateProfile } from "@/app/actions/profile";
 import { UpdateCommand } from "@/lib/types/types";
 import { Briefcase } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import DynamicProfileSection from "./DynamicProfileSection";
 import DeleteOrEdit from "./deleteoredit";
 import ProfileItemCard from "./ProfileItemCard";
@@ -17,6 +18,7 @@ interface ProjectsProps {
 }
 
 export default function Projects({ data, setFormData }: ProjectsProps) {
+    const queryClient = useQueryClient();
     const rawProjects = data.projects;
     const projects: Project[] = Array.isArray(rawProjects) ? rawProjects : [];
 
@@ -32,6 +34,7 @@ export default function Projects({ data, setFormData }: ProjectsProps) {
             else if (command.action === 'delete' && command.index !== undefined) next.splice(command.index, 1);
             return { ...prev, projects: next };
         });
+        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
     };
 
     return (

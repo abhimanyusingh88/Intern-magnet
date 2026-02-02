@@ -2,6 +2,7 @@ import { useState } from "react";
 import Card from "../Profile-elements/ProfileCard";
 import { updateProfile } from "@/app/actions/profile";
 import { X, Plus } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SkillsProps {
     data: any;
@@ -11,6 +12,7 @@ interface SkillsProps {
 export default function Skills({ data, setFormData }: SkillsProps) {
     const [inputValue, setInputValue] = useState("");
     const [isSaving, setIsSaving] = useState(false);
+    const queryClient = useQueryClient();
 
     const skills: string[] = Array.isArray(data.skills) ? data.skills : [];
 
@@ -21,6 +23,7 @@ export default function Skills({ data, setFormData }: SkillsProps) {
             formData.append("skills", JSON.stringify(newSkills));
             await updateProfile(formData);
             setFormData((prev: any) => ({ ...prev!, skills: newSkills }));
+            await queryClient.invalidateQueries({ queryKey: ["profileData"] });
         } catch (error) {
             console.error("Failed to save skills:", error);
         } finally {

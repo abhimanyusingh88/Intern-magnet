@@ -17,9 +17,9 @@ export default function ProfileData() {
         queryFn: fetchProfileData, // The function above
         enabled: !!session, // Only fetch if we have a session
         retry: false, // Don't spam 404s if user doesn't exist in legacy table
-        staleTime: 1000 * 60 * 30, // Keep for 30 minutes
-        refetchOnWindowFocus: false, // Stop spam when switching tabs
-        refetchOnReconnect: false,
+        staleTime: 1000 * 5, // 5 seconds
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: true,
     });
 
     // 3. Handle Loading & Error States

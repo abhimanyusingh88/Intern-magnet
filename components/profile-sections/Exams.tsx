@@ -2,7 +2,8 @@
 
 import { updateProfile } from "@/app/actions/profile";
 import { UpdateCommand } from "@/lib/types/types";
-import { Trash2, Pencil, Trophy } from "lucide-react";
+import { FileText, Trophy } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import DynamicProfileSection from "./DynamicProfileSection";
 import DeleteOrEdit from "./deleteoredit";
 import ProfileItemCard from "./ProfileItemCard";
@@ -19,6 +20,7 @@ interface ExamsProps {
 }
 
 export default function Exams({ data, setFormData }: ExamsProps) {
+    const queryClient = useQueryClient();
     const rawExams = data.exams;
     const exams: Exam[] = Array.isArray(rawExams) ? rawExams : [];
 
@@ -34,6 +36,7 @@ export default function Exams({ data, setFormData }: ExamsProps) {
             else if (command.action === 'delete' && command.index !== undefined) next.splice(command.index, 1);
             return { ...prev, exams: next };
         });
+        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
     };
 
     return (

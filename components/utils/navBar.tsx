@@ -24,7 +24,7 @@ export default async function NavBar() {
         {/* LEFT */}
         <div className="flex items-center gap-6">
           {/* Logo */}
-          <Link href="/" className="group flex items-center gap-2 select-none">
+          <Link href="/" className="group outline-none flex items-center gap-2 select-none">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-linear-to-br from-indigo-500 to-cyan-400 text-xs font-bold text-zinc-900 shadow-md">
               im
             </div>

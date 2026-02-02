@@ -2,6 +2,7 @@
 
 import EditableField from "../EditableField";
 import { updateProfile } from "@/app/actions/profile";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AccomplishmentsProps {
     data: any;
@@ -9,11 +10,13 @@ interface AccomplishmentsProps {
 }
 
 export default function Accomplishments({ data, setFormData }: AccomplishmentsProps) {
+    const queryClient = useQueryClient();
     const handleSave = async (name: string, val: string) => {
         const formData = new FormData();
         formData.append(name, val);
         await updateProfile(formData);
         setFormData((prev: any) => ({ ...prev!, [name]: val }));
+        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
     };
 
     return (

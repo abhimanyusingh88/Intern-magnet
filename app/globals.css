@@ -171,19 +171,12 @@ select.input-profile:hover {
 }
 
 
-/* 
-/* Subtle indicator for filled fields */
-/* .input-profile:not(:placeholder-shown) {
-  border-color: rgba(99, 102, 241, 0.3);
-  background-color: rgba(255, 255, 255, 0.03);
-} */
-
 .filled {
   border-color: rgb(83, 97, 148);
 
   background-color: rgba(22, 21, 21, 0.968);
   border-radius: 0.75rem;
-  border-width: 0.1rem;
+  border-width: 0.05rem;
   border-style: solid;
 
   &:hover {

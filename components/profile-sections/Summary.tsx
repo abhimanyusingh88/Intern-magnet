@@ -3,6 +3,7 @@
 import Card from "../Profile-elements/ProfileCard";
 import EditableField from "../EditableField";
 import { updateProfile } from "@/app/actions/profile";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SummaryProps {
     data: any;
@@ -10,11 +11,13 @@ interface SummaryProps {
 }
 
 export default function Summary({ data, setFormData }: SummaryProps) {
+    const queryClient = useQueryClient();
     const handleSave = async (name: string, val: string) => {
         const formData = new FormData();
         formData.append(name, val);
         await updateProfile(formData);
         setFormData((prev: any) => ({ ...prev!, [name]: val }));
+        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
     };
 
     return (

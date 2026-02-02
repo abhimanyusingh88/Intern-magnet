@@ -133,8 +133,8 @@ export default function SideJobDescView({ jobData, session }: { jobData: JobDeta
         }
         {jobData.job_form_link && (
             <div className="space-y-2">
-                <h1 className="text-amber-100 text-sm sm:text-lg md:text-xl font-semibold">
-                    Filling out this google form
+                <h1 className="text-zinc-300 text-sm sm:text-lg md:text-xl font-semibold">
+                    Filling out this google form is mandatory
                 </h1>
 
                 <a

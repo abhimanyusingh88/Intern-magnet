@@ -80,3 +80,12 @@ Logout.
 Try Sign Up with same email (Better Auth).
 Expected: "Account exists" error/prompt.
 Complete flow -> Now can login with password.
+
+
+1 . Applied Jobs
+2 . find jobs
+3 . ATS checker
+4 . your profile
+5 . AI suggestions
+6 . saved jobs
+7 . help center

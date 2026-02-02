@@ -1,6 +1,7 @@
 import EditableComplexField from "../EditableComplexField"
 import { useState, useEffect } from "react"
 import { updateProfile } from "@/app/actions/profile"
+import { useQueryClient } from "@tanstack/react-query"
 
 export default function LanguageRow({
     value,
@@ -13,6 +14,7 @@ export default function LanguageRow({
     label: string
     namePrefix: string
 }) {
+    const queryClient = useQueryClient();
     const [tempData, setTempData] = useState<any>({});
 
     useEffect(() => {
@@ -80,6 +82,7 @@ export default function LanguageRow({
                 Object.entries(tempData).forEach(([k, v]) => formData.append(k, v as string));
                 await updateProfile(formData);
                 Object.entries(tempData).forEach(([k, v]) => onChange(k, v));
+                await queryClient.invalidateQueries({ queryKey: ["profileData"] });
             }}
         />
     )

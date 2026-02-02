@@ -1,6 +1,7 @@
 import { updateProfile } from "@/app/actions/profile";
 import { Calendar, Building2 } from "lucide-react";
 import YearRangePicker from "../utils/YearRangePicker";
+import { useQueryClient } from "@tanstack/react-query";
 import { UpdateCommand } from "@/lib/types/types";
 import DynamicProfileSection from "./DynamicProfileSection";
 import ProfileItemCard from "./ProfileItemCard";
@@ -20,6 +21,7 @@ interface InternshipsProps {
 }
 
 export default function Internships({ data, setFormData }: InternshipsProps) {
+    const queryClient = useQueryClient();
     const rawInternships = data.internships;
     const internships: Internship[] = Array.isArray(rawInternships) ? rawInternships : [];
 
@@ -36,6 +38,7 @@ export default function Internships({ data, setFormData }: InternshipsProps) {
             else if (command.action === 'delete' && command.index !== undefined) next.splice(command.index, 1);
             return { ...prev, internships: next };
         });
+        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
     };
 
     return (

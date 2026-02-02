@@ -10,9 +10,9 @@ export default function RecruiterProfileData() {
         queryFn: fetchRecruiterProfileData,
         enabled: !!session,
         retry: false,
-        staleTime: 1000 * 60 * 30, // 30 minutes
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
+        staleTime: 1000 * 5, // 5 seconds
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: true,
     });
 
     return { data, isLoading, isError, error };

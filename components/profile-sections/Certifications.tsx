@@ -3,6 +3,7 @@
 import { updateProfile } from "@/app/actions/profile";
 import { UpdateCommand } from "@/lib/types/types";
 import { Award, Link as LinkIcon, Hash, Calendar } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import DynamicProfileSection from "./DynamicProfileSection";
 import ProfileItemCard from "./ProfileItemCard";
 
@@ -16,6 +17,7 @@ interface Certification {
 
 export default function Certifications({ data, setFormData }: any) {
     const certifications = Array.isArray(data.certifications) ? data.certifications : [];
+    const queryClient = useQueryClient();
 
     const handleSave = async (command: UpdateCommand<Certification>) => {
         const fd = new FormData();
@@ -29,6 +31,7 @@ export default function Certifications({ data, setFormData }: any) {
             if (command.action === "delete") c.splice(command.index!, 1);
             return { ...p, certifications: c };
         });
+        await queryClient.invalidateQueries({ queryKey: ["profileData"] });
     };
 
     return (
