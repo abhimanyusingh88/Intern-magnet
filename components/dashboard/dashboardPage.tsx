@@ -2,13 +2,14 @@ import CompleteProfile from "./completeYourProfile";
 import DashboardHeader from "./dashboardHeader";
 import { formatName, formattedDate } from "./formatters";
 import LeftMenu from "./leftMenu";
+import TimerReminder from "./timerReminder";
 
 
 export default function DashboardPage({ userName }: { userName: string }) {
 
     return <div className="w-full flex flex-col gap-4" >
 
-        <CompleteProfile />
+        <TimerReminder />
 
         <DashboardHeader />
 
