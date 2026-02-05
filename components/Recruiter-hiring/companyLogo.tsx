@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import { companyLogo } from "@/app/actions/comapnyLogo";
 
 interface CompanyLogoProps {
     onUploadSuccess: (url: string) => void;
@@ -18,7 +17,13 @@ export default function CompanyLogo({ onUploadSuccess, currentLogo }: CompanyLog
 
     async function handleAction(formData: FormData) {
         setUploading(true);
-        const result = await companyLogo(formData);
+        const res = await fetch("/api/companylogo", {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await res.json();
+
 
         if (result?.success && result.url) {
             onUploadSuccess(result.url);
