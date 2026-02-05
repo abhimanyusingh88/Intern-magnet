@@ -89,3 +89,8 @@ Complete flow -> Now can login with password.
 5 . AI suggestions
 6 . saved jobs
 7 . help center
+
+
+
+
+bhai ekdam yaad rakhna ek cheez ki ye waal cheez implement karna hai ki agar user hai hi niii toh apply/post job nii hona chahiye , wha kuch aisa show karna hoga ki bhyii pehle profile create karo

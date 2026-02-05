@@ -11,15 +11,15 @@ export default function LeftMenu({ mode = "desktop" }: { mode?: "desktop" | "mob
     const menuItems = (
         <div className="text-zinc-300 flex flex-col gap-8">
             <div className="border-b-[1.8px] hover:bg-zinc-800 rounded-lg transition-all px-2 py-4 text-indigo-300 border-zinc-800">
-                <Link className="flex gap-6 items-center px-2" href="/" onClick={() => setOpen(false)}><Home className="h-4 w-4" />Home</Link>
+                <Link className="flex gap-6 items-center px-2" href="/dashboard" onClick={() => setOpen(false)}><Home className="h-4 w-4" />Home</Link>
             </div>
             <div className="flex flex-col gap-2">
-                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/appliedjobs" onClick={() => setOpen(false)}><Briefcase className="h-4 w-4" />Applied Jobs</Link>
-                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/jobspage" onClick={() => setOpen(false)}><Search className="h-4 w-4" />Find Jobs</Link>
-                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/atschecker" onClick={() => setOpen(false)}><ScanSearch className="h-4 w-4" />ATS Checker</Link>
-                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/aisuggests" onClick={() => setOpen(false)}><Sparkles className="h-4 w-4" />AI Suggestions</Link>
-                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/savedjobs" onClick={() => setOpen(false)}><Bookmark className="h-4 w-4" />Saved Jobs</Link>
-                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/helpcenter" onClick={() => setOpen(false)}><HelpCircle className="h-4 w-4" />Help Center</Link>
+                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/appliedjobs" onClick={() => setOpen(false)}><Briefcase className="h-4 w-4" />Applied Jobs</Link>
+                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/savedjobs" onClick={() => setOpen(false)}><Bookmark className="h-4 w-4" />Saved Jobs</Link>
+                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/jobspage" onClick={() => setOpen(false)}><Search className="h-4 w-4" />Find Jobs</Link>
+                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/atschecker" onClick={() => setOpen(false)}><ScanSearch className="h-4 w-4" />ATS Checker</Link>
+                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/aisuggests" onClick={() => setOpen(false)}><Sparkles className="h-4 w-4" />AI Suggestions</Link>
+                <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/helpcenter" onClick={() => setOpen(false)}><HelpCircle className="h-4 w-4" />Help Center</Link>
             </div>
         </div>
     );
