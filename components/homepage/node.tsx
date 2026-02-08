@@ -20,7 +20,7 @@ export default function Node({
             <motion.div
                 animate={{ scale: [1, 1.04, 1] }}
                 transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                className=" h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 rounded-xl border border-indigo-500/40 bg-white dark:bg-zinc-900 flex items-center justify-center text-[11px] font-medium text-indigo-400"
+                className=" h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 rounded-xl border border-indigo-500/40 bg-white dark:bg-zinc-900 flex items-center justify-center text-[11px] sm:text-[12px] font-medium text-indigo-400"
             >
                 Step - {index}
             </motion.div>

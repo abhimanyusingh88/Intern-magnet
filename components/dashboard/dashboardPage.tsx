@@ -12,7 +12,6 @@ export default function DashboardPage({ userName, children }: { userName: string
 
         <DashboardHeader />
 
-        {/* Mobile Toggle Button & Drawer */}
         <LeftMenu mode="mobile" />
 
         <div className="flex relative gap-6 mt-2">
@@ -45,7 +44,7 @@ export default function DashboardPage({ userName, children }: { userName: string
                     </div>
 
                 </div>
-                <div className="min-h-[500px] w-full bg-zinc-900/60 rounded-2xl border border-white/5 p-6">
+                <div className="min-h-[500px] w-full bg-zinc-900/60 rounded-2xl border border-white/5 p-4 sm:p-6">
                     {children}
                 </div>
             </div>

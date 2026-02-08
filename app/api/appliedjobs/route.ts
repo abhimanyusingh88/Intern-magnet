@@ -17,6 +17,9 @@ export async function GET(request: Request) {
         const appliedJobsData = await prisma.applied.findMany({
             where: {
                 user_id: session.user.email
+            },
+            include: {
+                job: true
             }
         })
         const safeData = JSON.parse(

@@ -113,6 +113,7 @@ model RecruiterHiring {
   job_form_link             String?
   recruiter_profile         RecruiterProfile?   @relation(fields: [recruiter_profile_id], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
+  applied                   Applied[]
 
   @@map("recruiterhiring")
 }
@@ -218,6 +219,7 @@ model Applied {
   applied_at DateTime @default(now()) @db.Timestamptz(6)
   status     String
   viewed     Boolean
+  job        RecruiterHiring @relation(fields: [job_id], references: [id], onDelete: Cascade)
 
   @@map("applied")
 }

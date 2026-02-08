@@ -31,13 +31,13 @@ export default async function DashboardLayout({
 
     return (
         <main className="relative min-h-screen flex flex-col 
-            px-6 pt-16 pb-12
+            px-4 pt-16 pb-12
             sm:px-10 
             md:px-20 
             lg:px-36
             flex-wrap gap-4
         ">
-            <div className="sticky top-20">
+            <div className=" sticky top-20">
                 <NetBg />
             </div>
             <BackGroundGlow />
