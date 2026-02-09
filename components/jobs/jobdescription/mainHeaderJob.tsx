@@ -1,5 +1,5 @@
 import { JobDetail } from "@/lib/types/types"
-import { Briefcase, Clock4, IndianRupee, MapPin } from "lucide-react"
+import { Briefcase, Clock4, IndianRupee, MapPin, User, Users } from "lucide-react"
 import Image from "next/image"
 
 export default function MainHeaderJob({ jobData, numApplied }: { jobData: JobDetail, numApplied: number }) {
@@ -63,7 +63,7 @@ export default function MainHeaderJob({ jobData, numApplied }: { jobData: JobDet
             {/* Meta info */}
             <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-zinc-900">
                 <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-zinc-800/50 bg-zinc-900/40 backdrop-blur-sm shrink-0">
-                    <Clock4 className="w-4 h-4 text-zinc-500" />
+                    <Clock4 className="w-4 h-4 text-zinc-400" />
                     <span className="text-zinc-400 font-medium text-xs sm:text-sm">
                         {jobData.created_at
                             ? jobData.created_at
@@ -78,14 +78,14 @@ export default function MainHeaderJob({ jobData, numApplied }: { jobData: JobDet
 
                 <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-zinc-800/50 bg-zinc-900/40 backdrop-blur-sm shrink-0">
                     <span className="text-zinc-300 font-thin text-xs sm:text-sm">
-                        <span className="text-zinc-500 font-thin">openings:</span>{" "}
+                        <span className="text-zinc-400 font-thin">openings:</span>{" "}
                         {jobData.number_of_applications || "1"}
                     </span>
                 </div>
 
                 <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-zinc-800/50 bg-zinc-900/40 backdrop-blur-sm shrink-0">
-                    <span className="text-zinc-400 font-medium text-xs sm:text-sm">
-                        <span className="text-zinc-500 font-thin">Applicants:</span>{" "}
+                    <span className="text-zinc-300 font-medium flex gap-1 items-center text-xs sm:text-sm">
+                        <span className="text-zinc-400 flex gap-1 items-center font-thin"><span><Users className=" h-3 w-3 sm:w-4 sm:h-4 sm:translate-y-[-1.5px]" /></span>Applicants:</span>{" "}
                         {numApplied}+
                     </span>
                 </div>
