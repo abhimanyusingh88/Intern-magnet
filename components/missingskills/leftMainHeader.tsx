@@ -8,7 +8,7 @@ export default function LeftMainHeader({ jobData }: { jobData: any }) {
                 <Target size={14} className="text-amber-500" />
                 Skill Alignment
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white uppercase italic tracking-tighter">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white uppercase whitespace-nowrap">
                 Missing Skills
             </h1>
         </div>
@@ -28,7 +28,7 @@ export default function LeftMainHeader({ jobData }: { jobData: any }) {
                     <p className="text-zinc-200 text-sm md:text-base font-bold uppercase tracking-wide truncate">
                         {jobData.company_name}
                     </p>
-                    <p className="text-amber-400 text-[11px] md:text-xs font-black uppercase italic tracking-tighter mt-1">
+                    <p className="text-amber-400 text-[11px] md:text-xs font-black uppercase   mt-1">
                         {jobData.job_title}
                     </p>
                 </div>

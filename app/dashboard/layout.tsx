@@ -35,7 +35,6 @@ export default async function DashboardLayout({
             sm:px-10 
             md:px-20 
             lg:px-36
-            flex-wrap gap-4
         ">
             <div className=" sticky top-20">
                 <NetBg />

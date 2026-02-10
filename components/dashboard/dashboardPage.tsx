@@ -21,8 +21,8 @@ export default function DashboardPage({ userName, children }: { userName: string
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 space-y-4">
-                <div className="flex-1 space-y-4">
+            <div className="flex-1 space-y-4 min-w-0">
+                <div className="flex-1 space-y-4 min-w-0">
 
                     <div className="relative overflow-hidden min-h-[120px] w-full flex flex-col gap-6 bg-zinc-900/60 rounded-2xl border border-zinc-800 p-6 shadow-sm">
 
@@ -44,7 +44,7 @@ export default function DashboardPage({ userName, children }: { userName: string
                     </div>
 
                 </div>
-                <div className="min-h-[500px] w-full bg-zinc-900/60 rounded-2xl border border-white/5 p-4 sm:p-6">
+                <div className="min-h-[500px] w-full bg-zinc-900/60 rounded-2xl border border-white/5 px-2 py-4 sm:p-6">
                     {children}
                 </div>
             </div>
