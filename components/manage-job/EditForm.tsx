@@ -159,20 +159,26 @@ export default function EditForm({ job, setOpen }: editJOb) {
                         value={formData.salary_per_month_to}
                         onChange={(val) => updateField("salary_per_month_to", val)}
                     />
-                    <MultiOptions
-                        label="Additional Benefits"
-                        name="additional_benefits"
-                        options={AdditionalBenefits}
-                        value={formData.additional_benefits}
-                        onChange={(val) => updateField("additional_benefits", val)}
-                    />
-                    <MultiOptions
-                        label="Primary Skills"
-                        name="primary_skills"
-                        options={skills}
-                        value={formData.primary_skills}
-                        onChange={(val) => updateField("primary_skills", val)}
-                    />
+                    <div className="flex flex-col md:flex-row gap-4 md:items-center w-full justify-between">
+                        <div className="flex-1">
+                            <MultiOptions
+                                label="Additional Benefits"
+                                name="additional_benefits"
+                                options={AdditionalBenefits}
+                                value={formData.additional_benefits}
+                                onChange={(val) => updateField("additional_benefits", val)}
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <MultiOptions
+                                label="Primary Skills"
+                                name="primary_skills"
+                                options={skills}
+                                value={formData.primary_skills}
+                                onChange={(val) => updateField("primary_skills", val)}
+                            />
+                        </div>
+                    </div>
                     <FormTextArea
                         label="Skill Description"
                         name="skill_description"
@@ -249,20 +255,24 @@ export default function EditForm({ job, setOpen }: editJOb) {
                         value={formData.website_link}
                         onChange={(val) => updateField("website_link", val)}
                     />
-                    <MultiOptions
-                        label="Educational Requirements"
-                        name="educational_requirements"
-                        options={educationalRequirements}
-                        value={formData.educational_requirements}
-                        onChange={(val) => updateField("educational_requirements", val)}
-                    />
-                    <MultiOptions
-                        label="Good to have"
-                        name="good_to_have"
-                        options={skills}
-                        value={formData.good_to_have}
-                        onChange={(val) => updateField("good_to_have", val)}
-                    />
+                    <div className="flex flex-col md:flex-row gap-4 md:items-center w-full ">
+                        <div className="flex-1">
+                            <MultiOptions
+                                label="Educational Requirements"
+                                name="educational_requirements"
+                                options={educationalRequirements}
+                                value={formData.educational_requirements}
+                                onChange={(val) => updateField("educational_requirements", val)}
+                            />
+                        </div>
+                        <div className="flex-1"> <MultiOptions
+                            label="Good to have"
+                            name="good_to_have"
+                            options={skills}
+                            value={formData.good_to_have}
+                            onChange={(val) => updateField("good_to_have", val)}
+                        /></div>
+                    </div>
                     <FormTextArea
                         label="What we offer"
                         name="what_we_offer"

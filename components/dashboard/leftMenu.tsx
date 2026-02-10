@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import SidebarSlider from "./slider";
 import { motion, AnimatePresence } from "framer-motion";
+import { signOut } from "@/lib/auth-client";
 
 export default function LeftMenu({ mode = "desktop" }: { mode?: "desktop" | "mobile" }) {
     const [open, setOpen] = useState<boolean>(false);
@@ -17,15 +18,23 @@ export default function LeftMenu({ mode = "desktop" }: { mode?: "desktop" | "mob
                 <div className="flex flex-col gap-2">
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/appliedjobs" onClick={() => setOpen(false)}><Briefcase className="h-4 w-4" />Applied Jobs</Link>
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/savedjobs" onClick={() => setOpen(false)}><Bookmark className="h-4 w-4" />Saved Jobs</Link>
-                    <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/jobspage" onClick={() => setOpen(false)}><Search className="h-4 w-4" />Find Jobs</Link>
+                    <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/jobspage" onClick={() => setOpen(false)}><Search className="h-4 w-4" />Find Jobs</Link>
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/atschecker" onClick={() => setOpen(false)}><ScanSearch className="h-4 w-4" />ATS Checker</Link>
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/aisuggests" onClick={() => setOpen(false)}><Sparkles className="h-4 w-4" />AI Suggestions</Link>
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/helpcenter" onClick={() => setOpen(false)}><HelpCircle className="h-4 w-4" />Help Center</Link>
                 </div>
                 <div className="h-[1.4px] w-full translate-y-[20px] bg-zinc-600/40" />
                 <div className="translate-y-[40px] flex flex-col gap-2">
-                    <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/aisuggests" onClick={() => setOpen(false)}><Settings className="h-4 w-4" />AI Suggestions</Link>
-                    <button className="flex gap-6 transition-all text-red-500 cursor-pointer  items-center px-4 py-2 font-medium hover:bg-red-500/30 hover:text-zinc-300 rounded-lg" onClick={() => setOpen(false)}><LogOut className="h-5 w-5" />Logout</button>
+                    <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/settings" onClick={() => setOpen(false)}><Settings className="h-4 w-4" />Settings</Link>
+                    <button className="flex gap-6 transition-all text-red-500 cursor-pointer  items-center px-4 py-2 font-medium hover:bg-red-500/30 hover:text-zinc-300 rounded-lg" onClick={async () => {
+                        await signOut({
+                            fetchOptions: {
+                                onSuccess: () => {
+                                    window.location.href = "/";
+                                }
+                            }
+                        });
+                    }}><LogOut className="h-5 w-5" />Logout</button>
 
                 </div>
             </div>

@@ -1,5 +1,7 @@
 import { SpinnerBig } from "@/components/utils/SpinnerBig";
 
 export default function Loading() {
-    return <SpinnerBig />
+    return <div className="w-full h-full">
+        <SpinnerBig />
+    </div>
 }

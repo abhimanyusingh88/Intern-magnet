@@ -3,15 +3,6 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request, { params }: { params: Promise<{ companyname: string, slug: string }> }) {
     try {
-        // const session = await auth.api.getSession({
-        //     headers: await headers()
-        // })
-        // if (!session?.user) {
-        //     return NextResponse.json(
-        //         { message: "Unauthorized user access" },
-        //         { status: 401 }
-        //     )
-        // }
 
         const { companyname, slug } = await params;
         const arr: string[] = slug.split("-");

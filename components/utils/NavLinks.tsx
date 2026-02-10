@@ -48,7 +48,7 @@ ${pathname === path
             </div>
 
             <Link href="/calendar" className={linkClass("/calendar")}>Calendar</Link>
-            <Link href="/ai-ats" className={linkClass("/aiats")}>AI ATS </Link>
+
         </div>
     )
 }

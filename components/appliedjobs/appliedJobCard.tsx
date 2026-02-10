@@ -1,8 +1,10 @@
 import { headers } from "next/headers";
 import Image from "next/image";
 import { formatDate } from "../utils/dateFormatter";
-import { AlertCircle, Banknote, Brain, Currency, DollarSign, ExternalLink, IndianRupee, Lightbulb, MapPin } from "lucide-react";
+import { AlertCircle, Brain, ExternalLink, IndianRupee, Lightbulb, MapPin } from "lucide-react";
 import Link from "next/link";
+import LinkButtons from "./linkButtons";
+import { Slugify } from "../jobs/slugify";
 
 export default async function AppliedJobCard() {
 
@@ -10,11 +12,11 @@ export default async function AppliedJobCard() {
 
 
 
-    const h = await headers(); // current request headers
+    const h = await headers();
 
     const appliedData = await fetch(`${baseUrl}/api/appliedjobs`, {
         headers: {
-            cookie: h.get("cookie") || "",   // 🔥 session cookie forward
+            cookie: h.get("cookie") || "",
         },
     });
 
@@ -27,7 +29,7 @@ export default async function AppliedJobCard() {
 
     // console.log(appliedJobs);
     return (
-        <div className="flex flex-col gap-6 w-full">
+        <div className="flex flex-col gap-4 w-full">
 
             <div className="w-full flex flex-col items-center gap-2">
 
@@ -37,17 +39,15 @@ export default async function AppliedJobCard() {
                     </h1>
                 </div>
 
-                {/* <div className="h-[0.5px] w-50 rounded-2xl bg-gray-300" /> */}
 
             </div>
             {Array.isArray(appliedJobs) && appliedJobs.length > 0 ? (
                 appliedJobs.map((job: any) => (
                     <div key={job.id} className="w-full flex gap-4 md:flex-row flex-col">
                         <div
-
-                            className="mb-2 flex-3  bg-zinc-700/40 w-full  md:w-2/3  rounded-lg p-0 sm:p-2 md:p-4"
+                            className="flex-3 bg-zinc-700/40 w-full md:w-2/3 rounded-lg p-0 sm:p-2 md:p-4"
                         >
-                            <div className="flex flex-col gap-3 p-4 md:p-2 text-zinc-300">
+                            <div className="flex flex-col gap-2 p-4 md:p-2 text-zinc-300">
 
                                 {/* Top Row */}
                                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
@@ -104,10 +104,10 @@ export default async function AppliedJobCard() {
                                     </div>
                                     <Link
                                         href={`/jobspage/${job.job.company_name}/${job.job.job_title}-${job.job.id}`}
-                                        className="relative overflow-hidden text-xs sm:text-base whitespace-nowrap p-2 bg-indigo-700 hover:bg-indigo-800 transition-all duration-200 ease-in-out rounded-lg text-zinc-100 font-medium group"
+                                        className="relative  text-xs sm:text-base px-2 py-1 bg-indigo-700 hover:bg-indigo-800 transition-all duration-200 ease-in-out rounded-lg text-zinc-100 font-medium group"
                                     >
 
-                                        <span className="relative flex gap-1 items-center z-10">View Job<span><ExternalLink className="sm:w-5 sm:h-5 h-4 w-4" /></span></span>
+                                        <span className="relative flex gap-1 items-center z-10">View <span><ExternalLink className=" h-4 w-4" /></span></span>
                                     </Link>
 
                                 </div>
@@ -116,10 +116,16 @@ export default async function AppliedJobCard() {
 
 
                         </div>
-                        <div className="bg-zinc-800/40 flex flex-col justify-between w-full flex-3 p-4 min-h-[150px] rounded-lg md:p-8 md:flex-1">
-                            <Link className="bg-linear-to-r hover:from-indigo-800 md:text-sm text-[14px] whitespace-nowrap  hover:via-purple-800 flex items-center  hover:to-indigo-700 from-indigo-700 gap-2 via-purple-700 to-indigo-600 rounded-lg p-2" href={`/missingskills/${job.job.company_name}/${job.job.job_title}-${job.job.id}`}><span><AlertCircle className="w-3 h-3 sm:h-4 sm:w-4" /></span>Missing Skills</Link>
-                            <Link className="bg-linear-to-r hover:from-indigo-800 md:text-sm text-[14px] whitespace-nowrap  hover:via-purple-800 flex items-center  hover:to-indigo-700 from-indigo-700 gap-2 via-purple-700 to-indigo-600 rounded-lg p-2" href={`/recommendations/${job.job.company_name}/${job.job.job_title}-${job.job.id}`}><span><Lightbulb className="w-3 h-3 sm:h-4 sm:w-4" /></span>Recommendations</Link>
-                            <Link className="bg-linear-to-r hover:from-indigo-800 md:text-sm text-[14px] whitespace-nowrap  hover:via-purple-800 flex items-center  hover:to-indigo-700 from-indigo-700 gap-2 via-purple-700 to-indigo-600 rounded-lg p-2" href={`/preparation/${job.job.company_name}/${job.job.job_title}-${job.job.id}`}><span><Brain className="w-3 h-3 sm:w-4 sm:h-4" /></span>Preparation Strategy</Link>
+                        <div className="bg-zinc-800/40 flex flex-col gap-2 justify-between w-full flex-3 p-4 rounded-lg md:p-4 md:flex-1">
+                            <LinkButtons link={`/dashboard/missing/${Slugify(job.job.company_name)}/${Slugify(job.job.job_title)}-${job.job.id}`} title="Missing Skills" >
+                                <AlertCircle className="w-3 h-3 sm:h-4 sm:w-4" />
+                            </LinkButtons>
+                            <LinkButtons link={`/dashboard/recommendations/${Slugify(job.job.company_name)}/${Slugify(job.job.job_title)}-${job.job.id}`} title="Recommendations" >
+                                <Lightbulb className="w-3 h-3 sm:h-4 sm:w-4" />
+                            </LinkButtons>
+                            <LinkButtons link={`/dashboard/preparation/${Slugify(job.job.company_name)}/${Slugify(job.job.job_title)}-${job.job.id}`} title="Preparation Strategy" >
+                                <Brain className="w-3 h-3 sm:w-4 sm:h-4" />
+                            </LinkButtons>
                         </div>
                     </div>
                 ))

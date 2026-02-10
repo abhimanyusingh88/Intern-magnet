@@ -77,14 +77,7 @@ export default function MobileMenu({
           <Calendar size={16} />
           <span>Calendar</span>
         </Link>
-        <Link
-          href="/aiats"
-          onClick={() => setOpen(false)}
-          className="flex items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/5 hover:text-white active:scale-[0.98]"
-        >
-          <Sparkles size={16} />
-          <span>AI ATS</span>
-        </Link>
+
 
         <div className="mt-3 border-t border-white/10 pt-3">
           <ProfileDropdown mobile session={session} setOpen={setOpen} />
