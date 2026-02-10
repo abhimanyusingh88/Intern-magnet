@@ -4,17 +4,13 @@ import { NextResponse } from "next/server";
 
 const JOBS_PER_PAGE = 10;
 
-
 export async function GET(req: Request) {
     try {
-
-
         const { searchParams } = new URL(req.url);
 
         // Pagination params
         const cursor = searchParams.get("cursor");
         const limit = Number(searchParams.get("limit")) || JOBS_PER_PAGE;
-
         // Filter params
         const minSalaryParam = searchParams.get("minSalary");
         const maxSalaryParam = searchParams.get("maxSalary");
@@ -127,7 +123,6 @@ export async function GET(req: Request) {
                         if (minSalary !== null && jobSalaryInLakhs < minSalary) return false;
                         if (maxSalary !== null && jobSalaryInLakhs > maxSalary) return false;
                     } else {
-                        // If filter is applied but salary is missing/unparseable, exclude it
                         return false;
                     }
                 }
@@ -139,9 +134,7 @@ export async function GET(req: Request) {
             currentCursor = nextBatchCursor || null;
             finalNextCursor = nextBatchCursor;
 
-            // If we didn't find any in this batch and there's no more, stop
             if (!nextBatchCursor) break;
-            // If we found enough, stop
             if (allFilteredJobs.length >= limit) {
                 allFilteredJobs = allFilteredJobs.slice(0, limit);
                 break;

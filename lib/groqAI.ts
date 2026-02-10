@@ -14,7 +14,7 @@ export async function askAI(message: any) {
     });
 
     const reply = completion.choices[0]?.message?.content;
-    console.log(reply);
+    // console.log(reply);
     return reply;
 }
 

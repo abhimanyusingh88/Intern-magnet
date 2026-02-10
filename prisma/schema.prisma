@@ -114,6 +114,7 @@ model RecruiterHiring {
   recruiter_profile         RecruiterProfile?   @relation(fields: [recruiter_profile_id], references: [id], onDelete: Cascade)
   screening_questions       ScreeningQuestion[]
   applied                   Applied[]
+  userJobRequirements       userJobRequirements[]
 
   @@map("recruiterhiring")
 }
@@ -222,6 +223,15 @@ model Applied {
   job        RecruiterHiring @relation(fields: [job_id], references: [id], onDelete: Cascade)
 
   @@map("applied")
+}
+model userJobRequirements{
+  id BigInt @id @default(autoincrement())
+  user_id String
+  job_id BigInt
+  missing_skills String?
+improvement_plan String?
+saved Boolean @default(false)
+jobid   RecruiterHiring @relation(fields: [job_id], references: [id], onDelete: Cascade)
 }
 
 view unified_jobs {

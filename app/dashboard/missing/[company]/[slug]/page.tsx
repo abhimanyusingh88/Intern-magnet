@@ -6,8 +6,8 @@ import { askAI } from "@/lib/groqAI";
 import MissingSkills from "@/components/missingskills/mssingSkills";
 
 export default async function MissingSkillsPage({ params }: { params: Promise<{ company: string, slug: string }> }) {
-    const { company, slug } = await params;
     const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+    const { company, slug } = await params;
     const role = slug.split("-");
     const jobName = role.slice(0, role.length - 1).join("-");
     const id = role[role.length - 1];
@@ -36,34 +36,78 @@ export default async function MissingSkillsPage({ params }: { params: Promise<{ 
     const skills = typeof jobData.primary_skills === "string"
         ? jobData.primary_skills.split(",").map((s: string) => s.trim())
         : jobData.primary_skills;
+
+    ////////////////// promt dena hai yha se
     const prompt = `
 Required Skills: ${JSON.stringify(skills)}
 User Skills: ${JSON.stringify(userSkills)}
-
 Find which skills from Required Skills are NOT present in User Skills.
-
 Return STRICT JSON in this format only:
 {
   "missingSkills": ["skill1", "skill2", "skill3"],
-  "improvementPlan": "A short overall description of what the user should do to gain these skills"
+  "improvementPlan": "A short overall description of what the user should do to gain these skills and please state is saying to user , its must be like "you should do this and that""
 }
 Do not return anything else.
 `;
 
-    const AIDATA_RAW = await askAI(prompt);
     let AIDATA = { missingSkills: [], improvementPlan: "" };
-    // yha se ai ka json data lena hoga
 
-    try {
-        const jsonMatch = AIDATA_RAW ? AIDATA_RAW.match(/\{[\s\S]*\}/) : null;
-        if (jsonMatch) {
-            AIDATA = JSON.parse(jsonMatch[0]);
+    const existingReqRes = await fetch(`${baseUrl}/api/userjobrequirements?user_id=${userRes.id}&job_id=${jobData.id}`, {
+        headers: {
+            cookie: (await headers()).get("cookie") || "",
+        },
+    });
+
+    const existingData = await existingReqRes.json();
+    const userJobReq = existingData.userJobReq;
+
+    if (!userJobReq) {
+        try {
+            const AIDATA_RAW = await askAI(prompt);
+            const jsonMatch = AIDATA_RAW ? AIDATA_RAW.match(/\{[^]*\}/) : null;
+            if (jsonMatch) {
+                const parsed = JSON.parse(jsonMatch[0]);
+                AIDATA = {
+                    missingSkills: parsed.missingSkills || [],
+                    improvementPlan: parsed.improvementPlan || ""
+                };
+
+                ////////// post if not already
+                await fetch(`${baseUrl}/api/userjobrequirements`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'cookie': (await headers()).get("cookie") || "",
+                    },
+                    body: JSON.stringify({
+                        user_id: userRes.id,
+                        job_id: jobData.id,
+                        missing_skills: AIDATA.missingSkills,
+                        improvement_plan: AIDATA.improvementPlan,
+                    }),
+                });
+            }
+        } catch (e: any) {
+            console.error("Failed to generate or save AI response:", e);
         }
-    } catch (e: any) {
-        console.error("Failed to parse AI response:", e);
-        throw new Error("Failed to parse AI response", e.message);
+    } else {
+        // 3. Use stored data
+        try {
+            AIDATA = {
+                missingSkills: typeof userJobReq.missing_skills === 'string'
+                    ? JSON.parse(userJobReq.missing_skills)
+                    : userJobReq.missing_skills,
+                improvementPlan: userJobReq.improvement_plan || ""
+            };
+        } catch (e: any) {
+            AIDATA = {
+                missingSkills: userJobReq.missing_skills || [],
+                improvementPlan: userJobReq.improvement_plan || ""
+            };
+            throw new Error(e.message);
+        }
     }
-
+    // console.log(AIDATA);
 
     return (
         <div className="px-0 py-4 md:p-8 min-h-screen text-zinc-100">
