@@ -1,6 +1,5 @@
 "use client"
 import { motion } from "framer-motion"
-import PieChartWithCustomizedLabel from "./homepagePieChart";
 import CustomActiveShapePieChart from "./homepagePieChart";
 export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
     const totalLength = AppliedJobs.length;
@@ -32,9 +31,25 @@ export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
         </div>
 
 
-        <div className="flex translate-y-[-50px] md:translate-x-[-40px]  justify-center sm:justify-start">
-            <CustomActiveShapePieChart data={data} />
+        <div className="w-full flex flex-col translate-y-[-60px] sm:flex-row  text-zinc-300 font-medium text-[15px] sm:gap-4 items-center ">
+
+            {/* Chart */}
+            <div className="min-w-[300px]">
+                <CustomActiveShapePieChart data={data} />
+            </div>
+
+            {/* Legend colors */}
+            <div className="flex items-start translate-y-[-30px] sm:translate-0 justify-center flex-col gap-4 ">
+                <div className="flex gap-4 text-zinc-300 font-medium text-[15px] items-center"> <div className="w-[20px] h-[20px] bg-green-500" /> <p>Shortlisted: {ShortListed}</p></div>
+                <div className="gap-4 text-zinc-300 font-medium text-[15px] items-center flex"> <div className="w-[20px] h-[20px] bg-amber-500" /><p>Pending: {pending.length}</p></div>
+                <div className="gap-4 text-zinc-300 font-medium text-[15px] items-center flex">
+                    <div className="w-[20px] h-[20px] bg-red-600" />
+                    <p>Rejected: {rejected.length} </p>
+                </div>
+            </div>
+
         </div>
+
 
 
     </motion.div>
