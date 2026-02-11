@@ -5,6 +5,8 @@ import LeftMainHeader from "@/components/missingskills/leftMainHeader";
 import { askAI } from "@/lib/groqAI";
 import MissingSkills from "@/components/missingskills/mssingSkills";
 import { missingPrompt } from "@/components/missingskills/prompt";
+import { AlertCircle } from "lucide-react";
+import DashboardErrorCompo from "@/components/utils/DashboardErrorCompo";
 
 export default async function MissingSkillsPage({ params }: { params: Promise<{ company: string, slug: string }> }) {
     const baseUrl = process.env.BASE_URL || "http://localhost:3000";
@@ -39,7 +41,7 @@ export default async function MissingSkillsPage({ params }: { params: Promise<{ 
     const userRes = await user.json();
 
     if (!jobData.id) {
-        error = "Job not found, please login first";
+        error = "No Jobs found";
     } else if (!userRes.id) {
         error = "login to view the content";
     }
@@ -134,7 +136,10 @@ export default async function MissingSkillsPage({ params }: { params: Promise<{ 
                             </div>
                             <MissingSkills missingSkills={AIDATA} />
                         </>
-                        : <p className="text-2xl bg-linear-to-r from-indigo-600 via-purple-500 to-pink-600 bg-clip-text text-transparent font-bold items-center justify-center flex">{error}</p>
+                        :
+                        <DashboardErrorCompo error={error} />
+
+
                 }
 
             </div>

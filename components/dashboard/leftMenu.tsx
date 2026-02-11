@@ -1,5 +1,5 @@
 "use client"
-import { Briefcase, HelpCircle, Home, Bookmark, ScanSearch, Search, Sparkles, X, Settings, LogOut } from "lucide-react";
+import { Briefcase, HelpCircle, Home, Bookmark, ScanSearch, Search, X, Settings, LogOut, BookOpenText } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import SidebarSlider from "./slider";
@@ -17,16 +17,15 @@ export default function LeftMenu({ mode = "desktop" }: { mode?: "desktop" | "mob
             <div >
                 <div className="flex flex-col gap-2">
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/appliedjobs" onClick={() => setOpen(false)}><Briefcase className="h-4 w-4" />Applied Jobs</Link>
-                    <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/savedjobs" onClick={() => setOpen(false)}><Bookmark className="h-4 w-4" />Saved Jobs</Link>
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/jobspage" onClick={() => setOpen(false)}><Search className="h-4 w-4" />Find Jobs</Link>
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/atschecker" onClick={() => setOpen(false)}><ScanSearch className="h-4 w-4" />ATS Checker</Link>
-                    <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/aisuggests" onClick={() => setOpen(false)}><Sparkles className="h-4 w-4" />AI Suggestions</Link>
+                    <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/interviewprep" onClick={() => setOpen(false)}><BookOpenText className="h-4 w-4" />Interview Prep</Link>
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/helpcenter" onClick={() => setOpen(false)}><HelpCircle className="h-4 w-4" />Help Center</Link>
                 </div>
                 <div className="h-[1.4px] w-full translate-y-[20px] bg-zinc-600/40" />
                 <div className="translate-y-[40px] flex flex-col gap-2">
                     <Link className="flex gap-6 transition-all hover:bg-zinc-800 items-center px-4 py-2 rounded-lg" href="/dashboard/settings" onClick={() => setOpen(false)}><Settings className="h-4 w-4" />Settings</Link>
-                    <button className="flex gap-6 transition-all text-red-500 cursor-pointer  items-center px-4 py-2 font-medium hover:bg-red-500/30 hover:text-zinc-300 rounded-lg" onClick={async () => {
+                    <button className="flex gap-6 transition-all text-red-500 cursor-pointer  items-center px-4 py-2 font-medium hover:bg-red-800/30 hover:text-zinc-200 rounded-lg" onClick={async () => {
                         await signOut({
                             fetchOptions: {
                                 onSuccess: () => {

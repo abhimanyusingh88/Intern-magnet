@@ -5,6 +5,8 @@ import { AlertCircle, Brain, ExternalLink, IndianRupee, Lightbulb, MapPin } from
 import Link from "next/link";
 import LinkButtons from "./linkButtons";
 import { Slugify } from "../jobs/slugify";
+import DashboardErrorCompo from "../utils/DashboardErrorCompo";
+
 
 export default async function AppliedJobCard() {
 
@@ -49,7 +51,7 @@ export default async function AppliedJobCard() {
                 appliedJobs.map((job: any) => (
                     <div key={job.id} className="w-full flex gap-4 md:flex-row flex-col">
                         <div
-                            className="flex-3 bg-zinc-700/40 w-full md:w-2/3 rounded-lg p-0 sm:p-2 md:p-4"
+                            className="flex-3 bg-zinc-800/40 w-full md:w-2/3 rounded-lg p-0 sm:p-2 md:p-4"
                         >
                             <div className="flex flex-col gap-2 p-4 md:p-2 text-zinc-300">
 
@@ -134,11 +136,7 @@ export default async function AppliedJobCard() {
                     </div>
                 ))
             ) : (
-                <div className="w-full h-full flex items-center justify-center text-center px-6">
-                    <p className="text-2xl font-semibold bg-linear-to-r from-indigo-500 to-pink-700 bg-clip-text text-transparent leading-relaxed tracking-wide">
-                        {error}
-                    </p>
-                </div>
+                <DashboardErrorCompo error={error} />
 
             )}
 

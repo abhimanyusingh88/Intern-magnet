@@ -26,9 +26,9 @@ export default async function AddPage() {
         relative min-h-screen flex flex-col overflow-hidden
         px-6 pt-20 pb-12
         sm:px-10 sm:pt-20
-        md:px-20 md:pt-20
+        md:px-10 md:pt-20
         
-        lg:px-36
+        lg:px-30
       "
         >
             <BackGroundGlow />

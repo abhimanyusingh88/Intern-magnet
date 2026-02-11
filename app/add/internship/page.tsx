@@ -24,7 +24,7 @@ export default async function InternshipPage() {
         <main className="
       w-full bg-black
       flex flex-col
-      px-6 sm:px-10 md:px-20 lg:px-36
+      px-6 sm:px-10 md:px-10 lg:px-30
       relative
       pt-20 pb-10
     ">

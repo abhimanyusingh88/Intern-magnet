@@ -33,8 +33,8 @@ export default async function DashboardLayout({
         <main className="relative min-h-screen flex flex-col 
             px-4 pt-16 pb-12
             sm:px-10 
-            md:px-20 
-            lg:px-36
+            md:px-10 
+            lg:px-30
         ">
             <div className=" sticky top-20">
                 <NetBg />

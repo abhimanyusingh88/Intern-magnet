@@ -21,10 +21,10 @@ export default function AppliedIndicator({ jobData }: { jobData: JobDetail }) {
                     </div>
                 </div>
             </div>
-            <div className="p-4 flex items-center hover:border-indigo-400 hover:text-indigo-400 justify-center border-[0.08px] border-indigo-500 mt-2 transition-all duration-150 ease-in-out transform-gpu rounded-xl">
+            <div className="p-4 flex items-center bg-indigo-700/15 hover:border-indigo-400 justify-center border-[0.08px] border-indigo-500 mt-2 transition-all duration-150 ease-in-out transform-gpu rounded-xl">
                 <Link
                     href="/appliedjobs"
-                    className="flex items-center gap-2 text-indigo-500 hover:text-indigo-400 transition-all duration-150 ease-in-out text-xs md:text-sm cursor-pointer"
+                    className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-all duration-150 ease-in-out text-xs md:text-sm cursor-pointer"
                 >
                     <span className="flex items-center ">
 
@@ -33,7 +33,7 @@ export default function AppliedIndicator({ jobData }: { jobData: JobDetail }) {
                     </span>
                 </Link>
             </div>
-            <div className="p-4 flex items-center hover:border-indigo-400 hover:text-indigo-400 justify-center border-[0.08px] border-indigo-500 mt-2 transition-all duration-150 ease-in-out transform-gpu rounded-xl">
+            <div className="p-4 flex items-center hover:border-indigo-400 bg-indigo-700/15 hover:text-indigo-400 justify-center border-[0.08px] border-indigo-500 mt-2 transition-all duration-150 ease-in-out transform-gpu rounded-xl">
                 <Link
                     href={`/jobspage?title=${jobData.job_title}&skills=${jobData.primary_skills
                         .split(",")
@@ -41,7 +41,7 @@ export default function AppliedIndicator({ jobData }: { jobData: JobDetail }) {
                         .join("+")}`}
 
 
-                    className="flex items-center gap-2 text-indigo-500 hover:text-indigo-400 transition-all duration-150 ease-in-out text-xs md:text-sm cursor-pointer"
+                    className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-all duration-150 ease-in-out text-xs md:text-sm cursor-pointer"
                 >
                     <span className="flex items-center gap-2">
                         <Search className="h-6 w-6" />
