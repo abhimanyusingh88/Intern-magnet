@@ -8,6 +8,7 @@ export default function LogOutButton({ classApply, isLoggedIn }: { classApply: s
     return (
         <button className={classApply} onClick={async () => {
             await signOut({
+
                 fetchOptions: {
                     onSuccess: () => {
                         window.location.href = "/";

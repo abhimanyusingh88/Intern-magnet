@@ -1,17 +1,14 @@
 "use client"
 import { motion } from "framer-motion";
-import { Brain, Lightbulb, Sparkles, AlertCircle } from "lucide-react";
+import { Brain, Lightbulb, Sparkles, AlertCircle, Rocket } from "lucide-react";
+import Link from "next/link";
+import MissingSkillsPlaceholder from "./missingPlaceholder";
 
 export default function MissingSkills({ missingSkills }: { missingSkills: any }) {
-    if (!missingSkills || (!missingSkills.missingSkills?.length && !missingSkills.improvementPlan)) {
-        return (
-            <div className="w-full bg-zinc-900/40 rounded-3xl p-8 border border-zinc-800/60 backdrop-blur-sm flex flex-col items-center justify-center gap-4 text-center">
-                <Sparkles className="text-zinc-600 animate-pulse" size={40} />
-                <p className="text-zinc-500 font-medium italic">Analyzing your profile for potential skill gaps...</p>
-            </div>
-        )
-    }
 
+    if (!missingSkills || (!missingSkills.missingSkills?.length && !missingSkills.improvementPlan)) {
+        return <MissingSkillsPlaceholder missingSkills={missingSkills} />
+    }
     const { missingSkills: skills, improvementPlan } = missingSkills;
 
     return (
@@ -21,7 +18,7 @@ export default function MissingSkills({ missingSkills }: { missingSkills: any })
             className="w-full space-y-6"
         >
             {/* Header section with icon */}
-            <div className="flex items-center gap-4 px-4 mb-2">
+            <div className="flex items-center md:mt-4 gap-4 px-4 mb-2">
                 <div className="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20">
                     <Brain className="text-amber-400" size={24} />
                 </div>
@@ -44,21 +41,29 @@ export default function MissingSkills({ missingSkills }: { missingSkills: any })
                         Target Skills to Acquire
                     </h4>
 
-                    <div className="flex flex-wrap gap-2 relative z-10">
-                        {skills?.map((s: string, i: number) => (
-                            <motion.span
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: i * 0.05 }}
-                                className="px-4 py-2 text-xs font-bold bg-zinc-950/60 text-red-400 border border-red-500/20 rounded-xl hover:border-red-500/40 transition-colors shadow-inner"
-                            >
-                                {s}
-                            </motion.span>
-                        ))}
-                        {(!skills || skills.length === 0) && (
-                            <p className="text-sm text-zinc-500 italic">No significant gaps found!</p>
-                        )}
+                    <div className="flex  flex-col gap-2 relative z-10">
+                        <div className="flex  flex-wrap gap-2 relative z-10">
+                            {skills?.map((s: string, i: number) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: i * 0.05 }}
+                                    className="px-4 py-2 text-xs font-bold bg-zinc-950/60 text-red-400 border border-red-500/20 rounded-xl hover:border-red-500/40 transition-colors shadow-inner"
+                                >
+                                    {s}
+                                </motion.span>
+                            ))}
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            {(!skills || skills.length === 0) &&
+                                <p className="text-sm justify-center font-bold text-zinc-500/70 italic">No significant gaps found!
+                                </p>
+                            }
+                            <Link href="/dashboard/interview-prep" className="text-amber-400 hover:text-amber-500 flex gap-1 items-center border-amber-400 border-[1.1px] rounded-xl p-2 w-fit">Prepare for interviews <Rocket className="w-4 h-4" /></Link>
+                        </div>
+
                     </div>
                 </div>
 

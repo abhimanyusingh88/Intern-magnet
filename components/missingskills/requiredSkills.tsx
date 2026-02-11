@@ -1,7 +1,7 @@
 import { Target } from "lucide-react";
 
 export default function RequiredSkills({ skills }: { skills: string[] }) {
-    return <div className="md:w-2/3 flex flex-col bg-zinc-900/40 rounded-3xl p-4 md:p-10 border border-zinc-800 shadow-2xl relative overflow-hidden">
+    return <div className="lg:w-2/3 w-full flex flex-col bg-zinc-900/40 rounded-3xl p-4 md:p-10 border border-zinc-800 shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 p-8 opacity-5">
             <Target size={120} className="text-zinc-100" />
         </div>
@@ -13,11 +13,11 @@ export default function RequiredSkills({ skills }: { skills: string[] }) {
 
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
+        <div className="flex flex-wrap  gap-2 relative z-10">
             {skills.map((skill: string, index: number) => (
                 <div
                     key={index}
-                    className="group px-4 py-3 rounded-xl text-zinc-300 border border-zinc-700 hover:border-amber-400 bg-zinc-950/40 hover:bg-zinc-900 transition-all duration-200"
+                    className="group px-2 py-2 rounded-xl text-zinc-300 border border-zinc-700 hover:border-amber-400 bg-zinc-950/40 hover:bg-zinc-900 transition-all duration-200"
                 >
                     <div className="flex items-center gap-3">
                         <span className="h-1.5 w-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" />

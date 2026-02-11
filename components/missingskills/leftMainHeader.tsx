@@ -2,7 +2,7 @@ import { Info, Target } from "lucide-react";
 import Image from "next/image";
 
 export default function LeftMainHeader({ jobData }: { jobData: any }) {
-    return <div className="md:w-1/3 flex flex-col gap-6">
+    return <div className="lg:w-1/3 w-full flex flex-col gap-6">
         <div className="space-y-2">
             <div className="flex items-center gap-2 text-zinc-500 font-bold text-[10px] uppercase tracking-[0.2em]">
                 <Target size={14} className="text-amber-500" />

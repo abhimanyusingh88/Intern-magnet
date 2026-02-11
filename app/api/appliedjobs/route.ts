@@ -5,18 +5,26 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
     try {
-        const session = await auth.api.getSession({
-            headers: await headers()
-        });
-        if (!session?.user) {
+        const sessionExist = request.headers.get("cookie");
+        if (!sessionExist || sessionExist.length === 0) {
             return NextResponse.json({
-                message: "Unauthorized user access"
+                message: "Login to view the content"
             },
                 { status: 401 })
         }
+        const session = await auth.api.getSession({
+            headers: await headers()
+        });
+        if (!session) {
+            return NextResponse.json({
+                message: "Login to view the content"
+            },
+                { status: 401 })
+        }
+
         const appliedJobsData = await prisma.applied.findMany({
             where: {
-                user_id: session.user.email
+                user_id: session?.user?.email
             },
             include: {
                 job: true

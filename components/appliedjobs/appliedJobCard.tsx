@@ -21,8 +21,10 @@ export default async function AppliedJobCard() {
     });
 
     const appliedJobs = await appliedData.json();
+    let error = "";
     if (!appliedData.ok) {
-        throw new Error(appliedData.statusText);
+        error = appliedJobs.message;
+        console.log(appliedData.statusText)
     }
 
 
@@ -34,9 +36,11 @@ export default async function AppliedJobCard() {
             <div className="w-full flex flex-col items-center gap-2">
 
                 <div className="w-full flex justify-start">
-                    <h1 className="text-lg sm:text-xl  md:text-xl font-semibold uppercase text-zinc-400 tracking-wide">
-                        Applied Jobs
-                    </h1>
+                    {
+                        error === "" && <h1 className="text-lg sm:text-xl  md:text-xl font-semibold uppercase text-zinc-400 tracking-wide">
+                            Applied Jobs
+                        </h1>
+                    }
                 </div>
 
 
@@ -130,7 +134,12 @@ export default async function AppliedJobCard() {
                     </div>
                 ))
             ) : (
-                <div className="text-sm text-gray-500">No applied jobs found.</div>
+                <div className="w-full h-full flex items-center justify-center text-center px-6">
+                    <p className="text-2xl font-semibold bg-linear-to-r from-indigo-500 to-pink-700 bg-clip-text text-transparent leading-relaxed tracking-wide">
+                        {error}
+                    </p>
+                </div>
+
             )}
 
 

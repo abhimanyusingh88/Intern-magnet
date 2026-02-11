@@ -4,6 +4,7 @@ import RequiredSkills from "@/components/missingskills/requiredSkills";
 import LeftMainHeader from "@/components/missingskills/leftMainHeader";
 import { askAI } from "@/lib/groqAI";
 import MissingSkills from "@/components/missingskills/mssingSkills";
+import { missingPrompt } from "@/components/missingskills/prompt";
 
 export default async function MissingSkillsPage({ params }: { params: Promise<{ company: string, slug: string }> }) {
     const baseUrl = process.env.BASE_URL || "http://localhost:3000";
@@ -12,115 +13,129 @@ export default async function MissingSkillsPage({ params }: { params: Promise<{ 
     const jobName = role.slice(0, role.length - 1).join("-");
     const id = role[role.length - 1];
 
+    let error = "";
+
     const res = await fetch(`${baseUrl}/api/job/${Slugify(company)}/${Slugify(jobName)}-${id}`, {
+        headers: {
+            cookie: (await headers()).get("cookie") || "",
+        },
+    });
+    const user = await fetch(`${baseUrl}/api/userData`, {
         headers: {
             cookie: (await headers()).get("cookie") || "",
         },
     });
 
     if (!res.ok) {
-        throw new Error(res.statusText);
+        error = "Something went wrong, please try again later";
+        console.log(res.statusText);
+    }
+    if (!user.ok) {
+        error = "Something went wrong, please try again later";
+        console.log(user.statusText);
     }
 
     const jobData = await res.json();
-    const user = await fetch(`${baseUrl}/api/userData`, {
-        headers: {
-            cookie: (await headers()).get("cookie") || "",
-        },
-    });
     const userRes = await user.json();
-    // console.log(userRes);
-    const userSkills = userRes.skills;
 
-    // console.log(userSkills);
-    const skills = typeof jobData.primary_skills === "string"
-        ? jobData.primary_skills.split(",").map((s: string) => s.trim())
-        : jobData.primary_skills;
-
-    ////////////////// promt dena hai yha se
-    const prompt = `
-Required Skills: ${JSON.stringify(skills)}
-User Skills: ${JSON.stringify(userSkills)}
-Find which skills from Required Skills are NOT present in User Skills.
-Return STRICT JSON in this format only:
-{
-  "missingSkills": ["skill1", "skill2", "skill3"],
-  "improvementPlan": "A short overall description of what the user should do to gain these skills and please state is saying to user , its must be like "you should do this and that""
-}
-Do not return anything else.
-`;
+    if (!jobData.id) {
+        error = "Job not found, please login first";
+    } else if (!userRes.id) {
+        error = "login to view the content";
+    }
 
     let AIDATA = { missingSkills: [], improvementPlan: "" };
+    const skills = jobData.id && typeof jobData.primary_skills === "string"
+        ? jobData.primary_skills.split(",").map((s: string) => s.trim())
+        : (jobData.primary_skills || []);
 
-    const existingReqRes = await fetch(`${baseUrl}/api/userjobrequirements?user_id=${userRes.id}&job_id=${jobData.id}`, {
-        headers: {
-            cookie: (await headers()).get("cookie") || "",
-        },
-    });
+    if (error === "") {
+        const userSkills = userRes.skills;
 
-    const existingData = await existingReqRes.json();
-    const userJobReq = existingData.userJobReq;
+        const prompt = missingPrompt({ skills, userSkills });
 
-    if (!userJobReq) {
         try {
-            const AIDATA_RAW = await askAI(prompt);
-            const jsonMatch = AIDATA_RAW ? AIDATA_RAW.match(/\{[^]*\}/) : null;
-            if (jsonMatch) {
-                const parsed = JSON.parse(jsonMatch[0]);
-                AIDATA = {
-                    missingSkills: parsed.missingSkills || [],
-                    improvementPlan: parsed.improvementPlan || ""
-                };
+            const existingReqRes = await fetch(`${baseUrl}/api/userjobrequirements?user_id=${userRes.id}&job_id=${jobData.id}`, {
+                headers: {
+                    cookie: (await headers()).get("cookie") || "",
+                },
+            });
 
-                ////////// post if not already
-                await fetch(`${baseUrl}/api/userjobrequirements`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'cookie': (await headers()).get("cookie") || "",
-                    },
-                    body: JSON.stringify({
-                        user_id: userRes.id,
-                        job_id: jobData.id,
-                        missing_skills: AIDATA.missingSkills,
-                        improvement_plan: AIDATA.improvementPlan,
-                    }),
-                });
+            if (!existingReqRes.ok) {
+                error = "Something went wrong, please try again later";
+                console.log(existingReqRes.statusText);
+            } else {
+                const existingData = await existingReqRes.json();
+                const userJobReq = existingData.userJobReq;
+
+                if (!userJobReq) {
+                    try {
+                        const AIDATA_RAW = await askAI(prompt);
+                        const jsonMatch = AIDATA_RAW ? AIDATA_RAW.match(/\{[^]*\}/) : null;
+                        if (jsonMatch) {
+                            const parsed = JSON.parse(jsonMatch[0]);
+                            AIDATA = {
+                                missingSkills: parsed.missingSkills || [],
+                                improvementPlan: parsed.improvementPlan || ""
+                            };
+
+                            await fetch(`${baseUrl}/api/userjobrequirements`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'cookie': (await headers()).get("cookie") || "",
+                                },
+                                body: JSON.stringify({
+                                    user_id: userRes.id,
+                                    job_id: jobData.id,
+                                    missing_skills: AIDATA.missingSkills,
+                                    improvement_plan: AIDATA.improvementPlan,
+                                }),
+                            });
+                        }
+                    } catch (e: any) {
+                        error = "Something went wrong, please try again later";
+                        console.error("Failed to generate or save AI response:", e);
+                    }
+                } else {
+                    try {
+                        AIDATA = {
+                            missingSkills: typeof userJobReq.missing_skills === 'string'
+                                ? JSON.parse(userJobReq.missing_skills)
+                                : userJobReq.missing_skills,
+                            improvementPlan: userJobReq.improvement_plan || ""
+                        };
+                    } catch (e: any) {
+                        AIDATA = {
+                            missingSkills: userJobReq.missing_skills || [],
+                            improvementPlan: userJobReq.improvement_plan || ""
+                        };
+                    }
+                }
             }
         } catch (e: any) {
-            console.error("Failed to generate or save AI response:", e);
-        }
-    } else {
-        // 3. Use stored data
-        try {
-            AIDATA = {
-                missingSkills: typeof userJobReq.missing_skills === 'string'
-                    ? JSON.parse(userJobReq.missing_skills)
-                    : userJobReq.missing_skills,
-                improvementPlan: userJobReq.improvement_plan || ""
-            };
-        } catch (e: any) {
-            AIDATA = {
-                missingSkills: userJobReq.missing_skills || [],
-                improvementPlan: userJobReq.improvement_plan || ""
-            };
-            throw new Error(e.message);
+            error = "Something went wrong, please try again later";
+            console.error("Fetch/Data error:", e);
         }
     }
-    // console.log(AIDATA);
 
     return (
         <div className="px-0 py-4 md:p-8 min-h-screen text-zinc-100">
             <div className="max-w-6xl mx-auto flex w-full gap-4 flex-col ">
 
-                {/* Left Side: Job Info */}
-                <div className="w-full flex flex-col md:flex-row gap-8">
-                    <LeftMainHeader jobData={jobData} />
+                {
+                    error === "" ?
+                        <>
+                            <div className="w-full flex flex-col lg:flex-row gap-8">
+                                <LeftMainHeader jobData={jobData} />
 
-                    {/* Right Side: Required Skills Grid */}
-                    <RequiredSkills skills={skills} />
-                </div>
-                <MissingSkills missingSkills={AIDATA} />
+                                {/* Right Side: Required Skills Grid */}
+                                <RequiredSkills skills={skills} />
+                            </div>
+                            <MissingSkills missingSkills={AIDATA} />
+                        </>
+                        : <p className="text-2xl bg-linear-to-r from-indigo-600 via-purple-500 to-pink-600 bg-clip-text text-transparent font-bold items-center justify-center flex">{error}</p>
+                }
 
             </div>
         </div>

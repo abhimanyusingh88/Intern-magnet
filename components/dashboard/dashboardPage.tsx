@@ -39,7 +39,7 @@ export default function DashboardPage({ userName, children }: { userName: string
                         </div>
 
                         <p className="text-xl md:text-2xl text-zinc-300 font-semibold relative z-10">
-                            Hi, {formatName(userName.split(" ")[0])} !
+                            Hi {formatName(userName.split(" ")[0])}!
                         </p>
                     </div>
 

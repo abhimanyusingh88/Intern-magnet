@@ -8,6 +8,7 @@ export async function GET(request: Request) {
         const session = await auth.api.getSession({
             headers: await headers()
         });
+
         if (!session?.user) {
             return NextResponse.json(
                 { message: "Unauthorized user access" },
@@ -15,7 +16,6 @@ export async function GET(request: Request) {
             )
         }
 
-        // Extract jobId from URL search params (GET requests should not have bodies)
         const { searchParams } = new URL(request.url);
         const jobId = searchParams.get('jobId');
 
@@ -33,11 +33,10 @@ export async function GET(request: Request) {
             }
         })
 
-        // Convert BigInts to strings for JSON serialization
         const serializedData = JSON.parse(JSON.stringify(applied, (key, value) =>
             typeof value === 'bigint'
                 ? value.toString()
-                : value // return everything else unchanged
+                : value
         ));
 
         return NextResponse.json({
