@@ -122,16 +122,14 @@ export default async function AppliedJobCard() {
 
 
                         </div>
-                        <div className="bg-zinc-800/40 flex flex-col gap-2 justify-between w-full flex-3 p-4 rounded-lg md:p-4 md:flex-1">
+                        <div className="bg-zinc-800/40 justify-center flex flex-col gap-4 w-full flex-3 p-4 rounded-lg md:p-4 md:flex-1">
                             <LinkButtons link={`/dashboard/missing/${Slugify(job.job.company_name)}/${Slugify(job.job.job_title)}-${job.job.id}`} title="Missing Skills" >
                                 <AlertCircle className="w-3 h-3 sm:h-4 sm:w-4" />
                             </LinkButtons>
-                            <LinkButtons link={`/dashboard/recommendations/${Slugify(job.job.company_name)}/${Slugify(job.job.job_title)}-${job.job.id}`} title="Recommendations" >
+                            <LinkButtons link={`/dashboard/interview`} title="Prepare" >
                                 <Lightbulb className="w-3 h-3 sm:h-4 sm:w-4" />
                             </LinkButtons>
-                            <LinkButtons link={`/dashboard/preparation/${Slugify(job.job.company_name)}/${Slugify(job.job.job_title)}-${job.job.id}`} title="Preparation Strategy" >
-                                <Brain className="w-3 h-3 sm:w-4 sm:h-4" />
-                            </LinkButtons>
+
                         </div>
                     </div>
                 ))
