@@ -43,7 +43,7 @@ export const manyOptions = [
     {
         icon: <ChartBar className="h-6 w-6 text-amber-300" />,
         title: "Live Insights",
-        desc: "Real-time visibility into reach and engagement.",
+        desc: "Real-time visibility into data and analytics.",
     },
 ]
 

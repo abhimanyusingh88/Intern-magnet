@@ -1,6 +1,7 @@
 "use client"
 import { motion } from "framer-motion"
 import CustomActiveShapePieChart from "./homepagePieChart";
+import { DashCards } from "./dashboardConstants";
 export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
     const totalLength = AppliedJobs.length;
     const pending = AppliedJobs.filter((job: any) => job.status === "pending");
@@ -9,7 +10,7 @@ export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
     const data = [{ name: "shortlisted", value: ShortListed }, { name: "pending", value: pending.length }, { name: "rejected", value: rejected.length }]
 
     // const shortlisted = AppliedJobs.filter((job: any) => job.status === "shortlisted");
-    console.log(AppliedJobs);
+    // console.log(AppliedJobs);
     return <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -40,12 +41,47 @@ export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
 
             {/* Legend colors */}
             <div className="flex items-start translate-y-[-30px] sm:translate-0 justify-center flex-col gap-4 ">
-                <div className="flex gap-4 text-zinc-300 font-medium text-[15px] items-center"> <div className="w-[20px] h-[20px] bg-green-500" /> <p>Shortlisted: {ShortListed}</p></div>
-                <div className="gap-4 text-zinc-300 font-medium text-[15px] items-center flex"> <div className="w-[20px] h-[20px] bg-amber-500" /><p>Pending: {pending.length}</p></div>
-                <div className="gap-4 text-zinc-300 font-medium text-[15px] items-center flex">
+                <div className="flex gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center"> <div className="w-[20px] h-[20px] bg-zinc-200" /> <p>Jobs Applied: {totalLength}</p></div>
+                <div className="flex gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center"> <div className="w-[20px] h-[20px] bg-green-400" /> <p>Shortlisted: {ShortListed}</p></div>
+                <div className="gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center flex"> <div className="w-[20px] h-[20px] bg-amber-300" /><p>Pending: {pending.length}</p></div>
+                <div className="gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center flex">
                     <div className="w-[20px] h-[20px] bg-red-600" />
                     <p>Rejected: {rejected.length} </p>
                 </div>
+            </div>
+
+        </div>
+        <div className="translate-y-[-70px] sm:translate-y-[-100px]">
+            <div className="w-full flex flex-wrap gap-6">
+                {DashCards.map((card, index) => (
+                    <div
+                        key={index}
+                        className="group relative flex-1 w-full md:min-w-[350px] rounded-2xl border border-white/10 
+      bg-white/[0.03] backdrop-blur-xl p-5 
+      transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-[0_10px_40px_-15px_rgba(99,102,241,0.4)]"
+                    >
+                        <div className="flex items-start gap-4">
+
+                            {/* Icon */}
+                            <div className="h-10 w-10 sm:w-12 sm:h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 
+        flex items-center justify-center text-indigo-400 
+        transition group-hover:bg-indigo-500/20 group-hover:text-indigo-300">
+                                {card.icon}
+                            </div>
+
+                            {/* Content */}
+                            <div className="flex-1">
+                                <h3 className="text-white font-semibold text-lg tracking-tight">
+                                    {card.title}
+                                </h3>
+                                <p className="mt-1 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                                    {card.description}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                ))}
             </div>
 
         </div>

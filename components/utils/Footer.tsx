@@ -59,7 +59,7 @@ export default function Footer() {
               <span className="text-sm">India</span>
             </div>
 
-            <div className="flex justify-center gap-4 md:justify-start">
+            <div className="flex justify-center gap-0 md:justify-start">
               {socials.map(({ icon: Icon, href }, i) => (
                 <Link
                   key={i}

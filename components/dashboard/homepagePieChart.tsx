@@ -19,14 +19,14 @@ const renderActiveShape = ({
     const sy = (cy ?? 0) + ((outerRadius ?? 0) + 5) * sin;
     const mx = (cx ?? 0) + ((outerRadius ?? 0) + 15) * cos;
     const my = (cy ?? 0) + ((outerRadius ?? 0) + 15) * sin;
-    const ex = mx + (cos >= 0 ? 1 : -1) * 15;
+    const ex = mx + (cos >= 0 ? 1 : 0) * 15;
     const ey = my;
     const textAnchor = cos >= 0 ? 'start' : 'end';
 
     return (
         <g>
             <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-                {`( ${payload.name} )`}
+                {`${payload.name}`}
             </text>
 
 
@@ -37,7 +37,7 @@ const renderActiveShape = ({
             <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
 
 
-            <text x={ex + (cos >= 0 ? 1 : -1) * 8} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
+            <text x={ex + (cos >= 0 ? 1 : 0) * 8} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
                 {` ${((percent ?? 1) * 100).toFixed(0)}%`}
             </text>
         </g>
