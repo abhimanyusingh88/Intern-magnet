@@ -106,7 +106,7 @@ export default function HeroSlider() {
 
             <div className="absolute bottom-0 left-0 h-[2px] w-full bg-white/10">
                 <div
-                    className="h-full bg-pink-400 transition-all duration-700"
+                    className="h-full bg-indigo-500 transition-all duration-700"
                     style={{ width: `${((index - 1) / total) * 100}%` }}
                 />
             </div>

@@ -1,7 +1,7 @@
 import Interview from "@/components/interviewPrep/interviewPage";
 
 export default function InterviewPage() {
-    return <div>
+    return <div className="relative">
         <Interview />
     </div>
 }

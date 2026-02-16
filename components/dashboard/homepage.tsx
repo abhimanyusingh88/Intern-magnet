@@ -71,7 +71,7 @@ export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
 
                             {/* Content */}
                             <div className="flex-1">
-                                <h3 className="text-white font-semibold text-lg tracking-tight">
+                                <h3 className="text-zinc-200 font-semibold text-lg tracking-tight">
                                     {card.title}
                                 </h3>
                                 <p className="mt-1 text-xs sm:text-sm text-zinc-400 leading-relaxed">

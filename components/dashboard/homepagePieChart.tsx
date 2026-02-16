@@ -10,7 +10,7 @@ const COLORS = [
 
 const renderActiveShape = ({
     cx, cy, midAngle, innerRadius, outerRadius,
-    startAngle, endAngle, fill, payload, percent, value,
+    startAngle, endAngle, fill, payload, percent,
 }: PieSectorDataItem) => {
     const RADIAN = Math.PI / 180;
     const sin = Math.sin(-RADIAN * (midAngle ?? 1));

@@ -23,7 +23,7 @@ export default async function Dashboard() {
     // console.log(AppliedRes);
 
 
-    return <div className="text-zinc-200 w-full px-5 py-4">
+    return <div className="text-zinc-200 w-full px-1 sm:px-3 md:px-5 py-4">
         <HomePage AppliedJobs={AppliedRes} />
     </div>
 }
