@@ -2,6 +2,7 @@
 
 import { LucideIcon } from "lucide-react";
 import DeleteOrEdit from "./deleteoredit";
+import Image from "next/image";
 
 interface ProfileItemCardProps {
     title: string;
@@ -14,6 +15,8 @@ interface ProfileItemCardProps {
     onDelete: () => void;
     children?: React.ReactNode;
     description?: string;
+    work?: string
+
 }
 
 export default function ProfileItemCard({
@@ -26,17 +29,29 @@ export default function ProfileItemCard({
     onEdit,
     onDelete,
     children,
-    description
+    description,
+    work = ""
 }: ProfileItemCardProps) {
     return (
-        <div className={`group relative h-full rounded-2xl border border-indigo-400/50 ${bgClass} px-4 py-2 transition-all hover:bg-zinc-900/80 shadow-lg`}>
+        <div className={`group relative h-full rounded-2xl border border-indigo-400/50 bg-zinc-900 ${bgClass} px-4 py-2 transition-all hover:bg-zinc-900/80 shadow-lg`}>
             <div className="flex flex-col h-full justify-between gap-4">
                 <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-xl ${iconColorClass} transition-colors`}>
-                            <Icon size={20} />
-                        </div>
-                        <h4 className="font-bold text-zinc-100 tracking-tight line-clamp-1">{title}</h4>
+                        {(work === "exam" || work === "certificate") ? (
+                            <div className={`p-2 rounded-xl ${iconColorClass} transition-colors`}>
+                                <Icon size={20} />
+                            </div>
+                        ) : (
+                            <Image
+                                src="/placeholdericon.png"
+                                alt="internship"
+                                width={100}
+                                height={100}
+                                className="w-[30px] brightness-90 rounded-sm h-[30px]"
+                            />
+                        )}
+
+                        <h4 className="font-bold text-zinc-300 tracking-tight line-clamp-1">{title}</h4>
                     </div>
                     <div className="flex gap-2 items-start justify-between">
 
@@ -54,7 +69,7 @@ export default function ProfileItemCard({
                             {children}
 
                         </div>
-                        <div className="shrink-0 max-w-[140px] sm:max-w-[180px] md:max-w-[220px] min-w-0">
+                        <div className="shrink-0 max-w-[140px] sm:max-w-[180px] md:max-w-[200px] min-w-0">
                             {description && (
                                 <p
                                     className="text-xs sm:text-sm text-zinc-400 leading-snug line-clamp-3 break-words"

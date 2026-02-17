@@ -47,6 +47,7 @@ export default function Certifications({ data, setFormData }: any) {
             gridClassName="grid grid-cols-1 md:grid-cols-2 gap-4"
             renderItem={(c, onEdit, onDelete) => (
                 <ProfileItemCard
+                    work="certificate"
                     title={c.name}
                     icon={Award}
                     onEdit={onEdit}
@@ -97,18 +98,21 @@ export default function Certifications({ data, setFormData }: any) {
                         onChange={(e) => onChange({ ...i, completion_id: e.target.value })}
                         className="input-profile filled"
                         placeholder="Completion ID"
+                        required
                     />
                     <input
                         value={i.url}
                         onChange={(e) => onChange({ ...i, url: e.target.value })}
                         className="input-profile filled"
                         placeholder="URL"
+                        required
                     />
                     <input
                         value={i.validity}
                         onChange={(e) => onChange({ ...i, validity: e.target.value })}
                         className="input-profile filled"
                         placeholder="Validity (dd-mm-yyyy)"
+                        required
                     />
                 </div>
             )}

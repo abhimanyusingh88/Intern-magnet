@@ -23,6 +23,7 @@ export default function DynamicProfileSection<T>({
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const [isSaving, setIsSaving] = useState(false);
     const [currentItem, setCurrentItem] = useState<T>(initialItem);
+    const [reminder, setReminder] = useState<string>("");
 
     const handleOpenModal = (index: number | null = null) => {
         if (index !== null) {
@@ -36,31 +37,39 @@ export default function DynamicProfileSection<T>({
     };
 
     const handleInternalSave = async () => {
-        // Prevent saving if all fields are empty
-        const isActuallyEmpty = Object.values(currentItem as any).every(val =>
-            val === null || val === undefined || (typeof val === 'string' && val.trim() === "")
+        // checking if any filed is empty samjhe
+        const hasAnyEmptyField = Object.values(currentItem as any).some(val =>
+            val === null ||
+            val === undefined ||
+            (typeof val === "string" && val.trim() === "")
         );
+        setReminder("");
+        if (hasAnyEmptyField) {
+            setReminder("All fields are required");
 
-        if (isActuallyEmpty) {
-            alert(`Please fill in at least one field for ${itemLabel}`);
-            return;
         }
 
-        setIsSaving(true);
-        try {
-            const command: UpdateCommand<T> = {
-                field: id.replace('section-', ''), // e.g. section-internships -> internships
-                action: editingIndex !== null ? 'edit' : 'add',
-                item: currentItem,
-                index: editingIndex !== null ? editingIndex : undefined
-            };
 
-            await onSave(command);
-            setIsModalOpen(false);
-        } catch (error) {
-            console.error(`Failed to save ${itemLabel}:`, error);
-        } finally {
-            setIsSaving(false);
+
+
+        if (!hasAnyEmptyField) {
+            setIsSaving(true);
+            try {
+                const command: UpdateCommand<T> = {
+                    field: id.replace('section-', ''), // e.g. section-internships -> internships
+                    action: editingIndex !== null ? 'edit' : 'add',
+                    item: currentItem,
+                    index: editingIndex !== null ? editingIndex : undefined
+                };
+
+                await onSave(command);
+                setIsModalOpen(false);
+            } catch (error: any) {
+                console.error(`Failed to save ${itemLabel}:`, error);
+                throw new Error(error);
+            } finally {
+                setIsSaving(false);
+            }
         }
     };
 
@@ -72,8 +81,9 @@ export default function DynamicProfileSection<T>({
                 index: index
             };
             await onSave(command);
-        } catch (error) {
+        } catch (error: any) {
             console.error(`Failed to delete ${itemLabel}:`, error);
+            throw new Error(error)
         }
     };
 
@@ -117,6 +127,8 @@ export default function DynamicProfileSection<T>({
             </div>
 
             <FieldEditModal
+                reminder={reminder}
+                setReminder={setReminder}
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 title={editingIndex !== null ? `Edit ${itemLabel}` : `Add ${itemLabel}`}

@@ -61,7 +61,9 @@ export default function Interview() {
 
             setListen(false);
             stop();
-            throw new Error(event.error);
+            if (event.error !== "no-speech") {
+                throw new Error(event.error);
+            }
         }
         recognition.onend = () => {
             setListen(false);
@@ -79,8 +81,9 @@ export default function Interview() {
         // setListen(false);
         setInterimText("");
     }
-    console.log(interimText);
-    console.log(finalText);
+
+    // console.log(interimText);
+    // console.log(finalText);
     return (
         <div
             className={

@@ -10,7 +10,9 @@ interface FieldEditModalProps {
     title: string
     children: React.ReactNode
     onSave: () => void
-    isSaving?: boolean
+    isSaving?: boolean;
+    reminder?: string;
+    setReminder?: any
 }
 
 export default function FieldEditModal({
@@ -19,7 +21,9 @@ export default function FieldEditModal({
     title,
     children,
     onSave,
-    isSaving = false
+    isSaving = false,
+    reminder = "",
+    setReminder
 }: FieldEditModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
@@ -31,7 +35,10 @@ export default function FieldEditModal({
     // Close on escape key
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === "Escape") onClose();
+            if (e.key === "Escape") {
+                onClose();
+                setReminder("");
+            }
         };
         if (isOpen) document.addEventListener("keydown", handleEscape);
         return () => document.removeEventListener("keydown", handleEscape);
@@ -49,9 +56,6 @@ export default function FieldEditModal({
         };
     }, [isOpen]);
 
-    // Trap focus or click outside can be added here if needed
-    // For now simple click outside on backdrop closes it
-
     if (!isOpen || !mounted) return null;
 
     return createPortal(
@@ -59,7 +63,11 @@ export default function FieldEditModal({
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-                onClick={onClose}
+                onClick={() => {
+                    onClose();
+                    setReminder("");
+
+                }}
             />
 
             {/* Modal Content */}
@@ -69,9 +77,20 @@ export default function FieldEditModal({
             >
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-white/5 px-6 py-4">
-                    <h3 className="text-lg font-semibold text-white">{title}</h3>
+                    <div className="flex flex-col gap-2 w-full">
+                        {reminder !== "" && (
+                            <p className="text-red-500/90 text-center  text-sm">**{reminder}</p>
+                        )}
+                        <h3 className="text-lg font-semibold text-white">{title}</h3>
+
+                    </div>
                     <button
-                        onClick={onClose}
+                        onClick={() => {
+                            onClose();
+                            setReminder("");
+
+
+                        }}
                         className="rounded-full p-2 cursor-pointer hover:rotate-90  duration-400 text-zinc-400 hover:bg-white/5 hover:text-white transition-all transform-gpu ease-in-out"
                     >
                         <X size={18} />
@@ -86,7 +105,10 @@ export default function FieldEditModal({
                 {/* Footer */}
                 <div className="flex justify-end gap-3 border-t border-white/5 px-6 py-4 bg-zinc-900/50">
                     <button
-                        onClick={onClose}
+                        onClick={() => {
+                            onClose();
+                            setReminder("");
+                        }}
                         className="rounded-lg cursor-pointer px-4 py-2 text-sm font-medium text-zinc-400 hover:bg-white/5 hover:text-white transition-colors"
                     >
                         Cancel

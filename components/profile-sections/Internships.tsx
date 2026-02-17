@@ -54,6 +54,7 @@ export default function Internships({ data, setFormData }: InternshipsProps) {
             gridClassName="grid grid-cols-1 md:grid-cols-2 gap-4"
             renderItem={(intern, onEdit, onDelete) => (
                 <ProfileItemCard
+                    work="intern"
                     title={intern.company}
                     subtitle={intern.role}
                     description={intern.description}
