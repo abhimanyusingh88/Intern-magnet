@@ -293,3 +293,13 @@ select.input-profile.select-no-arrow:hover {
 .ai-speaking {
   animation: ai-speaking 2.2s infinite ease-out;
 }
+
+/* hiding scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
