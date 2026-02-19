@@ -49,23 +49,23 @@ export const manyOptions = [
 
 export const slides = [
     {
-        image: "/Career.png",
+        image: "/hero1.png",
         title: "Tired of internship hunts?",
         description: "We've got you covered! Stop searching. Start your career.",
     },
     {
-        image: "/Certification.png",
-        title: "Get certified, get noticed",
-        description: "Industry-recognized certifications that boost your profile.",
+        image: "/hero5.png",
+        title: "AI-Powered Personalized Interview Prep",
+        description: "Get ready to ace every interview with our AI-powered interview preparation.",
     },
     {
-        image: "/Skill.png",
+        image: "/hero3.png",
         title: "Build real skills",
-        description: "Learn by doing with hands-on tasks and mentorship.",
+        description: "Learn by doing with hands-on tasks and mentorship, build real skills.",
     },
     {
-        image: "/Project.png",
+        image: "/hero4.png",
         title: "Showcase real projects",
-        description: "Work on real-world projects recruiters care about.",
+        description: "Work on real-world projects recruiters care about, apply to real software companies.",
     },
 ];

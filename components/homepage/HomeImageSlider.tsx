@@ -1,117 +1,79 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { slides } from "./constants";
-
-
+import Link from "next/link";
+import HomeImageSliderRight from "./homeimageSliderRight";
 
 export default function HeroSlider() {
+    const [index, setIndex] = useState(0);
     const total = slides.length;
 
-    // clone both ends
-    const extended = [slides[total - 1], ...slides, slides[0]];
+    const next = () => setIndex((i) => (i + 1) % total);
+    const prev = () => setIndex((i) => (i - 1 + total) % total);
 
-    const [index, setIndex] = useState(1);
-    const [animate, setAnimate] = useState(true);
-
-    // auto slide
-    useEffect(() => {
-        const id = setInterval(() => {
-            setIndex((i) => i + 1);
-        }, 4000);
-        return () => clearInterval(id);
-    }, []);
-
-    // snap logic (THE FIX)
-    useEffect(() => {
-        if (index === total + 1) {
-            setTimeout(() => {
-                setAnimate(false);
-                setIndex(1);
-            }, 700);
-        }
-
-        if (index === 0) {
-            setTimeout(() => {
-                setAnimate(false);
-                setIndex(total);
-            }, 700);
-        }
-
-        setTimeout(() => setAnimate(true), 0);
-    }, [index, total]);
-
-    const next = () => setIndex((i) => i + 1);
-    const prev = () => setIndex((i) => i - 1);
+    const currentSlide = slides[index];
 
     return (
-        <section className="relative mt-6 h-[300px] sm:h-[350px] md:h-[450px] w-full overflow-hidden rounded-3xl bg-black">
+        <section className="relative mt-8 sm:mt-12 md:mt-16 w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
 
-            <div
-                className={`absolute inset-0 flex ${animate ? "transition-transform duration-700 ease-[cubic-bezier(.4,0,.2,1)]" : ""
-                    }`}
-                style={{ transform: `translateX(-${index * 100}%)` }}
-            >
-                {extended.map((s, i) => (
-                    <div key={i} className="relative h-full w-full shrink-0 overflow-hidden">
+                <div className="flex flex-col space-y-6 sm:space-y-8 order-2 lg:order-1">
+                    <div className="space-y-4 sm:space-y-6">
+                        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-sm font-medium text-zinc-400">
+                            Transform your job hunt using intern-magnet
+                        </div>
 
-                        {/* Image */}
-                        <Image
-                            src={s.image}
-                            alt={s.title}
-                            fill
-                            priority
-                            className="object-cover"
-                        />
-
-
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/20" />
-
-
-                        <div className="absolute inset-0 flex items-center px-10 md:px-20">
-                            <div className="max-w-xl text-white">
-
-                                <h2 className="text-4xl md:text-5xl font-semibold tracking-tight leading-tight transition-opacity duration-500">
-                                    {s.title}
-                                </h2>
-
-                                <p className="mt-5 text-base md:text-lg text-zinc-200 leading-relaxed transition-opacity duration-500">
-                                    {s.description}
-                                </p>
-
-                            </div>
+                        <div className="min-h-[200px] sm:min-h-[250px] relative">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
+                                    className="space-y-6"
+                                >
+                                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.1]">
+                                        {currentSlide.title}
+                                    </h1>
+                                    <p className="text-lg sm:text-xl text-zinc-400 leading-relaxed max-w-lg">
+                                        {currentSlide.description}
+                                    </p>
+                                </motion.div>
+                            </AnimatePresence>
                         </div>
                     </div>
-                ))}
+
+                    {/* Buttons */}
+                    <div className="flex flex-wrap gap-4 pt-4 ">
+                        <Link href="/jobspage" className="px-8 py-3 bg-white text-zinc-900 rounded-xl flex items-center justify-center font-semibold hover:bg-zinc-100 transition-colors shadow-none">
+                            View Jobs
+                        </Link >
+                        <Link href="/dashboard" className="px-8 py-3.5  bg-zinc-900 text-zinc-100 border border-zinc-800 rounded-xl font-semibold flex items-center group hover:bg-zinc-800 transition-all">
+                            Dashboard Access
+                            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Link >
+                    </div>
+
+                    {/* Progress Dots/Lines (Optional but helps) */}
+                    <div className="flex gap-2 pt-8">
+                        {slides.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setIndex(i)}
+                                className={`h-1.5 transition-all duration-300 rounded-full ${i === index ? "w-8 bg-zinc-900 dark:bg-white" : "w-4 bg-zinc-200 dark:bg-zinc-800"
+                                    }`}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Right Side: Visual Asset in Mockup */}
+                <HomeImageSliderRight currentSlide={currentSlide} index={index} prev={prev} next={next} />
             </div>
-
-
-            <button
-                onClick={prev}
-                className="absolute left-6 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/20 backdrop-blur-sm text-white flex items-center justify-center hover:bg-pink-500/50 transition"
-            >
-                <ChevronLeft size={18} />
-            </button>
-
-            <button
-                onClick={next}
-                className="absolute right-6 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/20 backdrop-blur-sm text-white flex items-center justify-center hover:bg-pink-500/50 transition"
-            >
-                <ChevronRight size={18} />
-            </button>
-
-
-            <div className="absolute bottom-0 left-0 h-[2px] w-full bg-white/10">
-                <div
-                    className="h-full bg-indigo-500 transition-all duration-700"
-                    style={{ width: `${((index - 1) / total) * 100}%` }}
-                />
-            </div>
-
         </section>
     );
-
 }
