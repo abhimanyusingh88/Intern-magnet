@@ -29,6 +29,11 @@ export default async function AppliedJobCard() {
         console.log(appliedData.statusText)
     }
 
+    if (appliedJobs.length === 0 && error === "") {
+        return <div className="w-full h-full flex items-center justify-center">
+            <p className="text-zinc-500/70 font-bold text-xl">No jobs applied</p>
+        </div>
+    }
 
 
     // console.log(appliedJobs);
@@ -47,6 +52,7 @@ export default async function AppliedJobCard() {
 
 
             </div>
+
             {Array.isArray(appliedJobs) && appliedJobs.length > 0 ? (
                 appliedJobs.map((job: any) => (
                     <div key={job.id} className="w-full flex gap-4 md:flex-row flex-col">

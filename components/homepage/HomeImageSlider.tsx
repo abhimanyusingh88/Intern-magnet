@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { slides } from "./constants";
@@ -10,8 +10,19 @@ export default function HeroSlider() {
     const [index, setIndex] = useState(0);
     const total = slides.length;
 
+
     const next = () => setIndex((i) => (i + 1) % total);
     const prev = () => setIndex((i) => (i - 1 + total) % total);
+    useEffect(function () {
+
+    }, [])
+    useEffect(() => {
+        const interval = setInterval(() => {
+            next();
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [total]);
 
     const currentSlide = slides[index];
 

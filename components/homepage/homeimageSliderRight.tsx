@@ -44,7 +44,7 @@ export default function HomeImageSliderRight({ currentSlide, index, prev, next }
                             src={currentSlide.image}
                             alt={currentSlide.title}
                             fill
-                            className="object-cover"
+                            className="object-cover brightness-80"
                             priority
                         />
 
