@@ -25,7 +25,7 @@ export default function Interview() {
     const [jobData, setJobData] = useState<any>(null);
 
     useEffect(() => {
-        const saved = localStorage.getItem("Responses");
+        const saved = sessionStorage.getItem("Responses");
         if (saved) {
             try {
                 setResponse(JSON.parse(saved));
@@ -34,7 +34,7 @@ export default function Interview() {
             }
         }
 
-        const jobContext = localStorage.getItem("interviewJobContext");
+        const jobContext = sessionStorage.getItem("interviewJobContext");
         if (jobContext) {
             setJobData(JSON.parse(jobContext));
         }
@@ -45,7 +45,7 @@ export default function Interview() {
     useEffect(() => {
         const func = async () => {
             if (Response.length > 0) {
-                localStorage.setItem("Responses", JSON.stringify(Response));
+                sessionStorage.setItem("Responses", JSON.stringify(Response));
 
                 const lastMessage = Response[Response.length - 1];
 
@@ -58,8 +58,8 @@ export default function Interview() {
 
 
                 const lastTenMessages = Response.slice(-20);
-                const summary = localStorage.getItem("summary") || "";
-                const jobContext = localStorage.getItem("interviewJobContext");
+                const summary = sessionStorage.getItem("summary") || "";
+                const jobContext = sessionStorage.getItem("interviewJobContext");
                 const jobDataForApi = jobContext ? JSON.parse(jobContext) : null;
 
                 try {
@@ -81,7 +81,7 @@ export default function Interview() {
                     // Only add AI response if we got a valid result
                     if (finalAns.final_answer !== "" || finalAns.final_answer !== undefined || finalAns.final_answer !== null) {
                         setResponse((prev) => [...prev, { type: "ai", text: finalAns.final_answer }]);
-                        localStorage.setItem("summary", finalAns.summary_analysis);
+                        sessionStorage.setItem("summary", finalAns.summary_analysis);
                     }
                     setLoading(false);
                 } catch (error) {
@@ -186,7 +186,7 @@ export default function Interview() {
                 {jobData && (
                     <div className="flex flex-col items-center gap-1 mb-2">
                         <h2 className="text-zinc-400 font-semibold text-xs sm:text-base tracking-wide flex items-center gap-2">
-                            <span className="whitespace-nowrap"> PREPARING FOR: <span className="text-indigo-400 font-bold uppercase">{jobData.job_title}</span></span>
+                            <span className="whitespace-nowrap"> PREPARING FOR: <span className="text-indigo-500 font-bold uppercase">{jobData.job_title}</span></span>
                         </h2>
                         <p className="text-zinc-500 text-xs font-semibold tracking-tighter uppercase">at {jobData.company_name}</p>
                     </div>

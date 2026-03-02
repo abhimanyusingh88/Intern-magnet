@@ -10,15 +10,10 @@ export function useClearStorageGuard() {
 
         const clear = async () => {
 
-            await fetch("/api/countinterview", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            localStorage.removeItem("Responses");
-            localStorage.removeItem("summary");
-            localStorage.removeItem("interviewJobContext");
+
+            sessionStorage.removeItem("Responses");
+            sessionStorage.removeItem("summary");
+            sessionStorage.removeItem("interviewJobContext");
         };
 
         const beforeUnload = (e: BeforeUnloadEvent) => {

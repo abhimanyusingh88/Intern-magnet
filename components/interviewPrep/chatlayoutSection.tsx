@@ -33,13 +33,7 @@ export default function ChatLayoutSection({ expand, Response, loading, displayTe
                                         <p>
                                             {isAi && isLast && isTyping ? displayText : msg.text}
                                         </p>
-                                        <div className="w-full flex mt-1  justify-end">
-                                            <p className="text-[10px] text-zinc-400">{new Date().toLocaleTimeString([], {
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                                hour12: true
-                                            })}</p>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>

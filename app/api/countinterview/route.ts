@@ -36,7 +36,10 @@ export async function POST(request: Request) {
             }
         })
 
-        return NextResponse.json(updatedUser, {
+        return NextResponse.json({
+            message: "Interview count updated successfully",
+            count: count
+        }, {
             status: 200
         })
 

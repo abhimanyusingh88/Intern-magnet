@@ -68,7 +68,7 @@ export default function ChatLayout({ Response, expand, loading, setSpeaking }: {
                     // Incremental speech logic: speak when we hit a sentence boundary or newline
                     if (loud) {
                         const char = lastMessage.text[i];
-                        if (['.', '?', '!', '\n'].includes(char)) {
+                        if (['.', '?'].includes(char)) {
                             const chunk = lastMessage.text.substring(lastSpokenIndexRef.current, i + 1);
                             if (chunk.trim().length > 2) {
                                 speak(chunk);
