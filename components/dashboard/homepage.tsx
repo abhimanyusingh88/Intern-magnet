@@ -17,8 +17,6 @@ export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
         exit={{ opacity: 0 }}
         className="w-full flex relative flex-col gap-6">
 
-
-
         <div className="w-full backdrop-blur-xs p-3 sm:p-4 md:p-6 bg-linear-to-r flex flex-col gap-3 items-center from-zinc-600/20 via-zinc-700/20 to-zinc-800/20 rounded-2xl border border-white/5 ">
 
             <h1 className="text-zinc-400/80 font-semibold text-xl sm:text-2xl md:text-3xl tracking-wide text-center">
@@ -31,27 +29,33 @@ export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
 
         </div>
 
+        {
+            totalLength > 0
+                ? <div className="w-full flex flex-col sm:flex-row text-zinc-300 font-medium text-[15px] sm:gap-4 items-center">
 
-        <div className="w-full flex flex-col translate-y-[-60px] sm:flex-row  text-zinc-300 font-medium text-[15px] sm:gap-4 items-center ">
+                    {/* Chart */}
+                    <div className="min-w-[300px]">
+                        <CustomActiveShapePieChart data={data} />
+                    </div>
 
-            {/* Chart */}
-            <div className="min-w-[300px]">
-                <CustomActiveShapePieChart data={data} />
-            </div>
+                    {/* Legend colors */}
+                    <div className="flex items-start justify-center flex-col gap-4">
+                        <div className="flex gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center"> <div className="w-[20px] h-[20px] bg-zinc-200" /> <p>Jobs Applied: {totalLength}</p></div>
+                        <div className="flex gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center"> <div className="w-[20px] h-[20px] bg-green-400" /> <p>Shortlisted: {ShortListed}</p></div>
+                        <div className="gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center flex"> <div className="w-[20px] h-[20px] bg-amber-300" /><p>Pending: {pending.length}</p></div>
+                        <div className="gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center flex">
+                            <div className="w-[20px] h-[20px] bg-red-600" />
+                            <p>Rejected: {rejected.length}</p>
+                        </div>
+                    </div>
 
-            {/* Legend colors */}
-            <div className="flex items-start translate-y-[-30px] sm:translate-0 justify-center flex-col gap-4 ">
-                <div className="flex gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center"> <div className="w-[20px] h-[20px] bg-zinc-200" /> <p>Jobs Applied: {totalLength}</p></div>
-                <div className="flex gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center"> <div className="w-[20px] h-[20px] bg-green-400" /> <p>Shortlisted: {ShortListed}</p></div>
-                <div className="gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center flex"> <div className="w-[20px] h-[20px] bg-amber-300" /><p>Pending: {pending.length}</p></div>
-                <div className="gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center flex">
-                    <div className="w-[20px] h-[20px] bg-red-600" />
-                    <p>Rejected: {rejected.length} </p>
                 </div>
-            </div>
+                : <div className="w-full flex bg-zinc-800/30 rounded-2xl items-center justify-center py-8">
+                    <p className="text-zinc-400/70 font-bold text-sm sm:text-base">Apply to jobs to view analytics</p>
+                </div>
+        }
 
-        </div>
-        <div className="translate-y-[-70px] sm:translate-y-[-100px]">
+        <div>
             <div className="w-full flex flex-wrap gap-6">
                 {DashCards.map((card, index) => (
                     <div
