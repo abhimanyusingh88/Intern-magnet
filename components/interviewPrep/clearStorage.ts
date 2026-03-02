@@ -8,7 +8,14 @@ export function useClearStorageGuard() {
         const MSG =
             "Your interview session will be reset. Are you sure you want to quit?";
 
-        const clear = () => {
+        const clear = async () => {
+
+            await fetch("/api/countinterview", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
             localStorage.removeItem("Responses");
             localStorage.removeItem("summary");
             localStorage.removeItem("interviewJobContext");

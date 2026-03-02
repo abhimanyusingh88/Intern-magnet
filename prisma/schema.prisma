@@ -53,6 +53,8 @@ model LegacyUser {
   exams                     Json?
   resume_path               String?
   updated_at                DateTime?         @db.Timestamptz(6)
+  interview_taken           Int?
+  interview_count           Int @default(0) 
 
   @@map("users")
 }

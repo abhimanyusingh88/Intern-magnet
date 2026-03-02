@@ -2,15 +2,16 @@
 import { motion } from "framer-motion"
 import CustomActiveShapePieChart from "./homepagePieChart";
 import { DashCards } from "./dashboardConstants";
-export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
+import { Mic } from "lucide-react";
+import LegendItem from "./legendItem";
+export default function HomePage({ AppliedJobs, interviewCount }: { AppliedJobs: any, interviewCount: any }) {
     const totalLength = AppliedJobs.length;
     const pending = AppliedJobs.filter((job: any) => job.status === "pending");
     const rejected = AppliedJobs.filter((job: any) => job.status === "rejected");
     const ShortListed = totalLength - (pending.length + rejected.length);
     const data = [{ name: "shortlisted", value: ShortListed }, { name: "pending", value: pending.length }, { name: "rejected", value: rejected.length }]
 
-    // const shortlisted = AppliedJobs.filter((job: any) => job.status === "shortlisted");
-    // console.log(AppliedJobs);
+
     return <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -29,31 +30,72 @@ export default function HomePage({ AppliedJobs }: { AppliedJobs: any }) {
 
         </div>
 
-        {
-            totalLength > 0
-                ? <div className="w-full flex flex-col sm:flex-row text-zinc-300 font-medium text-[15px] sm:gap-4 items-center">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 w-full bg-white/5 border border-white/5 rounded-3xl p-4 sm:p-6 backdrop-blur-md relative overflow-hidden">
+            {/* Background decorative glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[100px] -mr-32 -mt-32 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/5 blur-[100px] -ml-32 -mb-32 pointer-events-none" />
+            {
+                totalLength > 0
+                    ? <div className="flex-1 flex flex-col md:flex-row items-center gap-6 md:gap-10">
+                        {/* Chart Container */}
+                        <div className="relative group">
+                            <div className="absolute -inset-4 bg-indigo-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="relative min-w-[280px]">
+                                <CustomActiveShapePieChart data={data} />
+                            </div>
+                        </div>
 
-                    {/* Chart */}
-                    <div className="min-w-[300px]">
-                        <CustomActiveShapePieChart data={data} />
-                    </div>
-
-                    {/* Legend colors */}
-                    <div className="flex items-start justify-center flex-col gap-4">
-                        <div className="flex gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center"> <div className="w-[20px] h-[20px] bg-zinc-200" /> <p>Jobs Applied: {totalLength}</p></div>
-                        <div className="flex gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center"> <div className="w-[20px] h-[20px] bg-green-400" /> <p>Shortlisted: {ShortListed}</p></div>
-                        <div className="gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center flex"> <div className="w-[20px] h-[20px] bg-amber-300" /><p>Pending: {pending.length}</p></div>
-                        <div className="gap-4 text-zinc-300 font-medium text-[14px] sm:text-[15px] md:text-[16px] items-center flex">
-                            <div className="w-[20px] h-[20px] bg-red-600" />
-                            <p>Rejected: {rejected.length}</p>
+                        {/* Legend */}
+                        <div className="grid grid-cols-2 md:flex md:flex-col gap-4 w-full md:w-auto">
+                            <LegendItem color="bg-zinc-200" label="Applied" value={totalLength} />
+                            <LegendItem color="bg-green-400" label="Shortlisted" value={ShortListed} />
+                            <LegendItem color="bg-amber-300" label="Pending" value={pending.length} />
+                            <LegendItem color="bg-red-600" label="Rejected" value={rejected.length} />
                         </div>
                     </div>
+                    : <div className="flex-1 flex bg-zinc-800/20 border border-white/5 rounded-2xl items-center justify-center py-12">
+                        <p className="text-zinc-500 font-medium text-sm tracking-wide italic">Apply to jobs to see your analytics</p>
+                    </div>
+            }
 
+            {/* Restructured Interview Card */}
+            <div className="flex shrink-0 items-center justify-center lg:justify-end">
+                <div className="group relative">
+                    {/* Animated glow background */}
+                    <div className="absolute -inset-0.5  rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500" />
+
+                    <div className="relative flex items-center gap-5 px-6 py-5 rounded-2xl border border-zinc-700 bg-zinc-900/60 shadow-md">
+
+                        <div className="relative">
+                            <div className="relative p-3 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-400 transition-transform duration-200">
+                                <Mic className="w-5 h-5" />
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <span className="text-[11px] uppercase tracking-wide font-semibold text-zinc-500 mb-1">
+                                Interviews
+                            </span>
+
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-4xl font-bold text-white">
+                                    {interviewCount}
+                                </span>
+                                <span className="text-sm font-medium text-zinc-400">
+                                    Mocks
+                                </span>
+                            </div>
+
+                            <span className="text-[12px] text-zinc-500 mt-1">
+                                {interviewCount > 1 ? "Interviews" : "Interview"} Completed
+                            </span>
+                        </div>
+
+                    </div>
                 </div>
-                : <div className="w-full flex bg-zinc-800/30 rounded-2xl items-center justify-center py-8">
-                    <p className="text-zinc-400/70 font-bold text-sm sm:text-base">Apply to jobs to view analytics</p>
-                </div>
-        }
+            </div>
+        </div>
+
 
         <div>
             <div className="w-full flex flex-wrap gap-6">
