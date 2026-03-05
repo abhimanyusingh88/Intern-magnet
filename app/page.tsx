@@ -44,9 +44,7 @@ export default function HomePage() {
         lg:px-36
       "
     >
-      <div className=" sticky top-20">
-        <NetBg />
-      </div>
+
       <BackGroundGlow />
 
       {/* Top content */}

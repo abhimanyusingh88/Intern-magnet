@@ -10,6 +10,7 @@ import ScreeningQuestionsModal from "./screeningQuestions";
 import ButtonJob from "./buttonJob";
 import { Slugify } from "../slugify";
 import AppliedIndicator from "./appliedIndicator";
+import { toast } from "sonner";
 
 export default function SideJobDescView({ jobData, session }: { jobData: JobDetail, session: any }) {
     const formLink = jobData.job_form_link?.startsWith("http")
@@ -41,7 +42,7 @@ export default function SideJobDescView({ jobData, session }: { jobData: JobDeta
 
                 if (data.success && data.hasApplied) {
                     setHasApplied(true);
-                    setDisabled(true); // Disable apply button if already applied
+                    setDisabled(true);
                 }
             } catch (error) {
                 throw new Error("Failed to check application status");
@@ -53,7 +54,7 @@ export default function SideJobDescView({ jobData, session }: { jobData: JobDeta
         checkIfApplied();
     }, [jobData.id, session]);
 
-    async function handleSubmitAnswers(finalAnswers: Record<string, string>) {
+    async function handleSubmitAnswers() {
         try {
             setDisabled(false);
             setLoading(true);
@@ -78,18 +79,24 @@ export default function SideJobDescView({ jobData, session }: { jobData: JobDeta
                 }
             );
             const data = await res.json();
-            console.log("Submission Response:", data);
+            // console.log("Submission Response:", data);
             if (res.ok) {
                 setOpen(false);
                 setStep(0);
                 setAnswers({});
-                setHasApplied(true); // Update state to show success UI
-                router.refresh(); // Revalidate the page
+                setHasApplied(true);
+                toast.success(data.message);
+                router.refresh();
             }
+            else {
+                toast.error(data.message);
+            }
+
+
         }
         catch (error) {
             console.error("Submission Error:", error);
-            // Optionally handle error UI
+
         }
         finally {
             setLoading(false);
@@ -202,7 +209,7 @@ export default function SideJobDescView({ jobData, session }: { jobData: JobDeta
                         <ButtonJob title="Visit website" variant="outline" anch={true} link={jobData.website_link} />
 
                         <ButtonJob
-                            onClick={() => handleSubmitAnswers(answers)}
+                            onClick={handleSubmitAnswers}
                             saving={loading}
                             disabled={disabled}
                             title={!session ? "Login to Apply" : "Apply"}

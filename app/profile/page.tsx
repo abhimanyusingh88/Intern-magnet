@@ -15,9 +15,6 @@ export default async function ProfilePage() {
     });
 
 
-    // If user doesn't exist in DB for some reason (shouldn't happen if auth worked), 
-    // we might want to handle it, but for now we pass what we have or null.
-    // Ideally auth provider ensures user exists or we create on login.
 
     return (
         <div className="relative w-full">

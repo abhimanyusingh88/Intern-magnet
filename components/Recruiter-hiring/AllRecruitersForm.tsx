@@ -9,6 +9,7 @@ import CompanyLogo from "./companyLogo";
 import { initialFormData } from "./InitialFormData";
 import DraftSavingButton from "./draftSavingButton";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 
 export default function AllRecruitersForm({ count, setCount, user }: { count: number, setCount: React.Dispatch<React.SetStateAction<number>>, user: any }) {
@@ -82,26 +83,33 @@ export default function AllRecruitersForm({ count, setCount, user }: { count: nu
 
         try {
             setSaving(true);
-            // Ensure draft is false when submitting the final post
+
             const submissionData = { ...formData, draft: false };
-            // Call the server action manually with our state data
-            await recruiterHiring(submissionData);
 
+            const result = await recruiterHiring(submissionData);
+
+            if (result?.success) {
+                sessionStorage.removeItem("recruiterFormData");
+                sessionStorage.removeItem("recruiterFormCount");
+
+                // Invalidate drafts query
+                queryClient.invalidateQueries({ queryKey: ["drafts"] });
+
+                // Reset state
+                setFormData(initialFormData);
+                setCount(-1);
+                // Navigate to posted jobs
+                toast.success("Job posted successfully")
+                router.push("/postedjobs");
+            }
+            else {
+                toast.error("Something went wrong while posting the job!")
+            }
             // Clear session storage
-            sessionStorage.removeItem("recruiterFormData");
-            sessionStorage.removeItem("recruiterFormCount");
 
-            // Invalidate drafts query
-            queryClient.invalidateQueries({ queryKey: ["drafts"] });
-
-            // Reset state
-            setFormData(initialFormData);
-            setCount(-1);
-            // Navigate to posted jobs
-            router.push("/postedjobs");
         } catch (error) {
             console.error("Submission failed:", error);
-            alert("Failed to submit job post. Please try again.");
+            toast.error("something went wrong while posting the job!")
         }
         finally {
             setSaving(false)

@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-export function JobHeader({ job }: { job: JobDetail }) {
+export function JobHeader({ job, appliedData }: { job: JobDetail, appliedData: any }) {
     const router = useRouter();
 
     return (
@@ -75,8 +75,8 @@ export function JobHeader({ job }: { job: JobDetail }) {
             </div>
 
             <div className="flex gap-3">
-                <button className="px-4 py-2.5 cursor-pointer rounded-full bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition active:scale-95">
-                    <Users className="w-5 h-5 text-black inline" /> <span className="text-zinc-700">Applicants</span>
+                <button className="px-4 py-2.5 cursor-pointer rounded-full bg-zinc-800 text-zinc-100 font-semibold hover:bg-zinc-700/80 transition active:scale-95">
+                    <Users className="w-5 h-5 text-zinc-100 inline" /> <span className="text-zinc-100">Applicants: {appliedData?.serializedData?.length}</span>
                 </button>
             </div>
         </div>

@@ -75,11 +75,9 @@ export function JobListPage() {
         setFilters(newFilters);
     };
 
-    // Listen to URL changes (browser back/forward)
     useEffect(() => {
         const urlFilters = getFiltersFromURL();
         setFilters(urlFilters);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
 
     const pages = data?.pages ?? [];
@@ -108,7 +106,7 @@ export function JobListPage() {
             // debouncing
             const timer = setTimeout(() => {
                 fetchNextPage();
-            }, 1000);
+            }, 2000);
             return () => clearTimeout(timer);
         }
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, allJobs.length, isLoading]);
@@ -117,9 +115,9 @@ export function JobListPage() {
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 transition-colors duration-500">
             <BackGroundGlow />
-            <div className="container mx-auto px-4 py-6 sm:py-10 max-w-7xl">
+            <div className="container mx-auto px-4 py-6 sm:py-9 max-w-7xl">
                 {/* Header */}
-                <div className="mt-10 sm:mt-8 mb-6 sm:mb-8 text-center lg:text-left">
+                <div className="mt-10 sm:mt-8 mb-6 sm:mb-6 text-center lg:text-left">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-zinc-200 mb-4 tracking-tight">
                         Find Your <span className="bg-linear-to-r from-indigo-400 to-pink-500 text-transparent bg-clip-text">Dream Job</span>
                     </h1>

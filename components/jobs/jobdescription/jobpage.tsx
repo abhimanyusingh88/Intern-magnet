@@ -7,9 +7,6 @@ import ErrorComponent from "../errorComponent";
 import CompanyDescription from "./companyDescription";
 import { SpinnerBig } from "@/components/utils/SpinnerBig";
 import SideJobDescView from "./sideJobDescView";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-// import AdditionalBenefits from "./additionalBenefits";
 
 export default function JobPage({ companyname, slug, session, numApplied }: { companyname: string, slug: string, session: any, numApplied: number }) {
 
@@ -53,7 +50,6 @@ export default function JobPage({ companyname, slug, session, numApplied }: { co
     }
 
 
-    // console.log(jobData.screening_questions);
 
     if (isLoading) return <SpinnerBig />
 

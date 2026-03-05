@@ -11,7 +11,7 @@ import { CustomProvider } from "rsuite";
 import Providers from "./providers";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import SessionStorageCleaner from "@/components/utils/SessionStorageCleaner"
-
+import { Toaster } from 'sonner';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +25,7 @@ const geistMono = Geist_Mono({
 
 import { prisma } from "@/lib/prisma";
 import { getInitialProfileData, getInitialRecruiterData } from "@/lib/profile-helpers";
+import NetBg from "@/components/utils/netBg";
 
 export const metadata: Metadata = {
   title: "Home | Intern-Magnet",
@@ -45,7 +46,6 @@ export default async function RootLayout({
 
   if (session?.user?.id) {
     try {
-      // Fetch Seeker Data (using email as lookup key as per existing logic)
       if (session.user.email) {
         const user = await prisma.legacyUser.findFirst({
           where: { email: session.user.email },
@@ -55,11 +55,9 @@ export default async function RootLayout({
           email: session.user.email || "",
         });
 
-        // Ensure it's serializable if needed
         initialProfileData = JSON.parse(JSON.stringify(initialProfileData));
       }
 
-      // Fetch Recruiter Data
       const recruiter = await prisma.recruiterProfile.findUnique({
         where: { userId: session.user.id },
       });
@@ -68,7 +66,6 @@ export default async function RootLayout({
         email: session.user.email || "",
       });
 
-      // Ensure it's serializable
       initialRecruiterData = JSON.parse(JSON.stringify(initialRecruiterData, (key, value) =>
         typeof value === 'bigint' ? value.toString() : value
       ));
@@ -90,9 +87,11 @@ export default async function RootLayout({
             <CustomProvider theme="dark">
               <NavBar />
               <ReactQueryDevtools initialIsOpen={false} />
-              <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+              <main className="relative min-h-screen bg-white dark:bg-black text-black dark:text-white">
+                <NetBg />
                 {children}
               </main>
+              <Toaster position="top-right" richColors />
               <Footer />
             </CustomProvider>
           </ProfileProvider>

@@ -62,13 +62,10 @@ export default function ProfileMain({ session }: { session: any }) {
         setRecruiterFields(getInitialRecruiterData(recruiterBase));
     }, [userData, recruiterData, setFields, setRecruiterFields, session]);
 
+
     if (isUserLoading || isRecruiterLoading) return <SpinnerBig />;
 
-    // Show onboarding ONLY if:
-    // 1. We have finished loading (checked above)
-    // 2. Neither profile has real data
-    // 3. We are on the client side (to avoid hydration mismatch)
-    // 4. No mode preference exists in localStorage (which activeMode handles)
+
 
     const showOnboarding = isMounted && !hasSeekerData && !hasRecruiterData && !localStorage.getItem("profileActiveMode");
 
@@ -78,7 +75,7 @@ export default function ProfileMain({ session }: { session: any }) {
         }} />;
     }
 
-    const currentCompletion = activeMode === "SEEKER" ? completionPercentage : recruiterCompletionPercentage;
+    // const currentCompletion = activeMode === "SEEKER" ? completionPercentage : recruiterCompletionPercentage;
     return (
         <div className="space-y-6">
             <ProfileModeSwitcher activeMode={activeMode} setActiveMode={setActiveMode} />

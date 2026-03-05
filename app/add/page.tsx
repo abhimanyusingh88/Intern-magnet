@@ -12,12 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default async function AddPage() {
-    // const session = await auth.api.getSession({
-    //     headers: await headers()
-    // });
-
-
-    // Fetch user profile data from database
 
 
     return (
@@ -31,6 +25,7 @@ export default async function AddPage() {
         lg:px-30
       "
         >
+
             <BackGroundGlow />
             <div className="w-full flex flex-col gap-2 items-center justify-center mb-4">
                 <div className="flex justify-center gap-2">

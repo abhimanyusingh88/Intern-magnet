@@ -21,8 +21,8 @@ export default async function InternshipPage() {
 
 
     return (
-        <main className="
-      w-full bg-black
+        <div className="
+      w-full
       flex flex-col
       px-6 sm:px-10 md:px-10 lg:px-30
       relative
@@ -32,8 +32,7 @@ export default async function InternshipPage() {
             <BackGroundGlow />
             <div className="relative flex flex-col items-center gap-3 text-center">
 
-                {/* GRID TEXTURE BACKGROUND */}
-                <NetBg />
+
 
                 <div className="relative flex items-center gap-3">
                     <h1 className="
@@ -56,6 +55,6 @@ export default async function InternshipPage() {
             <div className="flex justify-center w-full mt-10 sm:mt-20 ">
                 <RecruiterForms user={user} />
             </div>
-        </main>
+        </div>
     );
 }

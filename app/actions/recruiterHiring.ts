@@ -5,22 +5,23 @@ import { prisma } from "@/lib/prisma"
 import { JobPostingSchema } from "@/lib/validationschema/zodvalidate"
 import { FormData } from "@/lib/types/types"
 
-export async function recruiterHiring(formData: FormData) {
-    const session = await auth.api.getSession({
-        headers: await headers()
-    });
+export async function recruiterHiring(formData: FormData): Promise<{ success: boolean, message: string }> {
 
-    if (!session?.user?.email) {
-        throw new Error("Unauthorized: You must be logged in to post a job.");
-    }
     try {
-        // Find the recruiter profile associated with this user
+        const session = await auth.api.getSession({
+            headers: await headers()
+        });
+
+        if (!session?.user?.email) {
+            return { success: false, message: "Please login to post any job" }
+        }
+
         const recruiterProfile = await prisma.recruiterProfile.findUnique({
             where: { userId: session.user.id },
         });
 
         if (!recruiterProfile) {
-            throw new Error("Recruiter profile not found. Please create a recruiter profile first.");
+            return { success: false, message: "Please create a recruiters profile before posting any job" }
         }
 
         // Create or update the recruiter hiring record and its screening questions in a transaction
@@ -75,7 +76,8 @@ export async function recruiterHiring(formData: FormData) {
                         shouldUpdate = true;
                     }
                 } catch (e) {
-                    throw new Error("Not able to perform this action currently");
+                    console.log(e);
+                    return { success: false, message: "Failed to load user data" }
                 }
             }
 
@@ -130,13 +132,15 @@ export async function recruiterHiring(formData: FormData) {
             return hiringRecord;
         });
 
+        if ('message' in result) {
+            return result;
+        }
+
         console.log(`Job post ${formData.id ? 'updated' : 'created'} successfully with ID:`, result.id.toString());
-        return { success: true, id: result.id.toString() };
+
+        return { success: true, message: "Job posted successfully" };
     } catch (error) {
         console.error("Error in recruiterHiring action:", error);
-        if (error instanceof Error) {
-            throw new Error(`Failed to submit job post: ${error.message}`);
-        }
-        throw new Error("Failed to submit job post due to an unknown error.");
+        return { success: false, message: "Something went wrong while posting the job" }
     }
 }

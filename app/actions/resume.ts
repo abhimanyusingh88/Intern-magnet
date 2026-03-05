@@ -6,22 +6,30 @@ import { prisma } from "@/lib/prisma";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
 export async function getResumeDownloadUrl() {
-    const session = await auth.api.getSession({
-        headers: await headers()
-    });
-    if (!session?.user?.email) throw new Error("Unauthorized");
+    try {
+        const session = await auth.api.getSession({
+            headers: await headers()
+        });
+        if (!session?.user?.email) throw new Error("Unauthorized");
 
-    const user = await prisma.legacyUser.findFirst({
-        where: { email: session.user.email },
-        select: { resume_path: true },
-    });
+        const user = await prisma.legacyUser.findFirst({
+            where: { email: session.user.email },
+            select: { resume_path: true },
+        });
 
-    if (!user?.resume_path) return null;
-    const { data, error } = await supabaseAdmin.storage
-        .from("resumes")
-        .createSignedUrl(user.resume_path, 60); // 1 min
+        if (!user?.resume_path) return null;
+        const { data, error } = await supabaseAdmin.storage
+            .from("resumes")
+            .createSignedUrl(user.resume_path, 60); // 1 min
 
-    if (error) throw error;
+        if (error) throw error;
 
-    return data.signedUrl;
+        return data.signedUrl;
+    }
+    catch (err) {
+
+        console.log(err);
+        throw new Error("something went wrong while uploading the resume");
+
+    }
 }

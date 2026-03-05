@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-// Exporting the fetcher logic so it can be used on the server for prefetching
 export const getManageJobQueryOptions = (id: string, baseUrl?: string, cookieString?: string) => ({
     queryKey: ["manageJob", id],
 

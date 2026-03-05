@@ -56,6 +56,9 @@ export async function updateRecruiterProfile(formData: FormData) {
         };
     } catch (err: any) {
         console.error("Error updating recruiter profile:", err);
-        throw new Error(err.message || "Failed to update recruiter profile");
+        return {
+            success: false,
+            message: err instanceof Error ? err.message : "Failed to update recruiter profile"
+        };
     }
 }

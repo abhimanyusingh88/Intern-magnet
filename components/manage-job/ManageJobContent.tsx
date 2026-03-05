@@ -21,12 +21,14 @@ import {
     Rocket
 } from "lucide-react";
 import { BulletList } from "../utils/BulletList";
-import NetBg from "../utils/netBg";
+import { AppliedUsersData } from "@/lib/data/appliedUsersData";
 
 
 
 export default function ManageJobContent({ id }: { id: string }) {
     const { data: job, isLoading, isError, error } = useManageJobData(id);
+    const { data: appliedData, isLoading: loading, error: appliedError } = AppliedUsersData(id);
+    console.log(appliedData);
     const [open, setOpen] = useState<boolean>(false);
 
     if (isLoading) return <SpinnerBig />;
@@ -41,9 +43,7 @@ export default function ManageJobContent({ id }: { id: string }) {
     return (
         <main className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30">
             {/* <BackgroundDecoration /> */}
-            <div className="sticky top-20">
-                <NetBg />
-            </div>
+
             <BackGroundGlow />
             {open && <EditForm job={job} setOpen={setOpen} />}
 
@@ -57,7 +57,7 @@ export default function ManageJobContent({ id }: { id: string }) {
                 {/* edit button */}
                 <div className="w-full flex sm:justify-end justify-center"><span className="text-zinc-500 text-sm font-sans mr-2 hover:text-zinc-200">Edit Your job</span><Edit onClick={() => setOpen((prev) => !prev)} className="h-6 w-6 text-indigo-400 hover:text-indigo-300 transition-all duration-100 ease-in-out transform-gpu  cursor-pointer" /></div>
 
-                <JobHeader job={job} />
+                <JobHeader job={job} appliedData={appliedData} />
 
                 <ManagementBanner />
 

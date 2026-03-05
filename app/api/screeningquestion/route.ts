@@ -27,6 +27,14 @@ export async function POST(request: Request) {
                 { status: 401 }
             )
         }
+        const email = session.user.email;
+
+        const user = prisma.legacyUser.findFirst({
+            where: {
+                email: email
+            }
+        })
+        if (!user) return NextResponse.json({ message: "Please create an account before login" }, { status: 400 });
 
         const data: SubmitData = await request.json();
         // console.log("Screening Question Data:", data);
@@ -73,13 +81,8 @@ export async function POST(request: Request) {
 
 
         return NextResponse.json({
-            success: true,
-            data: JSON.parse(
-                JSON.stringify(final, (_, v) =>
-                    typeof v === "bigint" ? v.toString() : v
-                )
-            ),
-        });
+            message: "applied successfully"
+        }, { status: 201 });
 
     }
     catch (error) {

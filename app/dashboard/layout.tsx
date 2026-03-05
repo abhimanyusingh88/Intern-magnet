@@ -36,9 +36,7 @@ export default async function DashboardLayout({
             md:px-10 
             lg:px-30
         ">
-            <div className=" sticky top-20">
-                <NetBg />
-            </div>
+
             <BackGroundGlow />
             <div className="relative z-10 w-full">
                 <DashboardPage userName={userName}>

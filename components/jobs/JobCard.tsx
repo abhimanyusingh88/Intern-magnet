@@ -21,12 +21,12 @@ export function JobCard({ job }: JobCardProps) {
     const timeAgo = getTimeAgo(referenceDate);
 
     return (
-        <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl p-5 sm:p-5 hover:shadow-lg transition-all duration-300 hover:border-blue-300 dark:hover:border-blue-500/50 group">
+        <div className="bg-[#121212] border border-zinc-800 rounded-xl p-5 sm:p-5 hover:shadow-lg transition-all duration-300 hover:border-blue-500/50 group">
             <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
                 {/* Company Logo */}
                 <div className="shrink-0">
                     {job.logo_url ? (
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden bg-gray-100 dark:bg-zinc-800 flex items-center justify-center border border-gray-100 dark:border-zinc-700">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden bg-zinc-800 flex items-center justify-center border border-gray-100 dark:border-zinc-700">
                             <Image
                                 src={job.logo_url}
                                 alt={job.company_name}
