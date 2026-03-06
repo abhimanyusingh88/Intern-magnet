@@ -224,3 +224,6 @@ export type AiReport = {
     strengths: string[]
 
 }
+export type listener = {
+    expand: any, startListen: () => void, stopListen: any, interimText: string, listen: any, setInterimText: any, setResponse: any, setListen: any, speaking: boolean, voiceOn: boolean
+}

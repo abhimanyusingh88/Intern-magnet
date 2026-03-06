@@ -18,7 +18,7 @@ export default function Interview() {
     const [expand, setExpand] = useState<boolean>(false);
     const [listen, setListen] = useState<boolean>(false);
     const [interimText, setInterimText] = useState<string>("");
-    const [finalText, setFinalText] = useState<string>("");
+    const [voiceOn, setVoiceOn] = useState<boolean>(false);
     const [Response, setResponse] = useState<{ type: string, text: string }[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [speaking, setSpeaking] = useState<boolean>(false);
@@ -122,7 +122,7 @@ export default function Interview() {
 
             }
             const cleanFinal = final.trim();
-            setFinalText(cleanFinal);
+            // setFinalText(cleanFinal);
             finalTextRef.current = cleanFinal;
             setInterimText(interim);
             clearTimeout(silenceTimer.current);
@@ -154,7 +154,6 @@ export default function Interview() {
                     return updated;
                 });
             }
-            setFinalText("");
             finalTextRef.current = "";
         }
         recognition.start();
@@ -166,7 +165,7 @@ export default function Interview() {
     }
     const stop = () => {
         recognitionRef.current.stop();
-        // setListen(false);
+
         setInterimText("");
     }
 
@@ -194,8 +193,8 @@ export default function Interview() {
             </div>
 
             <div className={`w-full h-full p-4 flex items-stretch  ${expand ? "md:mt-4 md:px-10 lg:px-20" : ""}`}>
-                <AiLayout setListen={setListen} speaking={speaking} startListen={audioToText} interimText={interimText} setResponse={setResponse} listen={listen} stopListen={stop} expand={expand} setInterimText={setInterimText} />
-                <ChatLayout setSpeaking={setSpeaking} Response={Response} expand={expand} loading={loading} />
+                <AiLayout voiceOn={voiceOn} setListen={setListen} speaking={speaking} startListen={audioToText} interimText={interimText} setResponse={setResponse} listen={listen} stopListen={stop} expand={expand} setInterimText={setInterimText} />
+                <ChatLayout voiceOn={voiceOn} setVoiceOn={setVoiceOn} setSpeaking={setSpeaking} Response={Response} expand={expand} loading={loading} />
             </div>
         </div>
     );

@@ -5,12 +5,9 @@ import StartConfirmation from "./startConfirmation";
 import { toast } from "sonner";
 import ReportModal from "./aireport";
 import { AiReport } from "@/lib/types/types";
+import { listener } from "../../lib/types/types";
 
-type listener = {
-    expand: any, startListen: () => void, stopListen: any, interimText: string, listen: any, setInterimText: any, setResponse: any, setListen: any, speaking: boolean
-}
-
-export default function AiLayout({ expand, startListen, stopListen, interimText, listen, setInterimText, setResponse, setListen, speaking }: listener) {
+export default function AiLayout({ expand, startListen, voiceOn, stopListen, interimText, listen, setInterimText, setResponse, setListen, speaking }: listener) {
 
     const [start, setStart] = useState<string | null>("stop");
     const [submit, setSubmit] = useState<string | null>("nosubmit");
@@ -128,7 +125,7 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
 
     return <div className={`w-full flex flex-col items-center md:w-2/3 rounded-lg sm:rounded-r-none overflow-hidden border-zinc-500/20 border-[0.7px] md:border-r-0 md:border-l-[0.7px] md:border-t-[0.7px] md:border-b-[0.7px] ${expand ? "h-[450px] sm:h-[600px]" : "h-[300px] md:h-[450px]"}`}>
         <div className={`w-full bg-orange-900/25 flex justify-center items-center flex-1`}>
-            <div className={`w-[60px] text-xl h-[60px] flex items-center justify-center rounded-full text-zinc-400 font-bold bg-orange-950/90 ${speaking ? "ai-speaking" : ""}`}>
+            <div className={`w-[60px] text-xl h-[60px] flex items-center justify-center rounded-full text-zinc-400 font-bold bg-orange-950/90 ${(speaking || voiceOn) ? "ai-speaking" : ""}`}>
                 AI
             </div>
 

@@ -9,10 +9,11 @@ type chatLayoutProps = {
     loud: boolean,
     setLoud: any,
     containerRef: any,
+    voiceOn: boolean
 }
-export default function ChatLayoutSection({ expand, Response, loading, displayText, isTyping, loud, setLoud, containerRef }: chatLayoutProps) {
+export default function ChatLayoutSection({ expand, Response, voiceOn, loading, displayText, isTyping, loud, setLoud, containerRef }: chatLayoutProps) {
     return <div className={`bg-zinc-800/40 border-zinc-500/20 border-r-[0.7px] border-t-[0.7px] border-b-[0.7px] hidden md:flex md:w-1/3 min-w-[250px] rounded-r-lg sm:rounded-l-none flex-col ${expand ? "h-[450px] sm:h-[600px]" : "h-[300px] md:h-[450px]"}`}>
-        <VolumeButton loud={loud} setLoud={setLoud} isTyping={isTyping} />
+        <VolumeButton voiceOn={voiceOn} loud={loud} setLoud={setLoud} isTyping={isTyping} />
         <div ref={containerRef} className="w-full flex flex-col gap-4 p-4 overflow-y-auto no-scrollbar flex-1">
             {Response?.length > 0 ? (
                 <>
