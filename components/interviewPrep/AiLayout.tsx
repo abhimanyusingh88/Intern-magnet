@@ -10,11 +10,7 @@ type listener = {
     expand: any, startListen: () => void, stopListen: any, interimText: string, listen: any, setInterimText: any, setResponse: any, setListen: any, speaking: boolean
 }
 
-
-
 export default function AiLayout({ expand, startListen, stopListen, interimText, listen, setInterimText, setResponse, setListen, speaking }: listener) {
-
-
 
     const [start, setStart] = useState<string | null>("stop");
     const [submit, setSubmit] = useState<string | null>("nosubmit");
@@ -139,10 +135,6 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
 
         </div>
 
-
-
-
-
         <form className="w-9/10 flex mt-6 mb-4 gap-2 md:gap-2 items-center">
             {
                 start === "start" && <input onChange={(e) => {
@@ -192,9 +184,6 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
                     }}
                     type="button" className="flex items-center gap-2" ><Mic className={`h-7 w-7 cursor-pointer ${listen ? "text-red-500 animate-pulse duration-300" : "text-zinc-500/70 hover:text-zinc-300"}`} />{listen && <span className="text-zinc-400/75 text-xs">Listening...</span>}</button>
             }
-
-
-
         </form>
         {
             open === "open" && submit === "submit" && start === "start" && <StartConfirmation loading={loading} onConfirm={() => {
