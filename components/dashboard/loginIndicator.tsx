@@ -15,7 +15,7 @@ export default function Landing() {
     return (
         <div className="min-h-screen  text-zinc-100 flex flex-col items-center justify-center px-2 mt-4 md:mt-0 ">
 
-            <span className="text-xs text-zinc-400 border border-zinc-600 px-3 py-1 rounded-full mb-8">
+            <span className="text-xs text-zinc-400 border border-zinc-600 px-3 py-1 rounded-full mb-6">
                 AI-Powered Career Platform
             </span>
 
@@ -32,13 +32,13 @@ export default function Landing() {
                 Login to Access →
             </Link>
 
-            <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl w-full">
+            <div className="mt-15 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl w-full">
                 {features.map((f, i) => (
                     <div
                         key={i}
                         className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-zinc-600 transition-all"
                     >
-                        <div className="text-xl mb-3">{f.icon}</div>
+                        <div className="text-xl bg-sky-50/7 rounded-xl p-2 w-fit mb-3">{f.icon}</div>
                         <h3 className="text-sm font-medium text-zinc-100">{f.title}</h3>
                         <p className="text-xs text-zinc-500 mt-1 leading-relaxed">{f.desc}</p>
                     </div>

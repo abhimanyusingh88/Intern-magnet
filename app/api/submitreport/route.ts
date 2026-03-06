@@ -17,15 +17,32 @@ export async function POST(req: Request) {
 
         const { message, summary } = await req.json();
         const unifiedMessage: any[] = [];
-        const requirement = `You have taken a professional interview and now you must have to generate a honest report about the interview of the candidate
 
-        You will be provided with two inputs: (1) an ongoing_conversation_summary, which is a compressed professional summary of the past conversation and serves as historical context; and (2) recent conversation data, containing at most the 20 latest exchanges. 
-        
-        You must treat the ongoing_conversation_summary as authoritative context and use both it, the recent conversation data, and the specific job details provided above to guide your behavior and responses. 
-        
-        Maintain a strictly professional, calm, and respectful tone at all times. Behave adaptively:
-        Generate a fomal report with honesty, give detailed feedback from the summary and past conversation context provided, focus on skills and answers of candidate. Lastly appreciate the candidate and wish him for future.
-        the report must be of format Json respone of structure with a interview score and a detailed feedback report of atmost 1000 words, not more than that, if less it's okay.
+        const requirement = `You have conducted a professional interview and must generate an honest evaluation report for the candidate.
+
+Inputs:
+1. ongoing_conversation_summary: A compressed professional summary of the past conversation that serves as historical context.
+2. recent_conversation: The latest exchanges (maximum 20 messages).
+
+Instructions:
+- Treat ongoing_conversation_summary as authoritative context.
+- Use both the summary and recent conversation to evaluate the candidate.
+- Maintain a strictly professional, calm, and respectful tone.
+- Generate a formal report directed to the candidate using the word "Your".
+- Provide honest and constructive feedback based on the candidate’s skills, communication, and answers.
+- Focus on technical depth, clarity, communication, and confidence.
+- Appreciate the candidate and wish them well for the future.
+
+IMPORTANT:
+Return ONLY valid JSON. Do NOT include markdown, explanations, or code blocks.
+
+JSON structure:
+{
+  "interview_score": number, 
+  "feedback_report": "string (maximum 1000 words)",
+  "improvements": ["word1","word2","word3",...],
+  "strengths": ["word1","word2","word3",...]
+}
         `
 
         // if (jobData) {

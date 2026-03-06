@@ -217,3 +217,10 @@ export interface ValidationError {
     message: string;
     path: string[];
 }
+export type AiReport = {
+    interview_score: number,
+    feedback_report: string,
+    improvements: string[],
+    strengths: string[]
+
+}

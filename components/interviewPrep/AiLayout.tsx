@@ -2,10 +2,14 @@
 import { ArrowUp, Mic, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import StartConfirmation from "./startConfirmation";
+import { toast } from "sonner";
+import ReportModal from "./aireport";
+import { AiReport } from "@/lib/types/types";
 
 type listener = {
     expand: any, startListen: () => void, stopListen: any, interimText: string, listen: any, setInterimText: any, setResponse: any, setListen: any, speaking: boolean
 }
+
 
 
 export default function AiLayout({ expand, startListen, stopListen, interimText, listen, setInterimText, setResponse, setListen, speaking }: listener) {
@@ -15,6 +19,8 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
     const [start, setStart] = useState<string | null>("stop");
     const [submit, setSubmit] = useState<string | null>("nosubmit");
     const [open, setOpen] = useState<string | null>("close");
+    const [report, setReport] = useState<AiReport | null>(null);
+    const [openReport, setOpenReport] = useState<boolean>(false);
 
     useEffect(() => {
         setOpen(sessionStorage.getItem("open") || "close");
@@ -52,9 +58,17 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
             const summary = sessionStorage.getItem("summary");
             const Response = sessionStorage.getItem("Responses");
             const lastTwentyRes = Response?.slice(-20);
-            if (!summary) {
+            if (!summary || !Response) {
                 setOpen("close");
+                setStart("stop");
+                setSubmit("nosubmit");
+                sessionStorage.removeItem("totalInterview");
                 sessionStorage.setItem("open", "close");
+                sessionStorage.setItem("start", "stop");
+                sessionStorage.setItem("submit", "nosubmit");
+                sessionStorage.removeItem("summary");
+                sessionStorage.removeItem("Responses");
+                setResponse([]);
                 setLoading(false);
                 return;
             }
@@ -66,17 +80,43 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
                 body: JSON.stringify({
                     summary: summary,
 
-                    message: Response
+                    message: lastTwentyRes
                 })
             })
-            const finalRes = AIResponse.json();
-            console.log(finalRes);
+            let finalRes = await AIResponse.json();
+            console.log("Raw AI Response:", finalRes);
+
+            // Handle stringified JSON from AI
+            if (typeof finalRes === "string") {
+                try {
+                    const cleanJson = finalRes.replace(/```json\n?|\n?```/g, "").trim();
+                    finalRes = JSON.parse(cleanJson);
+                } catch (e) {
+                    console.error("Failed to parse AI response as JSON:", e);
+                    toast.error("Failed to get report data");
+                    setLoading(false);
+                    return;
+                }
+            }
+
+            if (finalRes && typeof finalRes === "object" && "interview_score" in finalRes) {
+                setReport(finalRes);
+                setOpenReport(true);
+            } else {
+                console.error("AI response format invalid:", finalRes);
+                toast.error("Something went wrong!");
+            }
+
             setOpen("close");
             setStart("stop");
             setSubmit("nosubmit");
+            sessionStorage.setItem("totalInterview", "finish");
             sessionStorage.setItem("open", "close");
             sessionStorage.setItem("start", "stop");
             sessionStorage.setItem("submit", "nosubmit");
+            sessionStorage.removeItem("summary");
+            sessionStorage.removeItem("Responses");
+            setResponse([]);
 
             setLoading(false);
         }
@@ -84,6 +124,7 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
             setOpen("close");
             sessionStorage.setItem("open", "close");
             setLoading(false);
+            toast.error("Internal server error")
             throw new Error(err.message);
         }
     }
@@ -170,6 +211,9 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
                 setOpen("close");
                 sessionStorage.setItem("open", "close");
             }} header="Are you ready to start the interview? you have to spend 1 token" btName="Start" />
+        }
+        {
+            openReport === true && report && <ReportModal report={report} setReport={setReport} open={openReport} setOpen={setOpenReport} />
         }
     </div>
 }
