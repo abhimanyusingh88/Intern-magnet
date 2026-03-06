@@ -1,23 +1,18 @@
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function StartConfirmation({
-    open,
-    setOpen,
     header,
     btName,
     onConfirm,
+    onClose,
     loading
 }: {
-    open: boolean;
-    setOpen: (v: boolean) => void;
     header: string;
     btName: string;
     onConfirm: () => void;
+    onClose: () => void;
     loading: boolean
 }) {
-
-    if (!open) return null;
-
     return (
         <AnimatePresence>
             <motion.div
@@ -25,7 +20,7 @@ export default function StartConfirmation({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
-                onClick={() => setOpen(false)}
+                onClick={onClose}
             >
                 {/* Modal Box */}
                 <motion.div
@@ -52,7 +47,7 @@ export default function StartConfirmation({
                     {/* Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end">
                         <button
-                            onClick={() => setOpen(false)}
+                            onClick={onClose}
                             className="
                                 w-full sm:w-auto
                                 px-4 py-2
@@ -67,9 +62,7 @@ export default function StartConfirmation({
                         </button>
 
                         <button
-                            onClick={() => {
-                                onConfirm();
-                            }}
+                            onClick={onConfirm}
                             className="
                                 w-full sm:w-auto
                                 px-4 py-2

@@ -57,7 +57,7 @@ export default function Interview() {
                 setSpeaking(true);
 
 
-                const lastTenMessages = Response.slice(-20);
+                const lastTwentyMessages = Response.slice(-20);
                 const summary = sessionStorage.getItem("summary") || "";
                 const jobContext = sessionStorage.getItem("interviewJobContext");
                 const jobDataForApi = jobContext ? JSON.parse(jobContext) : null;
@@ -69,7 +69,7 @@ export default function Interview() {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            messageData: lastTenMessages,
+                            messageData: lastTwentyMessages,
                             summary: summary,
                             jobData: jobDataForApi,
                         }),

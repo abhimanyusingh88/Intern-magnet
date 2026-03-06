@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 import RecruiterPannerNavDropdown from "../Recruiter-hiring/RecruiterPannerNavDropdown"
 
 export default function NavLinks() {
-    const pathname = usePathname()
+    const pathname = usePathname();
 
     const linkClass = (path: string) =>
         `
@@ -13,7 +13,7 @@ after:absolute after:left-0 after:-bottom-1
 after:h-[3px] after:w-full after:bg-amber-100
 after:origin-left after:scale-x-0
 after:transition-transform after:duration-500
-// yha se scale karega 
+
 after:ease-[cubic-bezier(0.16,1,0.3,1)]
 hover:after:scale-x-100
 duration-300

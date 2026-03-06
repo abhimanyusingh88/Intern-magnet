@@ -1,6 +1,6 @@
 "use client"
 import { ArrowUp, Mic, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StartConfirmation from "./startConfirmation";
 
 type listener = {
@@ -12,9 +12,16 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
 
 
 
-    const [start, setStart] = useState<boolean>(false);
-    const [submit, setSubmit] = useState<boolean>(false);
-    const [open, setOpen] = useState<boolean>(false);
+    const [start, setStart] = useState<string | null>("stop");
+    const [submit, setSubmit] = useState<string | null>("nosubmit");
+    const [open, setOpen] = useState<string | null>("close");
+
+    useEffect(() => {
+        setOpen(sessionStorage.getItem("open") || "close");
+        setSubmit(sessionStorage.getItem("submit") || "nosubmit");
+        setStart(sessionStorage.getItem("start") || "stop");
+    }, []);
+
     const [loading, setLoading] = useState<boolean>(false);
     async function submitCount() {
         try {
@@ -26,12 +33,15 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
                 }
             })
 
-            setOpen(false);
-            setStart(true);
+            setOpen("close");
+            setStart("start");
+            sessionStorage.setItem("open", "close");
+            sessionStorage.setItem("start", "start");
             setLoading(false);
         }
         catch (err: any) {
-            setOpen(false);
+            setOpen("close");
+            sessionStorage.setItem("open", "close");
             setLoading(false);
             throw new Error(err.message);
         }
@@ -40,27 +50,39 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
         try {
             setLoading(true);
             const summary = sessionStorage.getItem("summary");
+            const Response = sessionStorage.getItem("Responses");
+            const lastTwentyRes = Response?.slice(-20);
             if (!summary) {
-                setOpen(false);
+                setOpen("close");
+                sessionStorage.setItem("open", "close");
                 setLoading(false);
                 return;
             }
-            // await fetch("/api/submitreport", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify({
-            //         summary: summary
-            //     })
-            // })
-            setOpen(false);
-            setStart(false);
-            setSubmit(false);
+            const AIResponse = await fetch("/api/submitreport", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    summary: summary,
+
+                    message: Response
+                })
+            })
+            const finalRes = AIResponse.json();
+            console.log(finalRes);
+            setOpen("close");
+            setStart("stop");
+            setSubmit("nosubmit");
+            sessionStorage.setItem("open", "close");
+            sessionStorage.setItem("start", "stop");
+            sessionStorage.setItem("submit", "nosubmit");
+
             setLoading(false);
         }
         catch (err: any) {
-            setOpen(false);
+            setOpen("close");
+            sessionStorage.setItem("open", "close");
             setLoading(false);
             throw new Error(err.message);
         }
@@ -82,13 +104,13 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
 
         <form className="w-9/10 flex mt-6 mb-4 gap-2 md:gap-2 items-center">
             {
-                start === true && <input onChange={(e) => {
+                start === "start" && <input onChange={(e) => {
                     setInterimText(e.target.value);
                 }} type="text" value={interimText} placeholder="Reply..." className="rounded-3xl w-full border-[0.7px] outline-none border-zinc-500/50 focus-within:border-zinc-500/80 bg-zinc-900 transition-colors duration-200 px-4 py-2 md:py-3" />
             }
 
             {
-                start === true && <button onClick={(e) => {
+                start === "start" && <button onClick={(e) => {
                     e.preventDefault();
                     window.speechSynthesis.cancel();
                     if (interimText.trim() !== "") {
@@ -101,18 +123,23 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
                 }} type="submit" > <ArrowUp className="h-7 w-7 bg-zinc-700/50  rounded-sm text-zinc-200 cursor-pointer hover:bg-zinc-300/30 p-1  transition-all duration-75" /></button>
             }
             {
-                start === true ? <button type="button" onClick={() => {
-                    setOpen(f => !f);
-                    setSubmit(true);
+                start === "start" ? <button type="button" onClick={() => {
+                    setOpen("open");
+                    setSubmit("submit");
+                    sessionStorage.setItem("open", "open");
+                    sessionStorage.setItem("submit", "submit");
                 }} className="w-[70px] sm:w-[80px]">
                     <p className="text-zinc-50 text-[11px] sm:text-sm cursor-pointer hover:bg-red-600/70 bg-red-500/50 px-2 py-1 rounded-md">Submit</p>
-                </button> : <button type="button" onClick={() => setOpen(f => !f)} className="w-[70px] sm:w-[80px]">
+                </button> : <button type="button" onClick={() => {
+                    setOpen("open");
+                    sessionStorage.setItem("open", "open");
+                }} className="w-[70px] sm:w-[80px]">
                     <p className="text-zinc-50 text-base uppercase cursor-pointer hover:bg-zinc-600/70 bg-zinc-700/50 px-2 py-1 rounded-md">Start</p>
 
                 </button>
             }
             {
-                start === true && <button
+                start === "start" && <button
                     onClick={() => {
                         window.speechSynthesis.cancel();
                         setListen((prev: any) => !prev);
@@ -129,14 +156,20 @@ export default function AiLayout({ expand, startListen, stopListen, interimText,
 
         </form>
         {
-            open === true && submit === true && start === true && <StartConfirmation loading={loading} onConfirm={() => {
+            open === "open" && submit === "submit" && start === "start" && <StartConfirmation loading={loading} onConfirm={() => {
                 submitReport()
-            }} header="Are you sure to submit the interview and generate a report?" btName="Submit" open={open} setOpen={setOpen} />
+            }} onClose={() => {
+                setOpen("close");
+                sessionStorage.setItem("open", "close");
+            }} header="Are you sure to submit the interview and generate a report?" btName="Submit" />
         }
         {
-            open === true && start === false && submit === false && <StartConfirmation loading={loading} onConfirm={() => {
+            open === "open" && start === "stop" && submit === "nosubmit" && <StartConfirmation loading={loading} onConfirm={() => {
                 submitCount();
-            }} header="Are you ready to start the interview? you have to spend 1 token" btName="Start" open={open} setOpen={setOpen} />
+            }} onClose={() => {
+                setOpen("close");
+                sessionStorage.setItem("open", "close");
+            }} header="Are you ready to start the interview? you have to spend 1 token" btName="Start" />
         }
     </div>
 }
