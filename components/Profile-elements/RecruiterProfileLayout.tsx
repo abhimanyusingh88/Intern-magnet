@@ -9,13 +9,15 @@ import { updateRecruiterProfile } from "@/app/actions/recruiter"
 import { useQueryClient } from "@tanstack/react-query"
 import RecruiterEditForm from "./RecruiterEditForm"
 import ErrorIndicator from "./errorIndicator"
+import { ValidationError } from "@/lib/types/types"
+import { toast } from "sonner"
 
 export default function RecruiterProfileLayout() {
     const { recruiterFields, setRecruiterFields, recruiterCompletionPercentage, getProgressColor } = useProfile()
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isSaving, setIsSaving] = useState(false)
     const [editFormData, setEditFormData] = useState(recruiterFields)
-    const [error, setError] = useState("")
+    const [error, setError] = useState<any>("")
     const queryClient = useQueryClient()
 
     const handleEditOpen = () => {
@@ -36,13 +38,24 @@ export default function RecruiterProfileLayout() {
                 if (v !== null && v !== undefined) formData.append(k, String(v))
             })
 
-            await updateRecruiterProfile(formData)
-            setRecruiterFields(editFormData)
-            await queryClient.invalidateQueries({ queryKey: ["recruiterProfileData"] })
-            setIsEditModalOpen(false)
+            const result = await updateRecruiterProfile(formData)
+
+            if (result.success) {
+                setRecruiterFields(editFormData)
+                await queryClient.invalidateQueries({ queryKey: ["recruiterProfileData"] })
+                setIsEditModalOpen(false)
+                toast.success("Profile updated successfully!")
+            }
+            else {
+                const errorMessage = Array.isArray(result.message)
+                    ? (result.message as ValidationError[])[0]?.message
+                    : result.message;
+
+                setError(errorMessage || "Failed to update profile");
+            }
         } catch (error: any) {
             try {
-                // remove "Error: " part
+
                 const clean = error.message.replace("Error: ", "");
 
                 const issues = JSON.parse(clean);

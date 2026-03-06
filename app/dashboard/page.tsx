@@ -6,11 +6,18 @@ import { headers } from "next/headers";
 
 
 export default async function Dashboard() {
+
     const session = await auth.api.getSession({
         headers: await headers()
     })
+
+
+
+
+
     let error = "";
     const baseUrl = process.env.BASE_URL || "http//:localhost:3000"
+
     const userInterviewCount = await prisma.legacyUser.findUnique({
         where: {
             email: session?.user?.email
@@ -19,7 +26,6 @@ export default async function Dashboard() {
             interview_count: true
         }
     })
-    // console.log(userInterviewCount);
 
     const applied = await fetch(`${baseUrl}/api/appliedjobs`, {
         headers: {
@@ -34,7 +40,6 @@ export default async function Dashboard() {
     }
     const AppliedRes = await applied.json();
 
-    // console.log(AppliedRes);
 
 
     return <div className="text-zinc-200 w-full px-1 sm:px-3 md:px-5 py-4">

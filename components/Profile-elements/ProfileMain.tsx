@@ -23,6 +23,7 @@ import { UpdateProfile } from "./operations"
 export default function ProfileMain({ session }: { session: any }) {
     const { data: userData, isLoading: isUserLoading } = ProfileData();
     const { data: recruiterData, isLoading: isRecruiterLoading } = RecruiterProfileData();
+
     const {
         activeMode,
         setActiveMode,
@@ -48,8 +49,6 @@ export default function ProfileMain({ session }: { session: any }) {
     const queryClient = useQueryClient();
     const sessionImage = session?.user?.image;
 
-    // Determine if onboarding is needed
-    // Onboarding is needed if both profiles are effectively empty
     const hasSeekerData = (userData && typeof userData === 'object' && Object.keys(userData).length > 6);
     const hasRecruiterData = (recruiterData && typeof recruiterData === 'object' && Object.keys(recruiterData).length > 6);
 
@@ -75,7 +74,6 @@ export default function ProfileMain({ session }: { session: any }) {
         }} />;
     }
 
-    // const currentCompletion = activeMode === "SEEKER" ? completionPercentage : recruiterCompletionPercentage;
     return (
         <div className="space-y-6">
             <ProfileModeSwitcher activeMode={activeMode} setActiveMode={setActiveMode} />

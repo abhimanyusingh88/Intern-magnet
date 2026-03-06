@@ -16,12 +16,6 @@ export default function MobileNavigation({ session }: { session: any }) {
                 {open ? <X className="cursor-pointer" size={18} /> : <Menu className="cursor-pointer" size={18} />}
             </button>
 
-            {/* 
-         Positioning the menu absolutely so it sits below the navbar 
-         regardless of where this component is placed in the flex container.
-         The parent <nav> is fixed, so this absolute is relative to it (or the viewport if nav wasn't positioned, but nav is fixed).
-         The top should be h-14 (56px).
-      */}
             <div className="absolute top-14 left-0 w-full z-40">
                 <MobileMenu open={open} setOpen={setOpen} session={session} />
             </div>

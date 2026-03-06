@@ -27,7 +27,7 @@ ${pathname === path
     return (
         <div className="hidden md:flex items-center gap-6 text-sm">
             <Link href="/dashboard" className={linkClass("/dashboard")}>Dashboard</Link>
-            <Link href="/applications" className={linkClass("/applications")}>Applications</Link>
+            <Link href="/jobspage" className={linkClass("/jobspage")}>Find Jobs</Link>
             <div className="relative group inline-block">
                 <Link
                     href="/add"

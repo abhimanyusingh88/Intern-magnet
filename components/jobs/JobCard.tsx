@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getTimeAgo, getNormalizedPostDate } from '@/lib/dateCount';
 import { Slugify } from './slugify';
-// import Slugify from './slugify';
 
 
 interface JobCardProps {
@@ -21,7 +20,7 @@ export function JobCard({ job }: JobCardProps) {
     const timeAgo = getTimeAgo(referenceDate);
 
     return (
-        <div className="bg-[#121212] border border-zinc-800 rounded-xl p-5 sm:p-5 hover:shadow-lg transition-all duration-300 hover:border-blue-500/50 group">
+        <div className="bg-zinc-700/20 border border-zinc-800 rounded-xl p-5 sm:p-5 hover:shadow-lg transition-all duration-300 hover:border-blue-500/50 group">
             <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
                 {/* Company Logo */}
                 <div className="shrink-0">

@@ -1,9 +1,9 @@
 import BackGroundGlow from "@/components/BackGroundGlow";
-import NetBg from "@/components/utils/netBg";
 import DashboardPage from "@/components/dashboard/dashboardPage";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import Landing from "@/components/dashboard/loginIndicator";
 
 export default async function DashboardLayout({
     children,
@@ -39,9 +39,13 @@ export default async function DashboardLayout({
 
             <BackGroundGlow />
             <div className="relative z-10 w-full">
-                <DashboardPage userName={userName}>
-                    {children}
-                </DashboardPage>
+                {
+                    session ? <DashboardPage userName={userName}>
+                        {children}
+                    </DashboardPage> :
+
+                        <Landing />
+                }
             </div>
         </main>
     );

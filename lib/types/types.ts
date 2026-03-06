@@ -211,3 +211,9 @@ export interface JobFilters {
     source?: 'naukri' | 'internal';
     sortBy?: 'recent' | 'oldest';
 }
+export interface ValidationError {
+    origin: string;
+    code: string;
+    message: string;
+    path: string[];
+}

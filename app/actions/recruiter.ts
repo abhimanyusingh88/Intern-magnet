@@ -11,7 +11,12 @@ export async function updateRecruiterProfile(formData: FormData) {
         headers: await headers()
     });
 
-    if (!session?.user?.id) throw new Error("Unauthorized");
+    if (!session?.user?.id) {
+        return {
+            success: false,
+            message: "please login to update profile"
+        }
+    }
 
     const userId = session.user.id;
     const name = formData.get("recruiter_name") as string;
@@ -37,21 +42,33 @@ export async function updateRecruiterProfile(formData: FormData) {
             hiring_for: hiringFor,
         };
 
-        const validatedUpdateData = RecruiterProfileSchema.partial().parse(updateData);
+        const validation = RecruiterProfileSchema.partial().safeParse(updateData);
+
+        if (!validation.success) {
+            return {
+                success: false,
+                message: validation.error.issues.map((issue) => ({
+                    path: issue.path,
+                    message: issue.message
+                }))
+            }
+        }
 
         const profile = await prisma.recruiterProfile.upsert({
             where: { userId },
-            update: validatedUpdateData,
+            update: validation.data,
             create: {
                 userId,
-                ...validatedUpdateData as any,
-            },
+                recruiter_name: validation.data.recruiter_name || (session.user as any).name || "Anonymous Recruiter",
+                ...validation.data,
+            } as any,
         });
 
         revalidatePath("/profile");
 
         return {
-            ...profile,
+            success: true,
+            message: "Profile updated successfully",
             id: profile.id.toString()
         };
     } catch (err: any) {

@@ -56,7 +56,7 @@ export default function EditableField({
 
     const hasValue = value && value.length > 0;
 
-    // For display: find labels for comma-separated values if options are provided
+
     const getDisplayValue = () => {
         if (!hasValue) return placeholder || "Click to add...";
         if (!options) return value;

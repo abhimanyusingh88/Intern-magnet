@@ -24,20 +24,7 @@ export default function EditableComplexField({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
-    // We don't manage form state here; the parent component (renderEdit) should handle it
-    // or we could lift state up. For flexibility, let's assume the parent manages the draft state
-    // purely for the inputs, and onSave commits it.
 
-    // Actually, to support "cancel", the parent needs to know when to reset.
-    // Simpler approach: Parent (e.g., EducationBlock) holds the 'formData' state.
-    // But then EducationBlock usually takes props. 
-
-    // Let's rely on the parent (DownProfileComponent) passing the current data, 
-    // and this component just triggering the modal.
-    // The `renderEdit` will likely need access to a local "dirty" state.
-
-    // Better pattern: This component manages the open/close and save trigger.
-    // The passed `renderEdit` function could receive a `save` callback? No, onSave is prop.
 
     const handleOpen = () => {
         setIsModalOpen(true);
@@ -90,11 +77,8 @@ export default function EditableComplexField({
                 onSave={handleSave}
                 isSaving={isSaving}
             >
-                {/* We pass a no-op or specific handler if needed, but primarily 
-                    the logic allows the parent to inject its form inputs here */}
+
                 {renderEdit((name, val) => {
-                    // This is a helper if the parent wants to use it, 
-                    // but typically the parent binds its own state.
                 })}
             </FieldEditModal>
         </>

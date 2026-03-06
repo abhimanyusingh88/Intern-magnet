@@ -13,8 +13,6 @@ export default async function NavBar() {
     headers: await headers()
   })
   const isLoggedIn = !!session?.user
-  // In a server component, we don't have a loading state for the session check itself 
-  // (the component suspends or awaits). So we pass false.
   const isLoading = false
 
   return (
@@ -50,7 +48,7 @@ export default async function NavBar() {
           </div>
         </div>
 
-        {/* Mobile Navigation (Button + Menu) - Extracted to Client Component */}
+
         <MobileNavigation session={session} />
       </div>
     </nav>
