@@ -78,7 +78,6 @@ export default function Interview() {
                     const finalAns = JSON.parse(result);
                     console.log(finalAns.final_answer);
 
-                    // Only add AI response if we got a valid result
                     if (finalAns.final_answer !== "" || finalAns.final_answer !== undefined || finalAns.final_answer !== null) {
                         setResponse((prev) => [...prev, { type: "ai", text: finalAns.final_answer }]);
                         sessionStorage.setItem("summary", finalAns.summary_analysis);

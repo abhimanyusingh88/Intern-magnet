@@ -4,13 +4,7 @@ import { useState } from "react";
 import Card from "../Profile-elements/ProfileCard";
 import { Download, Plus } from "lucide-react";
 import { getResumeDownloadUrl } from "@/app/actions/resume";
-
-interface ResumeProps {
-    data: any;
-    resumeFile: File | null;
-    isUploadingResume: boolean;
-    setResumeFile: (file: File | null) => void;
-}
+import { ResumeProps } from "@/lib/types/types";
 
 export default function Resume({
     data,
@@ -55,14 +49,11 @@ export default function Resume({
                                     {(() => {
                                         const path = data.resume_path;
                                         if (!path || path === "undefined") return "Resume";
-
-                                        // Try to extract filename from our known pattern: userId/resume_path-timestamp-filename
                                         const parts = path.split("-");
                                         if (parts.length >= 3) {
                                             return parts.slice(2).join("-");
                                         }
 
-                                        // Fallback: just the part after the last slash
                                         return path.split("/").pop() || "Resume";
                                     })()}
                                 </span>
@@ -91,7 +82,6 @@ export default function Resume({
                 )}
 
                 {!resumeFile ? (
-                    /* ===== Upload box ===== */
                     <div className="
                         group
                         relative

@@ -28,7 +28,6 @@ export default function ProfileMain({ session }: { session: any }) {
         activeMode,
         setActiveMode,
         completionPercentage,
-        recruiterCompletionPercentage,
         getProgressColor,
         setFields,
         setRecruiterFields,

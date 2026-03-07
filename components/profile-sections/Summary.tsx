@@ -4,11 +4,7 @@ import Card from "../Profile-elements/ProfileCard";
 import EditableField from "../EditableField";
 import { updateProfile } from "@/app/actions/profile";
 import { useQueryClient } from "@tanstack/react-query";
-
-interface SummaryProps {
-    data: any;
-    setFormData: (fn: (prev: any) => any) => void;
-}
+import { SummaryProps } from "@/lib/types/types";
 
 export default function Summary({ data, setFormData }: SummaryProps) {
     const queryClient = useQueryClient();

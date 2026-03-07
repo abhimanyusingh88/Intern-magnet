@@ -1,15 +1,11 @@
-// import { PrismaClient } from '@prisma/client';
-import { NaukriJobData } from './scrapeNaukriJobs';
+
 import { getNormalizedPostDate } from './dateCount';
 import { prisma } from './prisma';
+import { NaukriJobData } from './types/types';
 
 
 
-/**
- * Inserts Naukri jobs into the database
- * @param jobs - Array of job data to insert
- * @returns Count of successfully inserted jobs
- */
+//
 export async function insertNaukriJobs(jobs: NaukriJobData[]): Promise<number> {
     if (jobs.length === 0) {
         console.log('No jobs to insert');

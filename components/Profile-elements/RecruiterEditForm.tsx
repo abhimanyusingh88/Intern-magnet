@@ -1,21 +1,5 @@
-"use client"
+import { RecruiterEditFormProps } from "@/lib/types/types";
 
-import React from "react";
-
-interface RecruiterEditFormProps {
-    editFormData: {
-        recruiter_name: string;
-        email: string;
-        contact_number: string;
-        address: string;
-        designation: string;
-        organisation_name: string;
-        website: string;
-        company_domain: string;
-        hiring_for: string;
-    } | any;
-    handleEditChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
-}
 
 export default function RecruiterEditForm({ editFormData, handleEditChange }: RecruiterEditFormProps) {
     return (

@@ -1,28 +1,8 @@
 import puppeteer from 'puppeteer';
-
-export interface NaukriJobData {
-    dataJobId: string;
-    title: string;
-    link: string;
-    companyName: string;
-    rating?: string | null;
-    ratingHref?: string | null;
-    ratingSourceDetails?: string | null;
-    ratingSourceNoReviews?: string | null;
-    experience: string;
-    location: string;
-    jobDescription?: string | null;
-    tags?: string[] | null;
-    jobPostDay?: string | null;
-    logoUrl?: string | null;
-    salary?: string | null;
-}
+import { NaukriJobData } from './types/types';
 
 const REQUIRED_FIELDS = ['dataJobId', 'title', 'link', 'companyName', 'location', 'experience'] as const;
 
-/**
- * Validates that a job has all required fields
- */
 function isValidJob(job: any): job is NaukriJobData {
     if (!job || typeof job !== 'object') return false;
 
@@ -116,7 +96,6 @@ export async function scrapeNaukriJobs(targetJobs: number = 600): Promise<Naukri
                     console.log(`  ✓ Page ${pageNum}: Found ${validJobs.length} valid jobs. Total: ${allJobs.length}`);
                 }
 
-                // Stop if we've reached target
                 if (allJobs.length >= targetJobs) {
                     allJobs = allJobs.slice(0, targetJobs);
                     break;
@@ -124,7 +103,6 @@ export async function scrapeNaukriJobs(targetJobs: number = 600): Promise<Naukri
 
                 pageNum++;
 
-                // Add delay between pages to avoid rate limiting
                 await new Promise(resolve => setTimeout(resolve, 2000));
 
             } catch (error) {

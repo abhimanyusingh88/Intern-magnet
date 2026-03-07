@@ -1,13 +1,6 @@
-// import { PrismaClient } from '@prisma/client';
 
 import { prisma } from "./prisma";
 
-
-
-/**
- * Deletes Naukri jobs older than 7 days
- * @returns Count of deleted jobs
- */
 export async function cleanupOldJobs(): Promise<number> {
     console.log('Cleaning up jobs older than 7 days...');
 

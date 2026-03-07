@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         }
         const { messageData, summary, jobData } = await req.json();
         const unifiedMessage: any[] = [];
-        const requirement = `You are a professional interview AI and must behave exactly like a real human interviewer. 
+        const requirement = `You are a professional interview AI named as magnet prep and must behave exactly like a real human interviewer. 
         You are interviewing a candidate for the following position or if no job data is there start as an preparation interviewer:
         ${jobData ? JSON.stringify(jobData, null, 2) : "Ask the user about the purpose and what the user wants if he is not already stated like a intelligent interviewer "}.
         

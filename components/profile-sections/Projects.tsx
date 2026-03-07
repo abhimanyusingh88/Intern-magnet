@@ -1,21 +1,10 @@
 import { updateProfile } from "@/app/actions/profile";
-import { UpdateCommand } from "@/lib/types/types";
+import { Project, ProjectsProps, UpdateCommand } from "@/lib/types/types";
 import { Briefcase } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import DynamicProfileSection from "./DynamicProfileSection";
-import DeleteOrEdit from "./deleteoredit";
 import ProfileItemCard from "./ProfileItemCard";
-// import DynamicProfileSection, { UpdateCommand } from "./DynamicProfileSection";
 
-interface Project {
-    title: string;
-    description: string;
-}
-
-interface ProjectsProps {
-    data: any;
-    setFormData: (fn: (prev: any) => any) => void;
-}
 
 export default function Projects({ data, setFormData }: ProjectsProps) {
     const queryClient = useQueryClient();

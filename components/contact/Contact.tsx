@@ -4,25 +4,9 @@ import { useState } from "react"
 import { Mail, MapPin, Phone, ChevronDown } from "lucide-react"
 import BackGroundGlow from "../BackGroundGlow"
 import ContactForm from "./ContactForm"
+import { faqs } from "../utils/constants"
+import { AnimatePresence, motion } from "framer-motion"
 
-const faqs = [
-  {
-    q: "How can I post an internship on InternMagnet?",
-    a: "You can post internships by creating an employer account and accessing the Post Internship section from your dashboard."
-  },
-  {
-    q: "Is InternMagnet free for students?",
-    a: "Yes, InternMagnet is completely free for students to explore internships, career guidance, and job market updates."
-  },
-  {
-    q: "How long does it take to get a response?",
-    a: "We usually respond within 24–48 hours on business days."
-  },
-  {
-    q: "Can I delete my account and data?",
-    a: "Yes, you can request account deletion anytime from account settings or by contacting support."
-  }
-]
 
 export default function Contact() {
   const [open, setOpen] = useState<number | null>(null)
@@ -94,9 +78,18 @@ export default function Contact() {
                       />
                     </div>
                     {open === i && (
-                      <p className="mt-2 text-sm text-zinc-400">
-                        {f.a}
-                      </p>
+                      <AnimatePresence mode="wait">
+                        <motion.p
+                          key={f.a}
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -6 }}
+                          transition={{ duration: 0.2 }}
+                          className="mt-2 text-sm text-zinc-400"
+                        >
+                          {f.a}
+                        </motion.p>
+                      </AnimatePresence>
                     )}
                   </button>
                 ))}

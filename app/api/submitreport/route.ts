@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         const { message, summary } = await req.json();
         const unifiedMessage: any[] = [];
 
-        const requirement = `You have conducted a professional interview and must generate an honest evaluation report for the candidate.
+        const requirement = `You have conducted a professional interview and your name is magnet prep and must generate an honest evaluation report for the candidate.
 
 Inputs:
 1. ongoing_conversation_summary: A compressed professional summary of the past conversation that serves as historical context.

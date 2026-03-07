@@ -1,3 +1,22 @@
+export interface NaukriJobData {
+    dataJobId: string;
+    title: string;
+    link: string;
+    companyName: string;
+    rating?: string | null;
+    ratingHref?: string | null;
+    ratingSourceDetails?: string | null;
+    ratingSourceNoReviews?: string | null;
+    experience: string;
+    location: string;
+    jobDescription?: string | null;
+    tags?: string[] | null;
+    jobPostDay?: string | null;
+    logoUrl?: string | null;
+    salary?: string | null;
+}
+
+
 export interface UserProfileData {
     preferred_job_type?: string;
     availability?: string;
@@ -226,4 +245,49 @@ export type AiReport = {
 }
 export type listener = {
     expand: any, startListen: () => void, stopListen: any, interimText: string, listen: any, setInterimText: any, setResponse: any, setListen: any, speaking: boolean, voiceOn: boolean
+}
+export interface RecruiterEditFormProps {
+    editFormData: {
+        recruiter_name: string;
+        email: string;
+        contact_number: string;
+        address: string;
+        designation: string;
+        organisation_name: string;
+        website: string;
+        company_domain: string;
+        hiring_for: string;
+    } | any;
+    handleEditChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+}
+export interface Project {
+    title: string;
+    description: string;
+}
+
+export interface ProjectsProps {
+    data: any;
+    setFormData: (fn: (prev: any) => any) => void;
+}
+export interface ResumeProps {
+    data: any;
+    resumeFile: File | null;
+    isUploadingResume: boolean;
+    setResumeFile: (file: File | null) => void;
+}
+export interface SummaryProps {
+    data: any;
+    setFormData: (fn: (prev: any) => any) => void;
+}
+export interface JobContext {
+    job_title: string;
+    company_name: string;
+    location: string;
+    job_description?: string;
+    skills?: string[];
+    salary_per_month_from?: number;
+    salary_per_month_to?: number;
+    good_to_have?: string[];
+    company_description?: string;
+    educational_req?: string;
 }

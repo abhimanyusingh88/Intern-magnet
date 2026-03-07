@@ -2,10 +2,10 @@
 import { ArrowUp, Mic, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import StartConfirmation from "./startConfirmation";
-import { toast } from "sonner";
 import ReportModal from "./aireport";
 import { AiReport } from "@/lib/types/types";
 import { listener } from "../../lib/types/types";
+import { submitReport } from "./interviewService";
 
 export default function AiLayout({ expand, startListen, voiceOn, stopListen, interimText, listen, setInterimText, setResponse, setListen, speaking }: listener) {
 
@@ -45,83 +45,6 @@ export default function AiLayout({ expand, startListen, voiceOn, stopListen, int
             throw new Error(err.message);
         }
     }
-    async function submitReport() {
-        try {
-            setLoading(true);
-            const summary = sessionStorage.getItem("summary");
-            const Response = sessionStorage.getItem("Responses");
-            const lastTwentyRes = Response?.slice(-20);
-            if (!summary || !Response) {
-                setOpen("close");
-                setStart("stop");
-                setSubmit("nosubmit");
-                sessionStorage.removeItem("totalInterview");
-                sessionStorage.setItem("open", "close");
-                sessionStorage.setItem("start", "stop");
-                sessionStorage.setItem("submit", "nosubmit");
-                sessionStorage.removeItem("summary");
-                sessionStorage.removeItem("Responses");
-                setResponse([]);
-                setLoading(false);
-                return;
-            }
-            const AIResponse = await fetch("/api/submitreport", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    summary: summary,
-
-                    message: lastTwentyRes
-                })
-            })
-            let finalRes = await AIResponse.json();
-            console.log("Raw AI Response:", finalRes);
-
-            // Handle stringified JSON from AI
-            if (typeof finalRes === "string") {
-                try {
-                    const cleanJson = finalRes.replace(/```json\n?|\n?```/g, "").trim();
-                    finalRes = JSON.parse(cleanJson);
-                } catch (e) {
-                    console.error("Failed to parse AI response as JSON:", e);
-                    toast.error("Failed to get report data");
-                    setLoading(false);
-                    return;
-                }
-            }
-
-            if (finalRes && typeof finalRes === "object" && "interview_score" in finalRes) {
-                setReport(finalRes);
-                setOpenReport(true);
-            } else {
-                console.error("AI response format invalid:", finalRes);
-                toast.error("Something went wrong!");
-            }
-
-            setOpen("close");
-            setStart("stop");
-            setSubmit("nosubmit");
-            sessionStorage.setItem("totalInterview", "finish");
-            sessionStorage.setItem("open", "close");
-            sessionStorage.setItem("start", "stop");
-            sessionStorage.setItem("submit", "nosubmit");
-            sessionStorage.removeItem("summary");
-            sessionStorage.removeItem("Responses");
-            setResponse([]);
-
-            setLoading(false);
-        }
-        catch (err: any) {
-            setOpen("close");
-            sessionStorage.setItem("open", "close");
-            setLoading(false);
-            toast.error("Internal server error")
-            throw new Error(err.message);
-        }
-    }
-
 
     return <div className={`w-full flex flex-col items-center md:w-2/3 rounded-lg sm:rounded-r-none overflow-hidden border-zinc-500/20 border-[0.7px] md:border-r-0 md:border-l-[0.7px] md:border-t-[0.7px] md:border-b-[0.7px] ${expand ? "h-[450px] sm:h-[600px]" : "h-[300px] md:h-[450px]"}`}>
         <div className={`w-full bg-orange-900/25 flex justify-center items-center flex-1`}>
@@ -184,7 +107,8 @@ export default function AiLayout({ expand, startListen, voiceOn, stopListen, int
         </form>
         {
             open === "open" && submit === "submit" && start === "start" && <StartConfirmation loading={loading} onConfirm={() => {
-                submitReport()
+                submitReport({ setLoading, setStart, setSubmit, setResponse, setOpen, setReport, setOpenReport })
+
             }} onClose={() => {
                 setOpen("close");
                 sessionStorage.setItem("open", "close");

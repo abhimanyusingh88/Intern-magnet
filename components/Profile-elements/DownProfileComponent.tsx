@@ -28,15 +28,15 @@ export default function DownProfileComponent() {
     const [resumeFile, setResumeFile] = useState<File | null>(null);
     const [isUploadingResume, setIsUploadingResume] = useState(false);
 
-    // Update form data when userData becomes available
+
     useEffect(() => {
-        // Only initialize/sync if we have fresh userData
+
         if (userData) {
             const initial = getInitialDownProfileData(userData);
             setFormData(initial);
             setFields(userData);
         } else {
-            // New user case: initialize with defaults once
+
             setFormData(prev => prev || getInitialDownProfileData(null));
         }
     }, [userData, setFields]);
@@ -55,7 +55,7 @@ export default function DownProfileComponent() {
     }
 
     if (!formData) {
-        return null; // Should not happen with the useEffect above, but for type safety
+        return null;
     }
 
     return (
@@ -73,7 +73,7 @@ export default function DownProfileComponent() {
                         submitData.append("resume_file", resumeFile);
                     }
 
-                    // Manually append complex fields that hidden inputs might mangle
+
                     if (formData.skills) submitData.append("skills", JSON.stringify(formData.skills));
                     if (formData.internships) submitData.append("internships", JSON.stringify(formData.internships));
                     if (formData.projects) submitData.append("projects", JSON.stringify(formData.projects));
@@ -87,11 +87,6 @@ export default function DownProfileComponent() {
                     }
 
                     await queryClient.invalidateQueries({ queryKey: ["profileData"] });
-                    // else {
-                    //     // setLastSavedData(formData);
-                    // }
-
-                    // remove resume UI after successful upload
                     setResumeFile(null);
                 } finally {
                     setIsUploadingResume(false);

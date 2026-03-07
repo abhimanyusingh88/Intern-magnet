@@ -1,25 +1,14 @@
 "use client";
+import { JobContext } from "@/lib/types/types";
 import { Lightbulb } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-interface JobContext {
-    job_title: string;
-    company_name: string;
-    location: string;
-    job_description?: string;
-    skills?: string[];
-    salary_per_month_from?: number;
-    salary_per_month_to?: number;
-    good_to_have?: string[];
-    company_description?: string;
-    educational_req?: string;
-}
 
 export default function PrepareButton({ job }: { job: JobContext }) {
     const router = useRouter();
 
     const handleClick = () => {
-        localStorage.setItem("interviewJobContext", JSON.stringify(job));
+        sessionStorage.setItem("interviewJobContext", JSON.stringify(job));
         router.push("/dashboard/interview");
     };
 
