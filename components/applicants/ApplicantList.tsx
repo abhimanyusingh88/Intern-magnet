@@ -5,11 +5,16 @@ import { Check, X } from "lucide-react"
 import { AppliedUsersList } from "@/lib/data/appliedList"
 import { useState } from "react"
 import DeleteConfirmationModal from "../utils/deleteConfirmationModal"
-import { prisma } from "@/lib/prisma"
+import { useQueryClient } from "@tanstack/react-query"
+import Noapplicants from "./noApplicants"
+import { handleRejection } from "./rejectHandler"
+import { handleShortlist } from "./shorlistHandler"
 
-export default function ApplicantList({ id, email }: { id: string, email: any }) {
+export default function ApplicantList({ id }: { id: string }) {
     const [open, setOpen] = useState<boolean>(false);
     const [saving, setSaving] = useState<boolean>(false);
+    const [reject, setReject] = useState<boolean>(false);
+    const queryClient = useQueryClient();
 
     const {
         data,
@@ -20,27 +25,6 @@ export default function ApplicantList({ id, email }: { id: string, email: any })
         isFetchingNextPage
     } = AppliedUsersList(id)
 
-    async function handleShortlist() {
-        try {
-            setSaving(true);
-            const res = await fetch(`/api/shortlist/${id}`)
-            const result = await res.json();
-            if (!res.ok) {
-                toast.error(result.message);
-            }
-            else {
-                toast.success(result.message);
-            }
-            setSaving(false);
-            setOpen(false);
-        }
-        catch (err) {
-            setSaving(false);
-            setOpen(false);
-            toast.error("Something went wrong while updating the status!!")
-            throw new Error(err instanceof Error ? err.message : "something went wrong !!")
-        }
-    }
 
     if (isLoading) {
         return <JobListIndicator />
@@ -54,8 +38,11 @@ export default function ApplicantList({ id, email }: { id: string, email: any })
             </p>
         )
     }
-
     const applicants = data?.pages?.flatMap((page: any) => page.appliedUsers || []) || []
+
+    if (applicants.length === 0) {
+        return <Noapplicants />
+    }
 
     return (
         <div className="grid gap-4 mt-4">
@@ -94,10 +81,12 @@ export default function ApplicantList({ id, email }: { id: string, email: any })
                                 <button className="px-4 py-2  cursor-pointer rounded-lg border border-white/10 bg-white/5 text-zinc-200 hover:border-white/20 hover:bg-white/10 transition">
                                     View Profile
                                 </button>
-                                <button onClick={() => setOpen(true)} className="px-4 py-2  cursor-pointer rounded-lg border border-white/10 bg-green-500/60 text-zinc-200 hover:border-white/20 hover:bg-green-500/40 transition">
-                                    <Check className="w-5 h-5" />
-                                </button>
-                                <button className="px-4 py-2  cursor-pointer rounded-lg border border-white/10 bg-red-500/60 text-zinc-200 hover:border-white/20 hover:bg-red-500/40 transition">
+                                {
+                                    a.status === "shortlisted" ? <p className="bg-green-500/30  rounded-xl flex items-center px-2">Shortlisted</p> : <button onClick={() => setOpen(true)} className="px-4 py-2  cursor-pointer rounded-lg border border-white/10 bg-green-500/60 text-zinc-200 hover:border-white/20 hover:bg-green-500/40 transition">
+                                        <Check className="w-5 h-5" />
+                                    </button>
+                                }
+                                <button onClick={() => setReject((f) => !f)} className="px-4 py-2  cursor-pointer rounded-lg border border-white/10 bg-red-500/60 text-zinc-200 hover:border-white/20 hover:bg-red-500/40 transition">
                                     <X className="h-5 w-5" />
                                 </button>
                             </div>
@@ -138,6 +127,12 @@ export default function ApplicantList({ id, email }: { id: string, email: any })
                                 <p className="text-zinc-200">{u?.address}</p>
                             </div>
                         </div>
+                        {
+                            open && <DeleteConfirmationModal openModal={open} indic="short" setOpenModal={setOpen} title="Confirm this action" para="Are you sure to perform this action?" isDeleting={saving} handleDelete={() => handleShortlist(u?.email, id, setOpen, setSaving, queryClient)} savingString="Shortlist" />
+                        }
+                        {
+                            reject && <DeleteConfirmationModal openModal={reject} indic="reject" setOpenModal={setReject} title="Confirm this action" para="Are you sure to perform this action?" isDeleting={saving} handleDelete={() => handleRejection(u?.email, id, setReject, setSaving, queryClient)} savingString="Reject" />
+                        }
                     </div>
                 )
             })}
@@ -154,9 +149,7 @@ export default function ApplicantList({ id, email }: { id: string, email: any })
                 </div>
             )}
 
-            {
-                open && <DeleteConfirmationModal openModal={open} indic="short" setOpenModal={setOpen} title="Confirm this action" para="Are you sure to perform this action?" isDeleting={saving} handleDelete={handleShortlist} savingString="Shortlist" />
-            }
+
 
         </div>
     )

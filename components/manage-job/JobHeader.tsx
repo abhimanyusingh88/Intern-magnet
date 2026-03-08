@@ -76,7 +76,7 @@ export function JobHeader({ job, appliedData }: { job: JobDetail, appliedData: a
 
             <div className="flex gap-3">
                 <button className="px-4 py-2.5 cursor-pointer rounded-full bg-zinc-800 text-zinc-100 font-semibold hover:bg-zinc-700/80 transition active:scale-95">
-                    <Users className="w-5 h-5 text-zinc-100 inline" /> <span className="text-zinc-100">Applicants: {appliedData?.serializedData?.length}</span>
+                    <Users className="w-5 h-5 text-zinc-100 inline" /> <span className="text-zinc-100">Applicants: {appliedData?.appliedUsers?.length ?? 0}</span>
                 </button>
             </div>
         </div>

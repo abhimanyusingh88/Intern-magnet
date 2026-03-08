@@ -17,7 +17,7 @@ export function AppliedUsersList(id: string) {
         queryFn: async ({ pageParam }) => {
 
             const res = await fetch(
-                `/api/appliedusers/${id}?cursor=${pageParam ?? ""}`
+                `/api/appliedusers/${id}?cursor=${pageParam ?? ""}&status=pending`
             );
 
             if (!res.ok) {

@@ -24,13 +24,14 @@ export async function GET(
 
         const { job_id } = await params;
 
-        // 👇 cursor query param
         const { searchParams } = new URL(req.url);
         const cursor = searchParams.get("cursor");
+        const status = searchParams.get("status");
 
         const appliedUsers = await prisma.applied.findMany({
             where: {
-                job_id: BigInt(job_id)
+                job_id: BigInt(job_id),
+                ...(status && { status })
             },
 
             take: PAGE_SIZE + 1,

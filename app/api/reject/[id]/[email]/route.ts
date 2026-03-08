@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { headers } from "next/headers"
 import { NextResponse } from "next/server"
 
-export async function PATCH(req: Request, { params }: any) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string, email: string }> }) {
 
     try {
         const session = await auth.api.getSession({
@@ -14,16 +14,29 @@ export async function PATCH(req: Request, { params }: any) {
                 { status: 400 }
             )
         }
-        const { job_id } = params
+        const { id, email } = await params;
+        // console.log(id);
+        const applied = await prisma.applied.findFirst({
+            where: {
+                job_id: BigInt(id),
+                user_id: email,
+            }
+        });
+        if (applied?.status === "shortlisted" || applied?.status === "rejected") {
+            return NextResponse.json({ message: `Cannot change the status as the user is already ${applied?.status}!!` },
+                { status: 400 }
+            )
+        }
 
 
         const res = await prisma.applied.updateMany({
             where: {
-                job_id: BigInt(job_id),
-                user_id: session?.user?.email
+                job_id: BigInt(id),
+                user_id: email,
+                status: "pending"
             },
             data: {
-                status: "shortlisted"
+                status: "rejected"
             }
         })
         if (res.count === 0) {

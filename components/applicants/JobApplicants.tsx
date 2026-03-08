@@ -2,7 +2,6 @@ import ApplicantList from "./ApplicantList";
 import JobCard from "./JobCard";
 
 export default function JobApplicants({ id, email }: { id: string, email: any }) {
-    // const { error, data, isLoading } = AppliedUsersData(id);
 
     return <div className="w-full flex flex-col  gap-6">
 
@@ -29,7 +28,7 @@ export default function JobApplicants({ id, email }: { id: string, email: any })
 
         </div>
         <div className="w-full flex items-center flex-col">
-            <ApplicantList id={id} email={email} />
+            <ApplicantList id={id} />
         </div>
     </div>
 }
