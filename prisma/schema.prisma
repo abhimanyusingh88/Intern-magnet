@@ -55,6 +55,7 @@ model LegacyUser {
   updated_at                DateTime?         @db.Timestamptz(6)
   interview_taken           Int?
   interview_count           Int @default(0) 
+  applies                   Applied[]
 
   @@map("users")
 }
@@ -223,6 +224,7 @@ model Applied {
   status     String
   viewed     Boolean
   job        RecruiterHiring @relation(fields: [job_id], references: [id], onDelete: Cascade)
+  userId   LegacyUser @relation(fields:[user_id],references:[email],onDelete:Cascade)
 
   @@map("applied")
 }

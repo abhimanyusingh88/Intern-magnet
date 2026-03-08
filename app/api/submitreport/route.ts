@@ -45,9 +45,6 @@ JSON structure:
 }
         `
 
-        // if (jobData) {
-        //     unifiedMessage.push({ role: "system", content: `Job Context: ${JSON.stringify(jobData)}` });
-        // }
         unifiedMessage.push(message);
         unifiedMessage.push(summary);
         unifiedMessage.push(requirement);

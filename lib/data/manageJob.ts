@@ -21,7 +21,8 @@ export const getManageJobQueryOptions = (id: string, baseUrl?: string, cookieStr
             const errorData = await res.json().catch(() => ({}));
             throw new Error(errorData.error || `Failed to fetch job: ${res.status}`);
         }
-        return res.json();
+        const data = await res.json();
+        return data;
     },
     staleTime: 10 * 60 * 1000
 

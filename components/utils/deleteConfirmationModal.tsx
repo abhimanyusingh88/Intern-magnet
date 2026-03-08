@@ -1,15 +1,17 @@
 "use client";
-import { X, Trash2 } from "lucide-react";
+import { X, Trash2, AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 export default function DeleteConfirmationModal({
+    indic,
     handleDelete,
     openModal,
     setOpenModal,
     title,
     para,
-    isDeleting
+    isDeleting,
+    savingString
 }: {
     handleDelete: () => Promise<void> | void;
     openModal: boolean;
@@ -17,6 +19,8 @@ export default function DeleteConfirmationModal({
     title: string;
     para: string;
     isDeleting?: boolean;
+    indic?: string
+    savingString?: String
 }) {
     const [mounted, setMounted] = useState(false);
 
@@ -68,9 +72,13 @@ export default function DeleteConfirmationModal({
                 </button>
 
                 {/* Icon */}
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
-                    <Trash2 className="h-6 w-6 text-red-500" />
-                </div>
+                {
+                    indic ? <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
+                        <AlertCircle className="h-6 w-6 text-red-500" />
+                    </div> : <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
+                        <Trash2 className="h-6 w-6 text-red-500" />
+                    </div>
+                }
 
                 {/* Text Context */}
                 <div className="text-center space-y-2">
@@ -130,10 +138,14 @@ export default function DeleteConfirmationModal({
                         {isDeleting ? (
                             <>
                                 <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-                                Deleting...
+                                {savingString ? `${savingString}ing` : "Deleting"}
                             </>
                         ) : (
-                            "Delete"
+                            <>
+                                {
+                                    savingString ? `${savingString}` : "Delete"
+                                }
+                            </>
                         )}
                     </button>
                 </div>

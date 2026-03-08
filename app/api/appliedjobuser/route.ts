@@ -28,7 +28,7 @@ export async function GET(request: Request) {
 
         const applied = await prisma.applied.findMany({
             where: {
-                user_id: session.user.email, // user_id stores email as string
+                user_id: session.user.email,
                 job_id: BigInt(jobId)
             }
         })

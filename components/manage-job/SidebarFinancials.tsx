@@ -1,6 +1,6 @@
-import React from "react";
 import { JobDetail } from "@/lib/types/types";
 import { IndianRupee } from "lucide-react";
+import Link from "next/link";
 
 export function SidebarFinancials({ job }: { job: JobDetail }) {
     const benefits = job.additional_benefits?.split(',').map(b => b.trim()).filter(Boolean) || [];
@@ -33,10 +33,10 @@ export function SidebarFinancials({ job }: { job: JobDetail }) {
                     </div>
                 ) : (<p className="text-zinc-400  italic ">Not Specified</p>)}
 
-                <div className="pt-6">
-                    <button className="w-full cursor-pointer py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/20 active:scale-95">
+                <div className="pt-6 flex justify-center text-center ">
+                    <Link href={`/recruiter/applicants/${job.company_name}/${job.job_title}/${job.id}`} className="min-w-full cursor-pointer py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/20 active:scale-95">
                         View All Applicants
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

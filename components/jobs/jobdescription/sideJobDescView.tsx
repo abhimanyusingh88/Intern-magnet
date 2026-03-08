@@ -11,8 +11,10 @@ import ButtonJob from "./buttonJob";
 import { Slugify } from "../slugify";
 import AppliedIndicator from "./appliedIndicator";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function SideJobDescView({ jobData, session }: { jobData: JobDetail, session: any }) {
+    const queryClient = useQueryClient();
     const formLink = jobData.job_form_link?.startsWith("http")
         ? jobData.job_form_link
         : `https://${jobData.job_form_link}`;
@@ -86,6 +88,9 @@ export default function SideJobDescView({ jobData, session }: { jobData: JobDeta
                 setAnswers({});
                 setHasApplied(true);
                 toast.success(data.message);
+                queryClient.invalidateQueries({ queryKey: ["manageJob", jobData.id] })
+                queryClient.invalidateQueries({ queryKey: ["appliedUsers", jobData.id] })
+                queryClient.invalidateQueries({ queryKey: ["appliedList", jobData.id] })
                 router.refresh();
             }
             else {

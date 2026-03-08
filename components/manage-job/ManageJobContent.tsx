@@ -13,7 +13,6 @@ import {
     Calendar,
     GraduationCap,
     Sparkles,
-    MessageSquare,
     Clock,
     Users,
     Briefcase,
@@ -22,6 +21,7 @@ import {
 } from "lucide-react";
 import { BulletList } from "../utils/BulletList";
 import { AppliedUsersData } from "@/lib/data/appliedUsersData";
+import ScreeningQusetions from "./screeningQuestions";
 
 
 
@@ -32,7 +32,7 @@ export default function ManageJobContent({ id }: { id: string }) {
     const [open, setOpen] = useState<boolean>(false);
 
     if (isLoading) return <SpinnerBig />;
-    if (isError) return <div className="p-10 text-red-500 text-center">Error: {(error as Error).message}</div>;
+    if (isError) return <div className="p-10 text-red-500 text-center">Error: Something went wrong!</div>;
 
     if (!job) return (
         <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-6 text-center">
@@ -120,15 +120,17 @@ export default function ManageJobContent({ id }: { id: string }) {
                                 <BulletList color="bg-indigo-500" text={job.required_qualifications} />
                             </Section>
 
-                            job.preferred_qualifications && (
-                            <Section title="Preferred Qualifications">
-                                <BulletList color="bg-indigo-500" text={job.preferred_qualifications} />
-                            </Section>
+                            {job.preferred_qualifications &&
+                                <Section title="Preferred Qualifications">
+                                    <BulletList color="bg-indigo-500" text={job.preferred_qualifications} />
+                                </Section>
+                            }
 
-                            job.skill_description && (
-                            <Section title="Skill Description">
-                                <BulletList color="bg-indigo-500" text={job.skill_description} />
-                            </Section>
+                            {job.skill_description &&
+                                <Section title="Skill Description">
+                                    <BulletList color="bg-indigo-500" text={job.skill_description} />
+                                </Section>
+                            }
 
 
 
@@ -163,23 +165,7 @@ export default function ManageJobContent({ id }: { id: string }) {
 
                             </div>
 
-                            {job.screening_questions?.length > 0 && (
-                                <Section title="Screening Questions" icon={<MessageSquare className="w-5 h-5 text-emerald-400" />}>
-                                    <ul className="space-y-4">
-                                        {job.screening_questions.map((q: any, idx: number) => (
-                                            <li key={idx} className="group/q flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition">
-                                                <span className="shrink-0 w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold border border-indigo-500/30">
-                                                    {idx + 1}
-                                                </span>
-                                                <div className="space-y-1">
-                                                    <p className="text-zinc-200">{q.question}</p>
-                                                    <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">{q.type.split("_").join(" / ")} response</span>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </Section>
-                            )}
+                            <ScreeningQusetions job={job} />
                         </div>
                     </div>
 
