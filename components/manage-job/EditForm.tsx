@@ -12,6 +12,7 @@ import { educationalRequirements } from "../Recruiter-hiring/EducationalRequirem
 import { skills } from "../Recruiter-hiring/Skills";
 import { X } from "lucide-react";
 import NormalButton from "../utils/normalButton";
+import { toast } from "sonner";
 
 
 type editJOb = {
@@ -74,20 +75,24 @@ export default function EditForm({ job, setOpen }: editJOb) {
                 body: JSON.stringify(formData),
             });
             if (!res.ok) {
+                toast.error("Failed to update the job!")
                 const errorData = await res.json();
                 throw new Error(errorData.error);
             }
-            alert("Job updated successfully!😀");
+
 
             // Invalidate queries to refresh data instantly without heavy router.refresh()
             queryClient.invalidateQueries({ queryKey: ["manageJob", job.id] });
             queryClient.invalidateQueries({ queryKey: ["postedJobs"] });
+            toast.success("Job updated successfully!😀")
 
             setOpen(false);
 
         } catch (error) {
             console.error("Submission failed:", error);
-            alert("Failed to submit job post. Please try again.");
+            // alert("Failed to submit job post. Please try again.");
+            toast.error("Internal server error!, failed to update the job")
+            throw new Error(error as string)
         }
         finally {
             setSaving(false)

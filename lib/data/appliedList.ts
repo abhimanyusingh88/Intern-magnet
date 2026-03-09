@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export function AppliedUsersList(id: string) {
+export function AppliedUsersList(id: string, status: string) {
 
     const {
         data,
@@ -17,7 +17,7 @@ export function AppliedUsersList(id: string) {
         queryFn: async ({ pageParam }) => {
 
             const res = await fetch(
-                `/api/appliedusers/${id}?cursor=${pageParam ?? ""}&status=pending`
+                `/api/appliedusers/${id}?cursor=${pageParam ?? ""}&status=${status}`
             );
 
             if (!res.ok) {

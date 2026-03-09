@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ApplicantList from "./ApplicantList";
 import JobCard from "./JobCard";
 
@@ -19,6 +20,7 @@ export default function JobApplicants({ id, email }: { id: string, email: any })
                 <p className="text-zinc-400 text-xs sm:text-sm mt-2 text-center sm:text-left max-w-md">
                     Review, manage, and track candidates who applied for this position.
                 </p>
+
             </div>
 
             {

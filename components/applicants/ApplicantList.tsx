@@ -23,7 +23,7 @@ export default function ApplicantList({ id }: { id: string }) {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage
-    } = AppliedUsersList(id)
+    } = AppliedUsersList(id, "pending")
 
 
     if (isLoading) {

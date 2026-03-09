@@ -72,8 +72,8 @@ export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob
 
                 {/* Footer: posted date + manage link */}
                 <div className="relative z-10 mt-2 flex flex-wrap items-center justify-between gap-2 text-xs">
-                    <span className="text-zinc-500">
-                        Posted {new Date(job.created_at).toLocaleDateString()}
+                    <span className="text-zinc-300">
+                        <span className="bg-zinc-800 rounded-xl py-1 px-2">Posted: {new Date(job.created_at).toLocaleDateString()}</span>
                         <span className="mx-1">·</span>
                         <span className="text-red-500">Deadline: {job.application_deadline}</span>
                     </span>

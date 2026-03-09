@@ -27,7 +27,7 @@ export default async function ApplicantsPage({ params }: Params) {
         toast.error("Unauthorized user access denied");
     }
     const email = session?.user?.email;
-    const { company_name, job_title, id } = await params;
+    const { id } = await params;
     console.log(id);
     return <main className="
         relative min-h-screen flex flex-col overflow-hidden

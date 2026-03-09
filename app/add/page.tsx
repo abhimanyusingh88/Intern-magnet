@@ -3,8 +3,8 @@ import RecruiterCard from "@/components/Recruiter-hiring/recruiterCard";
 import RecruiterHeaderImage from "@/components/Recruiter-hiring/RecruiterHeaderImage";
 import { Briefcase, Building, Crown, Filter, MessageCircle, Rocket, Users } from "lucide-react";
 import type { Metadata } from "next";
-import { addPageMenu } from "@/components/Recruiter-hiring/constants";
 import SideArrowMenu from "@/components/Recruiter-hiring/sliderOption";
+import { addPageMenu } from "@/components/utils/constants";
 
 export const metadata: Metadata = {
     title: "Recruiter Panel | Intern-Magnet",
