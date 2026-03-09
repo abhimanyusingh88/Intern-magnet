@@ -31,7 +31,7 @@ export async function GET(
         const appliedUsers = await prisma.applied.findMany({
             where: {
                 job_id: BigInt(job_id),
-                ...(status && { status })
+                // ...(status && { status })
             },
 
             take: PAGE_SIZE + 1,

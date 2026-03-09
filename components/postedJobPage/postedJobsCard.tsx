@@ -34,49 +34,55 @@ export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob
         <main className="relative group">
             {/* <BackGroundGlow /> */}
 
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-linear-to-br from-zinc-900 via-zinc-900 to-zinc-950 p-4 sm:p-6 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.9)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,1)] hover:border-white/20">
+            <div className="relative overflow-hidden rounded-xl border border-white/10 bg-linear-to-br from-zinc-900 via-zinc-900 to-zinc-950 p-3 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.9)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,1)] hover:border-white/20">
 
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-indigo-500/15 to-transparent" />
-                <div onClick={
-                    () => setOpenModalDelete(true)
-                }
-                    className="absolute right-1 top-1">
-                    <Trash2 size={20} className="text-indigo-500 hover:text-indigo-400 cursor-pointer" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-linear-to-b from-indigo-500/15 to-transparent" />
+                <div onClick={() => setOpenModalDelete(true)} className="absolute right-1.5 top-1.5 z-20">
+                    <Trash2 size={15} className="text-indigo-500 hover:text-indigo-400 cursor-pointer" />
                 </div>
 
-                <div className="relative z-10 flex items-start justify-between gap-4">
-                    <div>
-                        <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-white">{job.job_title}</h2>
-                        <p className="mt-1 text-sm text-zinc-400">{job.company_name}</p>
+                {/* Header: title + badge */}
+                <div className="relative z-10 flex items-start justify-between gap-2 pr-5">
+                    <div className="min-w-0">
+                        <h2 className="text-sm font-semibold tracking-tight text-white leading-none truncate">{job.job_title}</h2>
+                        <p className="mt-0.5 text-xs text-zinc-400 truncate">{job.company_name}</p>
                     </div>
-
-                    <span className="rounded-full border border-indigo-400/20 bg-indigo-400/10 px-3 py-1 text-xs font-medium text-indigo-300 backdrop-blur">{job.employment_type}</span>
+                    <span className="rounded-full border border-indigo-400/20 bg-indigo-400/10 px-2 py-0.5 text-[10px] font-medium text-indigo-300 backdrop-blur shrink-0 whitespace-nowrap">{job.employment_type}</span>
                 </div>
 
-                <div className="relative z-10 mt-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-                    <div><p className="text-zinc-500"><MapPin size={16} className="inline mr-1" /><span>Location</span></p><p className="text-zinc-200">{job.location}</p></div>
-                    <div><p className="text-zinc-500">Experience</p><p className="text-zinc-200">{job.work_experience_min}–{job.work_experience_max} yrs</p></div>
-                    <div><p className="text-zinc-500">Salary</p><p className="text-zinc-200">₹{job.salary_per_month_from}–₹{job.salary_per_month_to}</p></div>
-                    <div><p className="text-zinc-500">Posted Vacancy</p><p className="text-white font-semibold">{job.number_of_applications} Post</p></div>
+                {/* Stats row — flex-wrap so they never squash */}
+                <div className="relative z-10 mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-xs">
+                    <div className="min-w-[80px]">
+                        <p className="text-zinc-500 flex items-center gap-0.5"><MapPin size={10} className="shrink-0" />Location</p>
+                        <p className="text-zinc-200 truncate">{job.location}</p>
+                    </div>
+                    <div className="min-w-[80px]">
+                        <p className="text-zinc-500">Experience</p>
+                        <p className="text-zinc-200">{job.work_experience_min}–{job.work_experience_max} yrs</p>
+                    </div>
+                    <div className="min-w-[80px]">
+                        <p className="text-zinc-500">Salary</p>
+                        <p className="text-zinc-200">₹{job.salary_per_month_from}–₹{job.salary_per_month_to}</p>
+                    </div>
+                    <div className="min-w-[60px]">
+                        <p className="text-zinc-500">Vacancy</p>
+                        <p className="text-white font-semibold">{job.number_of_applications} Post</p>
+                    </div>
                 </div>
 
-                <div className="relative z-10 mt-4 text-xs">
-                    <span className="block text-zinc-500 mb-2">
+                {/* Footer: posted date + manage link */}
+                <div className="relative z-10 mt-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <span className="text-zinc-500">
                         Posted {new Date(job.created_at).toLocaleDateString()}
+                        <span className="mx-1">·</span>
+                        <span className="text-red-500">Deadline: {job.application_deadline}</span>
                     </span>
-
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                        <span className="inline-flex text-red-600 border border-red-600 px-2 py-1 rounded-lg text-[10px] sm:text-xs shrink-0">
-                            Deadline: {job.application_deadline}
-                        </span>
-
-                        <Link
-                            href={`/postedjobs/manage/${job.id}`}
-                            className="text-[10px] sm:text-xs font-medium border hover:scale-105 cursor-pointer border-indigo-400 rounded-full hover:bg-zinc-800 py-1.5 px-3 sm:px-4 text-white/70 transition group-hover:text-white inline-flex items-center gap-1"
-                        >
-                            Manage Your Jobs <ChevronRight size={14} className="sm:w-4 sm:h-4" />
-                        </Link>
-                    </div>
+                    <Link
+                        href={`/postedjobs/manage/${job.id}`}
+                        className="font-medium border hover:scale-105 cursor-pointer border-indigo-400 rounded-full hover:bg-zinc-800 py-1 px-3 text-white/70 transition group-hover:text-white inline-flex items-center gap-0.5 whitespace-nowrap"
+                    >
+                        Manage <ChevronRight size={11} />
+                    </Link>
                 </div>
 
 
