@@ -15,7 +15,7 @@ interface ProfileEditFormProps {
 }
 
 export default function ProfileEditForm({ editFormData, handleEditChange }: ProfileEditFormProps) {
-    // Simplified date converters using one-liners
+
     const dobValue = editFormData.dob || "";
     const dobForInput = dobValue.includes("/")
         ? dobValue.split("/").reverse().join("-")
@@ -25,7 +25,6 @@ export default function ProfileEditForm({ editFormData, handleEditChange }: Prof
         // Convert yyyy-mm-dd -> dd/mm/yyyy directly
         const value = e.target.value.split("-").reverse().join("/");
 
-        // Create a synthetic event matching the expected signature
         const syntheticEvent = {
             target: {
                 name: e.target.name,

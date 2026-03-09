@@ -41,6 +41,8 @@ export async function GET() {
     }
 }
 
+////////////////////////////// for the post req
+
 export async function POST(request: Request) {
     try {
         const session = await auth.api.getSession({ headers: await headers() });
@@ -82,7 +84,7 @@ export async function POST(request: Request) {
             );
         };
 
-        /* -------------------- ARRAY ATOMIC COMMAND -------------------- */
+        //////////// yha pe json waali cheezo ko upload process karenge
         const jsonCommand = entries.json_command;
         if (jsonCommand && typeof jsonCommand === "string") {
             try {
@@ -153,9 +155,12 @@ export async function POST(request: Request) {
         }
 
         // --- Server-Side Validation using Zod ---
-        const validatedUpdateData = SeekerProfileSchema.partial().parse(updateData);
+        const parseResult = SeekerProfileSchema.partial().safeParse(updateData);
+        if (!parseResult.success) {
+            return NextResponse.json({ message: "Validation failed", errors: parseResult.error.flatten() }, { status: 400 });
+        }
 
-        validatedUpdateData.updated_at = new Date();
+        const validatedData: Record<string, any> = { ...parseResult.data, updated_at: new Date() };
 
         /* -------------------- RESUME UPLOAD -------------------- */
         if (resumeFile) {
@@ -173,17 +178,17 @@ export async function POST(request: Request) {
             }
 
             updateData.resume_path = path;
-            validatedUpdateData.resume_path = path;
+            validatedData.resume_path = path;
         }
 
         await prisma.legacyUser.update({
             where: { id: user.id },
-            data: validatedUpdateData as any,
+            data: validatedData as any,
         });
 
         revalidatePath("/profile");
 
-        const resumePath = validatedUpdateData.resume_path || user.resume_path || null;
+        const resumePath = validatedData.resume_path || user.resume_path || null;
         return NextResponse.json(resumePath);
 
     } catch (err) {

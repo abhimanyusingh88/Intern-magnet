@@ -23,6 +23,9 @@ import { UpdateProfile } from "./operations"
 export default function ProfileMain({ session }: { session: any }) {
     const { data: userData, isLoading: isUserLoading } = ProfileData();
     const { data: recruiterData, isLoading: isRecruiterLoading } = RecruiterProfileData();
+    const [isMounted, setIsMounted] = useState(false);
+    const [openImageModal, setImageModal] = useState(false);
+    const [error, setError] = useState<String>("");
 
     const {
         activeMode,
@@ -32,16 +35,12 @@ export default function ProfileMain({ session }: { session: any }) {
         setFields,
         setRecruiterFields,
         profileFields,
-    } = useProfile()
-
-    const [isMounted, setIsMounted] = useState(false);
-    const [openImageModal, setImageModal] = useState(false);
-    const [error, setError] = useState<String>("");
-    // console.log(error);
+    } = useProfile();
 
     useEffect(() => {
         setIsMounted(true);
     }, []);
+
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -52,7 +51,7 @@ export default function ProfileMain({ session }: { session: any }) {
     const hasRecruiterData = (recruiterData && typeof recruiterData === 'object' && Object.keys(recruiterData).length > 6);
 
     useEffect(() => {
-        // Initialize with default fields if userData is null
+
         const seekerBase = userData || (session?.user?.email ? { email: session.user.email } : null);
         setFields(getInitialProfileData(seekerBase));
 

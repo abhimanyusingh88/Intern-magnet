@@ -37,12 +37,12 @@ export default function FieldEditModal({
         const handleEscape = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
                 onClose();
-                setReminder("");
+                setReminder?.("");
             }
         };
         if (isOpen) document.addEventListener("keydown", handleEscape);
         return () => document.removeEventListener("keydown", handleEscape);
-    }, [isOpen, onClose]);
+    }, [isOpen, onClose, setReminder]);
 
     // Prevent body scroll when open
     useEffect(() => {
@@ -65,7 +65,7 @@ export default function FieldEditModal({
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
                 onClick={() => {
                     onClose();
-                    setReminder("");
+                    setReminder?.("");
 
                 }}
             />
@@ -87,7 +87,7 @@ export default function FieldEditModal({
                     <button
                         onClick={() => {
                             onClose();
-                            setReminder("");
+                            setReminder?.("");
 
 
                         }}
@@ -107,7 +107,7 @@ export default function FieldEditModal({
                     <button
                         onClick={() => {
                             onClose();
-                            setReminder("");
+                            setReminder?.("");
                         }}
                         className="rounded-lg cursor-pointer px-4 py-2 text-sm font-medium text-zinc-400 hover:bg-white/5 hover:text-white transition-colors"
                     >

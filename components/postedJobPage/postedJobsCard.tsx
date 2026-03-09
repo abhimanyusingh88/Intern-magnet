@@ -1,9 +1,9 @@
 
 "use client"
 import useDeleteJob from "@/lib/data/deletingJob";
-import { ChevronRight, LocateIcon, MapPin, Trash2 } from "lucide-react"
+import { ChevronRight, MapPin, Trash2 } from "lucide-react"
 import Link from "next/link";
-import { startTransition, useState } from "react";
+import { useState } from "react";
 import DeleteConfirmationModal from "../utils/deleteConfirmationModal";
 
 export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob: any }) {
@@ -12,7 +12,7 @@ export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob
 
     const handleDelete = async () => {
         try {
-            // No need to set isDeleting manually as it's from useDeleteJob
+
             deleteJob(job.id);
             await mutateAsync(job.id);
             setOpenModalDelete(false);
