@@ -28,9 +28,10 @@ export async function PATCH(
         if (!user) {
             return NextResponse.json({ error: "User not found." }, { status: 404 });
         }
+        const recruiterId = user.id;
 
         const updatedJob = await prisma.recruiterHiring.update({
-            where: { id: BigInt(id) },
+            where: { id: BigInt(id), recruiter_profile_id: recruiterId },
             data: {
                 company_name: body.company_name,
                 job_title: body.job_title,

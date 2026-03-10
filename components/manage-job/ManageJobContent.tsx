@@ -36,21 +36,20 @@ export default function ManageJobContent({ id }: { id: string }) {
 
     if (!job) return (
         <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-6 text-center">
-            <h1 className="text-2xl font-bold text-white mb-4">Job Not Found</h1>
+            <h1 className="text-2xl font-bold text-red-500 mb-4">Job Not Found!!</h1>
         </div>
     );
 
     return (
         <main className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-indigo-500/30">
-            {/* <BackgroundDecoration /> */}
 
             <BackGroundGlow />
             {open && <EditForm job={job} setOpen={setOpen} />}
 
             <div className="relative max-w-6xl mx-auto px-6 sm:px-10 pt-20 pb-20">
                 <div className="w-full font-sans flex-col  flex justify-center sm:text-3xl sm:pb-4 text-center mb-2">
-                    <div className="w-full  justify-center flex gap-2"><p className="bg-linear-to-r text-lg sm:text-xl md:text-2xl font-sans from-indigo-500 to-pink-400 text-transparent bg-clip-text  font-bold">Your complete editing area, modify your posting here with ease</p>
-                        <Rocket className="text-indigo-500 h-12 w-12  animate-float" /></div>
+                    <div className="w-full  justify-center flex gap-2"><p className="bg-linear-to-r text-lg sm:text-xl md:text-2xl font-sans from-indigo-500 to-pink-400 text-transparent bg-clip-text tracking-wide  font-bold">JOB MANAGEMENT PAGE</p>
+                    </div>
 
                     <p className="text-xs sm:text-lg mt-2 sm:mt-0 font-thin font-sans text-zinc-400">MANAGE, REVIEW, EDIT</p>
                 </div>

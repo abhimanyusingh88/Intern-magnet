@@ -3,7 +3,7 @@ import { Sparkles } from "lucide-react";
 
 export function ManagementBanner() {
     return (
-        <div className="mb-12 relative overflow-hidden rounded-3xl border border-white/10 bg-linear-to-r from-indigo-500/10 via-pink-500/10 to-transparent p-8 backdrop-blur-sm">
+        <div className="mb-12 relative overflow-hidden rounded-3xl border border-white/10 bg-linear-to-r from-indigo-500/10 via-pink-500/10 to-transparent p-6 backdrop-blur-sm">
             <div className="relative z-10 flex items-center gap-4">
                 <div className="p-3 rounded-2xl bg-indigo-500/20 text-indigo-400">
                     <Sparkles className="w-6 h-6" />
