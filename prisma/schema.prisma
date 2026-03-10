@@ -65,7 +65,7 @@ model RecruiterProfile {
   id                BigInt            @id @default(autoincrement())
   userId            String            @unique
   recruiter_name    String
-  email             String
+  email             String            @unique
   contact_number    String?
   address           String?
   designation       String?

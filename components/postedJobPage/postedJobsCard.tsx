@@ -3,22 +3,29 @@
 import useDeleteJob from "@/lib/data/deletingJob";
 import { ChevronRight, MapPin, Trash2 } from "lucide-react"
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import DeleteConfirmationModal from "../utils/deleteConfirmationModal";
+import { toast } from "sonner";
 
 export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob: any }) {
-    const { mutateAsync, isPending: isDeleting } = useDeleteJob();
+    const { mutateAsync, isPending: isDeleting, error } = useDeleteJob();
     const [openModalDelete, setOpenModalDelete] = useState(false);
+    const [isPending, startTransition] = useTransition();
 
     const handleDelete = async () => {
-        try {
+        startTransition(async () => {
+            try {
+                deleteJob(job.id);
+                const res = await mutateAsync(job.id);
+                setOpenModalDelete(false);
+                toast.success("Job deleted successfully");
 
-            deleteJob(job.id);
-            await mutateAsync(job.id);
-            setOpenModalDelete(false);
-        } catch (error) {
-            console.error(error);
-        }
+            } catch (error) {
+                setOpenModalDelete(false);
+                toast.error("Failed to delete job");
+
+            }
+        });
     }
 
     if (openModalDelete) return <DeleteConfirmationModal
@@ -86,7 +93,7 @@ export default function PostedJobsCard({ job, deleteJob }: { job: any, deleteJob
                 </div>
 
 
-                <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(500px_circle_at_50%_-20%,rgba(99,102,241,0.12),transparent_40%)]" />
+
             </div>
         </main>
     );

@@ -35,8 +35,14 @@ export function JobCard({ job }: JobCardProps) {
                             />
                         </div>
                     ) : (
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
-                            {job.company_name.charAt(0).toUpperCase()}
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden bg-zinc-800 flex items-center justify-center border border-gray-100 dark:border-zinc-700">
+                            <Image
+                                src={`/placeholdericon.png`}
+                                alt={job.company_name}
+                                width={56}
+                                height={56}
+                                className="object-contain p-1"
+                            />
                         </div>
                     )}
                 </div>
